@@ -14,18 +14,18 @@
     </WindowChrome.WindowChrome>
 
     <Grid x:Name="RootGrid">
-        <controls:AnimatedBackground x:Name="Backdrop" />
+        <controls:Snowfall x:Name="Snow" />
 
-        <Grid>
+        <Grid x:Name="Shell">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <!-- Barra de título -->
+            <!-- Title bar -->
             <StackPanel Orientation="Horizontal" Margin="16,0,0,0" VerticalAlignment="Center">
-                <Image Source="/SenStrap;component/Resources/logo.png" Width="18" Height="18" RenderOptions.BitmapScalingMode="HighQuality" />
-                <TextBlock Text="SenStrap" Margin="10,0,0,0" FontSize="12.5" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" />
+                <Image Source="/SenStrap;component/Resources/logo.png" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" />
+                <TextBlock Text="SenStrap" Margin="9,0,0,0" FontSize="12.5" Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" />
                 <TextBlock x:Name="PageCrumb" Margin="8,0,0,0" FontSize="12.5" Foreground="{StaticResource SubtleBrush}" VerticalAlignment="Center" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top"
@@ -35,46 +35,36 @@
                 <Button Style="{StaticResource TitleBarCloseButton}" Content="&#xE8BB;" Click="Close_Click" />
             </StackPanel>
 
-            <!-- Cuerpo -->
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="236" />
+                    <ColumnDefinition Width="228" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <!-- Menú lateral -->
-                <DockPanel x:Name="Sidebar" Margin="14,6,10,16">
-                    <Image DockPanel.Dock="Top" Source="/SenStrap;component/Resources/logo-texto.png" Height="40"
-                           HorizontalAlignment="Left" Margin="8,4,0,22" RenderOptions.BitmapScalingMode="HighQuality" />
-                    <TextBlock x:Name="VersionLabel" DockPanel.Dock="Bottom" Margin="8,0,0,0" FontSize="12" Foreground="{StaticResource SubtleBrush}" />
+                <!-- Sidebar -->
+                <DockPanel x:Name="Sidebar" Margin="12,4,10,14">
+                    <Image DockPanel.Dock="Top" Source="/SenStrap;component/Resources/logo-texto.png" Height="34"
+                           HorizontalAlignment="Left" Margin="10,2,0,20" RenderOptions.BitmapScalingMode="HighQuality" />
+                    <TextBlock x:Name="VersionLabel" DockPanel.Dock="Bottom" Margin="10,0,0,0" FontSize="12" Foreground="{StaticResource SubtleBrush}" />
                     <StackPanel x:Name="NavPanel">
                         <RadioButton Style="{StaticResource NavItem}" Tag="&#xE80F;" Content="{ui:Loc nav.home}" CommandParameter="Home" Checked="Nav_Checked" />
                         <RadioButton Style="{StaticResource NavItem}" Tag="&#xE768;" Content="{ui:Loc nav.launcher}" CommandParameter="Launcher" Checked="Nav_Checked" />
                         <RadioButton Style="{StaticResource NavItem}" Tag="&#xE71B;" Content="{ui:Loc nav.integrations}" CommandParameter="Integrations" Checked="Nav_Checked" />
                         <RadioButton Style="{StaticResource NavItem}" Tag="&#xE81C;" Content="{ui:Loc nav.history}" CommandParameter="History" Checked="Nav_Checked" />
                         <Border Height="1" Background="{StaticResource DividerBrush}" Margin="12,8" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE945;" Content="{ui:Loc nav.optimizations}" CommandParameter="Optimizations" Checked="Nav_Checked" />
                         <RadioButton Style="{StaticResource NavItem}" Tag="&#xE7C1;" Content="{ui:Loc nav.flags}" CommandParameter="Flags" Checked="Nav_Checked" />
                         <RadioButton Style="{StaticResource NavItem}" Tag="&#xE90F;" Content="{ui:Loc nav.mods}" CommandParameter="Mods" Checked="Nav_Checked" />
                         <RadioButton Style="{StaticResource NavItem}" Tag="&#xE790;" Content="{ui:Loc nav.appearance}" CommandParameter="Appearance" Checked="Nav_Checked" />
                         <Border Height="1" Background="{StaticResource DividerBrush}" Margin="12,8" />
                         <RadioButton Style="{StaticResource NavItem}" Tag="&#xE713;" Content="{ui:Loc nav.settings}" CommandParameter="Settings" Checked="Nav_Checked" />
+                        <RadioButton Style="{StaticResource NavItem}" Tag="&#xE77B;" Content="{ui:Loc nav.credits}" CommandParameter="Credits" Checked="Nav_Checked" />
                     </StackPanel>
                 </DockPanel>
 
-                <!-- Contenido -->
-                <Border x:Name="ContentPanel" Grid.Column="1" Margin="0,0,14,14" CornerRadius="16" Background="{StaticResource PanelBrush}"
-                        BorderThickness="1">
-                    <Border.BorderBrush>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <LinearGradientBrush.RelativeTransform>
-                                <RotateTransform CenterX="0.5" CenterY="0.5" />
-                            </LinearGradientBrush.RelativeTransform>
-                            <GradientStop Offset="0" Color="#66FFB547" />
-                            <GradientStop Offset="0.3" Color="#1AFFFFFF" />
-                            <GradientStop Offset="0.7" Color="#1AFFFFFF" />
-                            <GradientStop Offset="1" Color="#66FF2E7A" />
-                        </LinearGradientBrush>
-                    </Border.BorderBrush>
+                <!-- Content -->
+                <Border x:Name="ContentPanel" Grid.Column="1" Margin="0,0,12,12" CornerRadius="10"
+                        Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -83,8 +73,8 @@
 
                         <ContentControl x:Name="PageHost" Focusable="False" />
 
-                        <!-- Barra inferior -->
-                        <Border Grid.Row="1" BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,1,0,0" Padding="22,12">
+                        <!-- Bottom bar -->
+                        <Border Grid.Row="1" BorderBrush="{StaticResource DividerBrush}" BorderThickness="0,1,0,0" Padding="20,11">
                             <DockPanel>
                                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                                     <Button Style="{StaticResource PrimaryButton}" Click="SaveAndPlay_Click">
@@ -93,35 +83,41 @@
                                             <TextBlock Text="{ui:Loc common.saveplay}" />
                                         </StackPanel>
                                     </Button>
-                                    <Button Style="{StaticResource SecondaryButton}" Content="{ui:Loc common.save}" Margin="10,0,0,0" Click="Save_Click" />
-                                    <Button Style="{StaticResource SecondaryButton}" Content="{ui:Loc common.close}" Margin="10,0,0,0" Click="Close_Click" />
+                                    <Button Style="{StaticResource SecondaryButton}" Content="{ui:Loc common.save}" Margin="8,0,0,0" Click="Save_Click" />
+                                    <Button Style="{StaticResource SecondaryButton}" Content="{ui:Loc common.close}" Margin="8,0,0,0" Click="Close_Click" />
                                 </StackPanel>
                                 <StackPanel x:Name="DirtyHint" Orientation="Horizontal" VerticalAlignment="Center" Visibility="Collapsed">
-                                    <Ellipse x:Name="DirtyDot" Width="8" Height="8" Fill="{StaticResource WarnBrush}" VerticalAlignment="Center" />
+                                    <Ellipse Width="7" Height="7" Fill="{StaticResource WarnBrush}" VerticalAlignment="Center" />
                                     <TextBlock Text="{ui:Loc common.unsaved}" Margin="8,0,0,0" FontSize="12.5"
                                                Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </DockPanel>
                         </Border>
 
-                        <!-- Aviso flotante -->
-                        <Border x:Name="Toast" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,18"
-                                Padding="16,10" CornerRadius="12" Background="#F21A1D3D" BorderBrush="#33FFFFFF"
-                                BorderThickness="1" Opacity="0" IsHitTestVisible="False">
-                            <Border.Effect>
-                                <DropShadowEffect BlurRadius="24" ShadowDepth="4" Opacity="0.5" Color="Black" />
-                            </Border.Effect>
-                            <Border.RenderTransform>
-                                <TranslateTransform />
-                            </Border.RenderTransform>
+                        <!-- Toast -->
+                        <Border x:Name="Toast" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,16"
+                                Padding="14,9" CornerRadius="6" Background="#1E2130" BorderBrush="#33374A"
+                                BorderThickness="1" Visibility="Collapsed" IsHitTestVisible="False">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock x:Name="ToastIcon" FontFamily="{StaticResource IconFont}" FontSize="14" VerticalAlignment="Center" />
-                                <TextBlock x:Name="ToastText" Margin="10,0,0,0" FontSize="13.5" VerticalAlignment="Center" />
+                                <TextBlock x:Name="ToastIcon" FontFamily="{StaticResource IconFont}" FontSize="13" VerticalAlignment="Center" />
+                                <TextBlock x:Name="ToastText" Margin="9,0,0,0" FontSize="13" VerticalAlignment="Center" />
                             </StackPanel>
                         </Border>
                     </Grid>
                 </Border>
             </Grid>
+        </Grid>
+
+        <!-- Intro: the logo appears over the snow, then the window shows up -->
+        <Grid x:Name="Intro" Background="Transparent" Visibility="Collapsed" MouseLeftButtonDown="Intro_MouseDown">
+            <StackPanel x:Name="IntroMark" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,24">
+                <Image Source="/SenStrap;component/Resources/logo.png" Width="76" Height="76" RenderOptions.BitmapScalingMode="HighQuality" />
+                <TextBlock Text="SenStrap" Margin="0,16,0,0" FontSize="24" FontWeight="SemiBold" HorizontalAlignment="Center"
+                           Foreground="{StaticResource TextBrush}" />
+                <Border Width="132" Height="2" Margin="0,18,0,0" CornerRadius="1" Background="#24273A">
+                    <Border x:Name="IntroBar" Width="0" HorizontalAlignment="Left" CornerRadius="1" Background="{StaticResource AccentBrush}" />
+                </Border>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>

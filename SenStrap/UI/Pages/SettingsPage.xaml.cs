@@ -29,8 +29,6 @@ public partial class SettingsPage : ShellPage
         string current = string.IsNullOrEmpty(Shell.Settings.Language) ? Lang.Current : Shell.Settings.Language;
         LanguageCombo.SelectedItem = LanguageCombo.Items.OfType<ComboBoxItem>().FirstOrDefault(i => (string)i.Tag == current);
         _loading = false;
-        Anim.Cascade(Root);
-        Anim.SpinBorder(About, 12);
     }
 
     private Window Owner => Window.GetWindow(this)!;
@@ -42,7 +40,6 @@ public partial class SettingsPage : ShellPage
         Shell.MarkDirty();
         bool changed = code != Lang.Current;
         RestartButton.Visibility = changed ? Visibility.Visible : Visibility.Collapsed;
-        if (changed) Anim.FadeIn(RestartButton, 0, 250);
     }
 
     private void Restart_Click(object sender, RoutedEventArgs e) => Shell.SaveAndRestart();

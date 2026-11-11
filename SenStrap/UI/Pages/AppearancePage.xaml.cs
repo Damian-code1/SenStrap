@@ -1,5 +1,4 @@
 using System.Windows;
-using System.Windows.Controls;
 using SenStrap.Core;
 
 namespace SenStrap.UI.Pages;
@@ -17,30 +16,19 @@ public partial class AppearancePage : ShellPage
     {
         _loading = true;
         var settings = Shell.Settings;
-        EffectCombo.SelectedItem = EffectCombo.Items.OfType<ComboBoxItem>()
-            .FirstOrDefault(i => (string)i.Tag == settings.Effect.ToString());
-        InteractiveToggle.IsChecked = settings.InteractiveParticles;
-        AnimationsToggle.IsChecked = settings.Animations;
-        LauncherEffectToggle.IsChecked = settings.EffectInLauncher;
+        SnowToggle.IsChecked = settings.Snow;
+        LauncherSnowToggle.IsChecked = settings.EffectInLauncher;
+        IntroToggle.IsChecked = settings.IntroAnimation;
         _loading = false;
-
-        Anim.Cascade(Root);
-    }
-
-    private void Effect_Changed(object sender, SelectionChangedEventArgs e)
-    {
-        if (_loading || EffectCombo.SelectedItem is not ComboBoxItem { Tag: string tag }) return;
-        Shell.Settings.Effect = Enum.Parse<BackgroundEffect>(tag);
-        Shell.ApplyAppearance();
-        Shell.MarkDirty();
     }
 
     private void Toggle_Click(object sender, RoutedEventArgs e)
     {
         if (_loading) return;
-        Shell.Settings.InteractiveParticles = InteractiveToggle.IsChecked == true;
-        Shell.Settings.Animations = AnimationsToggle.IsChecked == true;
-        Shell.Settings.EffectInLauncher = LauncherEffectToggle.IsChecked == true;
+        var settings = Shell.Settings;
+        settings.Effect = SnowToggle.IsChecked == true ? BackgroundEffect.Nieve : BackgroundEffect.Ninguno;
+        settings.EffectInLauncher = LauncherSnowToggle.IsChecked == true;
+        settings.IntroAnimation = IntroToggle.IsChecked == true;
         Shell.ApplyAppearance();
         Shell.MarkDirty();
     }

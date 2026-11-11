@@ -23,7 +23,6 @@ public partial class IntegrationsPage : ShellPage
         UpdateDependent();
         _loading = false;
 
-        Anim.Cascade(Root);
     }
 
     private void UpdateDependent()

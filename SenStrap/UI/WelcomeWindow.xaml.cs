@@ -19,9 +19,7 @@ public partial class WelcomeWindow : Window
         InitializeComponent();
         _selected = Lang.Current;
 
-        var settings = Settings.Load();
-        Backdrop.ParticleEffect = settings.Effect;
-        Backdrop.Interactive = true;
+        Snow.IsSnowing = Settings.Load().Snow;
 
         foreach (var language in Lang.All)
         {
@@ -35,7 +33,7 @@ public partial class WelcomeWindow : Window
                 {
                     Children =
                     {
-                        new TextBlock { Text = language.NativeName, FontSize = 15, FontWeight = FontWeights.SemiBold, Foreground = (Brush)FindResource("TextBrush") },
+                        new TextBlock { Text = language.NativeName, FontSize = 14, FontWeight = FontWeights.SemiBold, Foreground = (Brush)FindResource("TextBrush") },
                         new TextBlock { Text = language.EnglishName, FontSize = 12, Foreground = (Brush)FindResource("MutedBrush"), Margin = new Thickness(0, 2, 0, 0) },
                     },
                 },
@@ -46,18 +44,7 @@ public partial class WelcomeWindow : Window
         UpdateTexts();
 
         Clipped.SizeChanged += (_, _) =>
-            Clipped.Clip = new RectangleGeometry(new Rect(0, 0, Clipped.ActualWidth, Clipped.ActualHeight), 22, 22);
-
-        Loaded += (_, _) =>
-        {
-            Anim.PopIn(Frame, 0.9, 520);
-            Anim.Float(Logo, 5, 2.8);
-            Anim.Pulse(Halo);
-            Anim.SpinBorder(GlowBorder, 7);
-            Anim.FadeIn(TitleText, 12, 420, 120);
-            Anim.FadeIn(SubtitleText, 12, 420, 200);
-            Anim.Cascade(LanguageGrid, 35, 20);
-        };
+            Clipped.Clip = new RectangleGeometry(new Rect(0, 0, Clipped.ActualWidth, Clipped.ActualHeight), 9, 9);
     }
 
     private void Select(string code)
@@ -65,7 +52,6 @@ public partial class WelcomeWindow : Window
         _selected = code;
         Lang.Load(code);
         UpdateTexts();
-        Anim.FadeIn(TitleText, 6, 240);
     }
 
     private void UpdateTexts()

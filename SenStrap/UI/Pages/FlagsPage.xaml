@@ -18,32 +18,12 @@
         <DockPanel Grid.Row="2" Margin="0,0,0,14">
             <CheckBox x:Name="ManageToggle" DockPanel.Dock="Right" Style="{StaticResource Toggle}" VerticalAlignment="Center"
                       Content="{ui:Loc flags.manage}" FontSize="13" Click="Manage_Click" />
-            <Border HorizontalAlignment="Left" CornerRadius="11" Background="#80080A18" BorderBrush="#26FFFFFF" BorderThickness="1" Padding="3">
-                <Grid>
-                    <Border x:Name="SegmentPill" CornerRadius="8" Background="{StaticResource AccentHorizontalBrush}" HorizontalAlignment="Left">
-                        <Border.Effect>
-                            <DropShadowEffect Color="#FF5B3A" BlurRadius="14" ShadowDepth="0" Opacity="0.6" />
-                        </Border.Effect>
-                        <Border.RenderTransform>
-                            <TranslateTransform />
-                        </Border.RenderTransform>
-                    </Border>
-                    <UniformGrid x:Name="SegmentGrid" Columns="2">
-                        <RadioButton x:Name="PresetsTab" Style="{StaticResource Segment}" GroupName="FlagsTabs" IsChecked="True" Checked="Tab_Checked">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE945;" Style="{StaticResource BtnIcon}" FontSize="13" />
-                                <TextBlock Text="{ui:Loc flags.tabPresets}" />
-                            </StackPanel>
-                        </RadioButton>
-                        <RadioButton x:Name="EditorTab" Style="{StaticResource Segment}" GroupName="FlagsTabs" Checked="Tab_Checked">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="&#xE943;" Style="{StaticResource BtnIcon}" FontSize="13" />
-                                <TextBlock Text="{ui:Loc flags.tabEditor}" />
-                            </StackPanel>
-                        </RadioButton>
-                    </UniformGrid>
-                </Grid>
-            </Border>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <RadioButton x:Name="PresetsTab" Style="{StaticResource Segment}" GroupName="FlagsTabs" IsChecked="True"
+                             Checked="Tab_Checked" Content="{ui:Loc flags.tabPresets}" Margin="0,0,24,0" />
+                <RadioButton x:Name="EditorTab" Style="{StaticResource Segment}" GroupName="FlagsTabs"
+                             Checked="Tab_Checked" Content="{ui:Loc flags.tabEditor}" />
+            </StackPanel>
         </DockPanel>
 
         <Grid x:Name="Body" Grid.Row="3">

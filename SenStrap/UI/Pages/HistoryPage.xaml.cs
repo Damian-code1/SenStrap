@@ -37,18 +37,6 @@ public partial class HistoryPage : ShellPage
         double total = AppState.Load().TotalPlaySeconds;
         TotalChip.Visibility = total >= 60 ? Visibility.Visible : Visibility.Collapsed;
         TotalText.Text = Lang.F("history.total", Lang.Duration(total));
-
-        Anim.FadeIn(EmptyState);
-        // Las filas aparecen en cascada cuando se generan
-        GameList.Dispatcher.BeginInvoke(() =>
-        {
-            int i = 0;
-            foreach (var item in GameList.Items)
-            {
-                if (GameList.ItemContainerGenerator.ContainerFromItem(item) is UIElement row)
-                    Anim.FadeIn(row, 16, 360, Math.Min(i++ * 50, 600));
-            }
-        }, System.Windows.Threading.DispatcherPriority.Loaded);
     }
 
     private void Rejoin_Click(object sender, RoutedEventArgs e)

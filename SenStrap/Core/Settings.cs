@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace SenStrap.Core;
 
-/// <summary>Partículas animadas del fondo.</summary>
+/// <summary>Background effect. Only snow exists now; Brasas and Estrellas are kept so old settings still load (they show snow).</summary>
 public enum BackgroundEffect
 {
     Nieve,
@@ -32,14 +32,22 @@ public class Settings
     // ---------- Apariencia ----------
 
     public BackgroundEffect Effect { get; set; } = BackgroundEffect.Nieve;
-    public bool Animations { get; set; } = true;
+
+    /// <summary>Snow is falling (any effect except "none").</summary>
+    [JsonIgnore]
+    public bool Snow => Effect != BackgroundEffect.Ninguno;
+
     public bool EffectInLauncher { get; set; } = true;
-    public bool InteractiveParticles { get; set; } = true;
+
+    /// <summary>Logo animation when SenStrap opens.</summary>
+    public bool IntroAnimation { get; set; } = true;
 
     // ---------- Lanzador ----------
 
     public bool ConfirmLaunch { get; set; } = true;
     public bool CloseCrashHandler { get; set; }
+
+    // Before 1.3 these lived here; now they're launch options in Tweaks.json (read once to move them over)
     public bool DisableFullscreenOptimizations { get; set; }
     public bool HighDpiOverride { get; set; }
 

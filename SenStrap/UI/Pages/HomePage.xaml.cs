@@ -7,7 +7,6 @@ namespace SenStrap.UI.Pages;
 
 public partial class HomePage : ShellPage
 {
-    private bool _animationsStarted;
     private GameEntry? _lastGame;
 
     public HomePage(IShell shell) : base(shell)
@@ -20,13 +19,14 @@ public partial class HomePage : ShellPage
         InstallCard.Visibility = SelfInstaller.IsInstalled() ? Visibility.Collapsed : Visibility.Visible;
 
         var state = AppState.Load();
-        RobloxChip.Text = state.VersionGuid is not null && state.RobloxVersion is not null
-            ? Lang.F("home.roblox", state.RobloxVersion)
-            : Lang.T("home.robloxPending");
-        FlagsChip.Text = Lang.F("home.flagsCount", Shell.Settings.FastFlags.Count);
-        ModsChip.Text = Lang.F("home.modsCount", Mods.List().Count);
-        PlaytimeChipBorder.Visibility = state.TotalPlaySeconds >= 60 ? Visibility.Visible : Visibility.Collapsed;
-        PlaytimeChip.Text = Lang.F("home.playtime", Lang.Duration(state.TotalPlaySeconds));
+        bool hasRoblox = state.VersionGuid is not null && state.RobloxVersion is not null;
+        StatusTitle.Text = hasRoblox ? Lang.T("home.ready") : Lang.T("home.robloxPending");
+        var details = new List<string>();
+        if (hasRoblox) details.Add(Lang.F("home.roblox", state.RobloxVersion!));
+        details.Add(Lang.F("home.flagsCount", Shell.Settings.FastFlags.Count));
+        details.Add(Lang.F("home.modsCount", Mods.List().Count));
+        if (state.TotalPlaySeconds >= 60) details.Add(Lang.F("home.playtime", Lang.Duration(state.TotalPlaySeconds)));
+        StatusDetails.Text = string.Join("  ·  ", details);
 
         _lastGame = GameHistory.Load().FirstOrDefault();
         LastGameCard.Visibility = _lastGame is null ? Visibility.Collapsed : Visibility.Visible;
@@ -36,16 +36,6 @@ public partial class HomePage : ShellPage
             LastGameDetails.Text = HistoryPage.Describe(_lastGame);
             LastGameIcon.ImageSource = _lastGame.IconUrl is { Length: > 0 } url ? new BitmapImage(new Uri(url)) : null;
         }
-
-        if (!_animationsStarted)
-        {
-            _animationsStarted = true;
-            Anim.Float(Logo);
-            Anim.Pulse(Halo);
-            Anim.SpinBorder(Hero, 9);
-        }
-        Anim.Cascade(Root);
-        Anim.Cascade(Chips, 60, 8);
     }
 
     private void Play_Click(object sender, RoutedEventArgs e) => Shell.Play();
@@ -83,4 +73,6 @@ public partial class HomePage : ShellPage
     private void Flags_Click(object sender, RoutedEventArgs e) => Shell.Navigate("Flags");
 
     private void History_Click(object sender, RoutedEventArgs e) => Shell.Navigate("History");
+
+    private void Optimizations_Click(object sender, RoutedEventArgs e) => Shell.Navigate("Optimizations");
 }

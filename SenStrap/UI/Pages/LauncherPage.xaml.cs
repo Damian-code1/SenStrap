@@ -19,8 +19,6 @@ public partial class LauncherPage : ShellPage
         ConfirmToggle.IsChecked = s.ConfirmLaunch;
         CrashToggle.IsChecked = s.CloseCrashHandler;
         BackgroundToggle.IsChecked = s.BackgroundUpdates;
-        FsoToggle.IsChecked = s.DisableFullscreenOptimizations;
-        DpiToggle.IsChecked = s.HighDpiOverride;
         CleanDownloadsToggle.IsChecked = s.CleanDownloads;
         CleanRobloxLogsToggle.IsChecked = s.CleanRobloxLogs;
         CleanAppLogsToggle.IsChecked = s.CleanAppLogs;
@@ -28,8 +26,6 @@ public partial class LauncherPage : ShellPage
             .FirstOrDefault(i => (string)i.Tag == s.CleanerDays.ToString()) ?? CleanerCombo.Items[2];
         UpdateCleanerRows();
         _loading = false;
-
-        Anim.Cascade(Root);
     }
 
     private void UpdateCleanerRows()
@@ -46,8 +42,6 @@ public partial class LauncherPage : ShellPage
         s.ConfirmLaunch = ConfirmToggle.IsChecked == true;
         s.CloseCrashHandler = CrashToggle.IsChecked == true;
         s.BackgroundUpdates = BackgroundToggle.IsChecked == true;
-        s.DisableFullscreenOptimizations = FsoToggle.IsChecked == true;
-        s.HighDpiOverride = DpiToggle.IsChecked == true;
         s.CleanDownloads = CleanDownloadsToggle.IsChecked == true;
         s.CleanRobloxLogs = CleanRobloxLogsToggle.IsChecked == true;
         s.CleanAppLogs = CleanAppLogsToggle.IsChecked == true;

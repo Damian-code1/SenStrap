@@ -6,7 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using Microsoft.Win32;
 using SenStrap.Core;
 using static SenStrap.Core.FastFlagCatalog;
@@ -78,7 +77,6 @@ public partial class FlagsPage : ShellPage
         for (int i = 0; i < textures.Length; i++)
             TextureCombo.Items.Add(new ComboBoxItem { Content = Lang.T(textures[i]), Tag = i.ToString() });
 
-        SegmentGrid.SizeChanged += (_, _) => PositionPill(animate: false);
     }
 
     public override void OnShown()
@@ -111,46 +109,12 @@ public partial class FlagsPage : ShellPage
         }
         PresetsView.Visibility = editor ? Visibility.Collapsed : Visibility.Visible;
         EditorView.Visibility = editor ? Visibility.Visible : Visibility.Collapsed;
-        PositionPill(animate: true);
-
-        if (editor)
-        {
-            int row = 0;
-            foreach (UIElement child in EditorView.Children)
-                if (child.Visibility == Visibility.Visible)
-                    Anim.FadeIn(child, 12, 340, row++ * 45);
-        }
-        else
-        {
-            Anim.Cascade(PresetsPanel, 30);
-        }
-    }
-
-    private void PositionPill(bool animate)
-    {
-        double width = SegmentGrid.ActualWidth / 2;
-        if (width <= 0) return;
-        SegmentPill.Width = width;
-        double x = EditorTab.IsChecked == true ? width : 0;
-        var move = (TranslateTransform)SegmentPill.RenderTransform;
-        if (animate && Anim.Enabled)
-        {
-            move.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(x, TimeSpan.FromMilliseconds(320))
-            {
-                EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.3 },
-            });
-        }
-        else
-        {
-            move.BeginAnimation(TranslateTransform.XProperty, null);
-            move.X = x;
-        }
     }
 
     private void Manage_Click(object sender, RoutedEventArgs e)
     {
         Shell.Settings.ManageFastFlags = ManageToggle.IsChecked == true;
-        Body.BeginAnimation(OpacityProperty, new DoubleAnimation(Shell.Settings.ManageFastFlags ? 1 : 0.5, TimeSpan.FromMilliseconds(250)));
+        Body.Opacity = Shell.Settings.ManageFastFlags ? 1 : 0.5;
         Shell.MarkDirty();
     }
 
@@ -217,7 +181,6 @@ public partial class FlagsPage : ShellPage
         {
             bool on = MeshToggle.IsChecked == true;
             MeshPanel.Visibility = on ? Visibility.Visible : Visibility.Collapsed;
-            if (on) Anim.FadeIn(MeshPanel, -8, 280);
             ApplyMesh();
         }
         else if (sender == DpiToggle)
@@ -341,7 +304,6 @@ public partial class FlagsPage : ShellPage
     private void ShowAdd_Click(object sender, RoutedEventArgs e)
     {
         AddPanel.Visibility = Visibility.Visible;
-        Anim.FadeIn(AddPanel, -10, 260);
         NewName.Focus();
     }
 

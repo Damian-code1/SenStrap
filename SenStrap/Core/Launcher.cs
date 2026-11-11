@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using SenStrap.Core.Tweaks;
 
 namespace SenStrap.Core;
 
@@ -42,12 +43,13 @@ public static class Launcher
 
         progress.Report(new BootstrapStatus(Lang.T("status.applying")));
         FastFlags.Apply(versionDir, settings.ManageFastFlags ? settings.FastFlags : new());
-        Compatibility.Apply(robloxExe, settings);
+        LaunchTweaks.BeforeLaunch(robloxExe);
 
         ct.ThrowIfCancellationRequested();
         progress.Report(new BootstrapStatus(Lang.T("status.opening")));
         var startedAt = DateTime.UtcNow;
         using var roblox = StartRoblox(versionDir, launchUri);
+        LaunchTweaks.AfterLaunch(roblox);
         await WaitForWindowAsync(roblox);
 
         if (settings.CloseCrashHandler)

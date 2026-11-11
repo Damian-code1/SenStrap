@@ -16,7 +16,6 @@ public partial class ModsPage : ShellPage
     public override void OnShown()
     {
         Refresh();
-        Anim.Cascade(Root);
     }
 
     private static string[] PathsFor(string kind) => kind switch

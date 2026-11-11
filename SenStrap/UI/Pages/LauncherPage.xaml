@@ -19,14 +19,6 @@
                 <CheckBox x:Name="BackgroundToggle" Style="{StaticResource Toggle}" Click="Changed" />
             </controls:SettingRow>
 
-            <TextBlock Text="{ui:Loc launcher.compat}" Style="{StaticResource SectionTitle}" />
-            <controls:SettingRow Icon="&#xE740;" Title="{ui:Loc launcher.fso}" Description="{ui:Loc launcher.fsoDesc}">
-                <CheckBox x:Name="FsoToggle" Style="{StaticResource Toggle}" Click="Changed" />
-            </controls:SettingRow>
-            <controls:SettingRow Icon="&#xE7F4;" Title="{ui:Loc launcher.dpi}" Description="{ui:Loc launcher.dpiDesc}">
-                <CheckBox x:Name="DpiToggle" Style="{StaticResource Toggle}" Click="Changed" />
-            </controls:SettingRow>
-
             <TextBlock Text="{ui:Loc launcher.cleaner}" Style="{StaticResource SectionTitle}" />
             <controls:SettingRow Icon="&#xE74D;" Title="{ui:Loc launcher.cleanerWhen}" Description="{ui:Loc launcher.cleanerWhenDesc}">
                 <ComboBox x:Name="CleanerCombo" Style="{StaticResource Combo}" SelectionChanged="Changed">

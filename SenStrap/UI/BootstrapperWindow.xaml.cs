@@ -1,7 +1,4 @@
-using System.ComponentModel;
-using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -15,8 +12,6 @@ public partial class BootstrapperWindow : Window
     private readonly string? _launchUri;
     private readonly bool _demo;
     private readonly CancellationTokenSource _cancel = new();
-    private string _lastStage = "";
-    private bool _closing;
 
     /// <summary>Se rellena si Roblox se abrió (para el seguimiento de actividad).</summary>
     public LaunchResult? Result { get; private set; }
@@ -32,49 +27,28 @@ public partial class BootstrapperWindow : Window
         _demo = demo;
 
         settings ??= Settings.Load();
-        if (!demo) Anim.Enabled = settings.Animations;
-        Backdrop.ParticleEffect = settings.EffectInLauncher ? settings.Effect : BackgroundEffect.Ninguno;
-        Backdrop.IsAnimated = settings.Animations;
-        Backdrop.Interactive = settings.InteractiveParticles;
-        Backdrop.Particles.Density = 1.6;
+        Snow.IsSnowing = settings.EffectInLauncher && settings.Snow;
 
         Clipped.SizeChanged += (_, _) =>
-            Clipped.Clip = new RectangleGeometry(new Rect(0, 0, Clipped.ActualWidth, Clipped.ActualHeight), 22, 22);
+            Clipped.Clip = new RectangleGeometry(new Rect(0, 0, Clipped.ActualWidth, Clipped.ActualHeight), 9, 9);
 
         Loaded += async (_, _) =>
         {
-            Anim.PopIn(Frame, 0.88, 520);
-            Anim.Float(Logo, 5, 2.6);
-            Anim.Pulse(Halo);
-            Anim.SpinBorder(GlowBorder, 6);
+            // Short fade in when the window opens
+            Frame.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(160)));
             if (autoStart)
                 await (_demo ? RunDemoAsync() : RunAsync());
         };
     }
 
-    /// <summary>Actualiza el texto y la barra de progreso.</summary>
+    /// <summary>Updates the text and the progress bar.</summary>
     public void ShowStatus(BootstrapStatus status)
     {
         StatusText.Text = status.Message;
-
-        // Animación solo al cambiar de fase (no en cada MB descargado)
-        string stage = Regex.Replace(status.Message, @"[\d\.,]+", "");
-        if (stage != _lastStage)
-        {
-            _lastStage = stage;
-            Anim.FadeIn(StatusText, 8, 260);
-        }
-
         if (status.Progress is double value)
         {
-            if (Progress.IsIndeterminate || value < Progress.Value - 0.05)
-            {
-                Progress.BeginAnimation(RangeBase.ValueProperty, null);
-                Progress.Value = value;
-            }
             Progress.IsIndeterminate = false;
-            Progress.BeginAnimation(RangeBase.ValueProperty,
-                new DoubleAnimation(value, TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() });
+            Progress.Value = value;
             PercentText.Text = $"{value:P0}";
         }
         else
@@ -138,25 +112,6 @@ public partial class BootstrapperWindow : Window
         {
         }
         Close();
-    }
-
-    protected override void OnClosing(CancelEventArgs e)
-    {
-        base.OnClosing(e);
-        if (e.Cancel || _closing || !Anim.Enabled) return;
-
-        // Desaparece encogiéndose un poco y luego se cierra de verdad
-        e.Cancel = true;
-        _closing = true;
-        var scale = new ScaleTransform(1, 1);
-        Frame.RenderTransformOrigin = new Point(0.5, 0.5);
-        Frame.RenderTransform = scale;
-        var duration = TimeSpan.FromMilliseconds(220);
-        var fade = new DoubleAnimation(Frame.Opacity, 0, duration);
-        fade.Completed += (_, _) => Close();
-        scale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(1, 0.94, duration));
-        scale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(1, 0.94, duration));
-        Frame.BeginAnimation(OpacityProperty, fade);
     }
 
     private void Cancel_Click(object sender, RoutedEventArgs e)

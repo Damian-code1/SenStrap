@@ -1,8 +1,10 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using SenStrap.Core;
 using SenStrap.UI.Pages;
 
@@ -11,6 +13,8 @@ namespace SenStrap.UI;
 public partial class MainWindow : Window, IShell
 {
     private readonly Dictionary<string, ShellPage> _pages = new();
+    private readonly DispatcherTimer _toastTimer = new() { Interval = TimeSpan.FromSeconds(2.6) };
+    private Storyboard? _intro;
     private bool _dirty;
 
     public Settings Settings { get; } = Settings.Load();
@@ -23,19 +27,90 @@ public partial class MainWindow : Window, IShell
 
         StateChanged += (_, _) =>
         {
-            // Sin esto, al maximizar una ventana sin marco se sale un poco de la pantalla
+            // Without this a borderless window goes slightly off-screen when maximized
             RootGrid.Margin = WindowState == WindowState.Maximized ? new Thickness(7) : new Thickness(0);
             MaximizeButton.Content = WindowState == WindowState.Maximized ? "" : "";
         };
 
+        _toastTimer.Tick += (_, _) =>
+        {
+            _toastTimer.Stop();
+            Toast.Visibility = Visibility.Collapsed;
+        };
+
+        if (Settings.IntroAnimation) PrepareIntro();
+
         Loaded += (_, _) =>
         {
-            Anim.PopIn(RootGrid, 0.97, 380);
-            Anim.SpinBorder(ContentPanel, 10);
-            Anim.Cascade(NavPanel, 35, 10);
             Navigate("Home");
+            if (Settings.IntroAnimation) PlayIntro();
         };
     }
+
+    // ---------- Intro ----------
+
+    private void PrepareIntro()
+    {
+        Shell.Opacity = 0;
+        Intro.Visibility = Visibility.Visible;
+        IntroMark.Opacity = 0;
+        PreviewKeyDown += SkipIntroOnKey;
+    }
+
+    /// <summary>The logo fades in over the snow, a line fills under it, then the window appears.</summary>
+    private void PlayIntro()
+    {
+        var easeOut = new CubicEase { EasingMode = EasingMode.EaseOut };
+        var easeInOut = new CubicEase { EasingMode = EasingMode.EaseInOut };
+
+        var markScale = new ScaleTransform(0.94, 0.94);
+        var markMove = new TranslateTransform();
+        IntroMark.RenderTransformOrigin = new Point(0.5, 0.5);
+        IntroMark.RenderTransform = new TransformGroup { Children = { markScale, markMove } };
+
+        var shellMove = new TranslateTransform(0, 10);
+        Shell.RenderTransform = shellMove;
+
+        var story = new Storyboard();
+
+        // Each property gets one timeline of (time in ms, value) steps
+        void Add(DependencyObject target, string path, IEasingFunction ease, params (int Ms, double Value)[] steps)
+        {
+            var animation = new DoubleAnimationUsingKeyFrames();
+            foreach (var (ms, value) in steps)
+                animation.KeyFrames.Add(new EasingDoubleKeyFrame(value, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(ms)), ease));
+            Storyboard.SetTarget(animation, target);
+            Storyboard.SetTargetProperty(animation, new PropertyPath(path));
+            story.Children.Add(animation);
+        }
+
+        Add(IntroMark, nameof(Opacity), easeOut, (0, 0), (420, 1), (1020, 1), (1320, 0));
+        Add(IntroMark, "RenderTransform.Children[0].ScaleX", easeOut, (0, 0.94), (520, 1));
+        Add(IntroMark, "RenderTransform.Children[0].ScaleY", easeOut, (0, 0.94), (520, 1));
+        Add(IntroMark, "RenderTransform.Children[1].Y", easeOut, (1020, 0), (1320, -12));
+        Add(IntroBar, nameof(Width), easeInOut, (180, 0), (940, 132));
+        Add(Shell, nameof(Opacity), easeOut, (1080, 0), (1460, 1));
+        Add(Shell, "RenderTransform.Y", easeOut, (1080, 10), (1500, 0));
+
+        story.Completed += (_, _) => FinishIntro();
+        _intro = story;
+        story.Begin(this, isControllable: true);
+    }
+
+    private void FinishIntro()
+    {
+        if (Intro.Visibility != Visibility.Visible) return;
+        _intro?.Stop(this);
+        _intro = null;
+        PreviewKeyDown -= SkipIntroOnKey;
+        Intro.Visibility = Visibility.Collapsed;
+        Shell.Opacity = 1;
+        Shell.RenderTransform = Transform.Identity;
+    }
+
+    private void Intro_MouseDown(object sender, MouseButtonEventArgs e) => FinishIntro();
+
+    private void SkipIntroOnKey(object sender, KeyEventArgs e) => FinishIntro();
 
     // ---------- IShell ----------
 
@@ -48,10 +123,12 @@ public partial class MainWindow : Window, IShell
                 "Launcher" => new LauncherPage(this),
                 "Integrations" => new IntegrationsPage(this),
                 "History" => new HistoryPage(this),
+                "Optimizations" => new OptimizationsPage(this),
                 "Flags" => new FlagsPage(this),
                 "Mods" => new ModsPage(this),
                 "Appearance" => new AppearancePage(this),
                 "Settings" => new SettingsPage(this),
+                "Credits" => new CreditsPage(this),
                 _ => new HomePage(this),
             };
             _pages[key] = page;
@@ -72,10 +149,7 @@ public partial class MainWindow : Window, IShell
 
     public void ApplyAppearance()
     {
-        Anim.Enabled = Settings.Animations;
-        Backdrop.ParticleEffect = Settings.Effect;
-        Backdrop.IsAnimated = Settings.Animations;
-        Backdrop.Interactive = Settings.InteractiveParticles;
+        Snow.IsSnowing = Settings.Snow;
     }
 
     public void MarkDirty() => SetDirty(true);
@@ -83,28 +157,19 @@ public partial class MainWindow : Window, IShell
     public void ShowToast(string message, bool ok = true)
     {
         ToastText.Text = message;
-        ToastIcon.Text = ok ? "" : "";
+        ToastIcon.Text = ok ? "" : "";
         ToastIcon.Foreground = (Brush)FindResource(ok ? "OkBrush" : "ErrorBrush");
-
-        var fade = new DoubleAnimationUsingKeyFrames();
-        fade.KeyFrames.Add(new EasingDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
-        fade.KeyFrames.Add(new EasingDoubleKeyFrame(1, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(220))));
-        fade.KeyFrames.Add(new EasingDoubleKeyFrame(1, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(2400))));
-        fade.KeyFrames.Add(new EasingDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(2800))));
-        Toast.BeginAnimation(OpacityProperty, fade);
-
-        var move = (TranslateTransform)Toast.RenderTransform;
-        move.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(18, 0, TimeSpan.FromMilliseconds(320))
-        {
-            EasingFunction = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.5 },
-        });
+        Toast.Visibility = Visibility.Visible;
+        _toastTimer.Stop();
+        _toastTimer.Interval = TimeSpan.FromSeconds(Math.Clamp(message.Length / 18.0, 2.6, 6));
+        _toastTimer.Start();
     }
 
     public void Play() => Launch(null);
 
     public void Rejoin(GameEntry game) => Launch(game.RejoinUri);
 
-    /// <summary>Abre SenStrap en modo "jugar" (con un enlace o sin él) y cierra esta ventana.</summary>
+    /// <summary>Starts SenStrap in "play" mode (with or without a link) and closes this window.</summary>
     private void Launch(string? uri)
     {
         if (_dirty && !SaveAll()) return;
@@ -123,20 +188,11 @@ public partial class MainWindow : Window, IShell
         Close();
     }
 
-    // ---------- Guardar ----------
+    // ---------- Saving ----------
 
     private void SetDirty(bool dirty)
     {
-        if (dirty && !_dirty)
-        {
-            DirtyHint.Visibility = Visibility.Visible;
-            Anim.FadeIn(DirtyHint, 0, 250);
-            Anim.Pulse(DirtyDot, 0.8, 1.3, 0.9);
-        }
-        else if (!dirty)
-        {
-            DirtyHint.Visibility = Visibility.Collapsed;
-        }
+        DirtyHint.Visibility = dirty ? Visibility.Visible : Visibility.Collapsed;
         _dirty = dirty;
     }
 
@@ -148,7 +204,7 @@ public partial class MainWindow : Window, IShell
         return true;
     }
 
-    // ---------- Eventos ----------
+    // ---------- Events ----------
 
     private void Nav_Checked(object sender, RoutedEventArgs e)
     {
@@ -181,7 +237,7 @@ public partial class MainWindow : Window, IShell
         Close();
     }
 
-    /// <summary>Guarda y reinicia SenStrap (para cambiar de idioma).</summary>
+    /// <summary>Saves and restarts SenStrap (to change the language).</summary>
     public void SaveAndRestart()
     {
         SaveAll();

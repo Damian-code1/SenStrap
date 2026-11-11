@@ -10,25 +10,16 @@
 
             <TextBlock Text="{ui:Loc appearance.effects}" Style="{StaticResource SectionTitle}" Margin="2,0,0,10" />
 
-            <controls:SettingRow Icon="&#xE790;" Title="{ui:Loc appearance.effect}" Description="{ui:Loc appearance.effectDesc}">
-                <ComboBox x:Name="EffectCombo" Style="{StaticResource Combo}" SelectionChanged="Effect_Changed">
-                    <ComboBoxItem Content="{ui:Loc effect.snow}" Tag="Nieve" />
-                    <ComboBoxItem Content="{ui:Loc effect.embers}" Tag="Brasas" />
-                    <ComboBoxItem Content="{ui:Loc effect.stars}" Tag="Estrellas" />
-                    <ComboBoxItem Content="{ui:Loc effect.none}" Tag="Ninguno" />
-                </ComboBox>
+            <controls:SettingRow Icon="&#xE790;" Title="{ui:Loc appearance.snow}" Description="{ui:Loc appearance.snowDesc}">
+                <CheckBox x:Name="SnowToggle" Style="{StaticResource Toggle}" Click="Toggle_Click" />
             </controls:SettingRow>
 
-            <controls:SettingRow Icon="&#xE7C9;" Title="{ui:Loc appearance.interactive}" Description="{ui:Loc appearance.interactiveDesc}">
-                <CheckBox x:Name="InteractiveToggle" Style="{StaticResource Toggle}" Click="Toggle_Click" />
+            <controls:SettingRow Icon="&#xE7F4;" Title="{ui:Loc appearance.snowLauncher}" Description="{ui:Loc appearance.snowLauncherDesc}">
+                <CheckBox x:Name="LauncherSnowToggle" Style="{StaticResource Toggle}" Click="Toggle_Click" />
             </controls:SettingRow>
 
-            <controls:SettingRow Icon="&#xE945;" Title="{ui:Loc appearance.animations}" Description="{ui:Loc appearance.animationsDesc}">
-                <CheckBox x:Name="AnimationsToggle" Style="{StaticResource Toggle}" Click="Toggle_Click" />
-            </controls:SettingRow>
-
-            <controls:SettingRow Icon="&#xE7F4;" Title="{ui:Loc appearance.launcherFx}" Description="{ui:Loc appearance.launcherFxDesc}">
-                <CheckBox x:Name="LauncherEffectToggle" Style="{StaticResource Toggle}" Click="Toggle_Click" />
+            <controls:SettingRow Icon="&#xE714;" Title="{ui:Loc appearance.intro}" Description="{ui:Loc appearance.introDesc}">
+                <CheckBox x:Name="IntroToggle" Style="{StaticResource Toggle}" Click="Toggle_Click" />
             </controls:SettingRow>
 
             <TextBlock Text="{ui:Loc appearance.preview}" Style="{StaticResource SectionTitle}" />

@@ -11,10 +11,10 @@
     <AssemblyName>SenStrap</AssemblyName>
     <RootNamespace>SenStrap</RootNamespace>
     <ApplicationIcon>Resources\senstrap.ico</ApplicationIcon>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
     <Product>SenStrap</Product>
     <Company>SenStrap</Company>
-    <Description>Launcher alternativo para Roblox</Description>
+    <Description>Alternative Roblox launcher</Description>
     <Copyright>SenStrap</Copyright>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
@@ -39,6 +39,9 @@
     <Resource Include="Resources\senstrap.ico" />
     <Resource Include="Resources\logo.png" />
     <Resource Include="Resources\logo-texto.png" />
+    <Resource Include="Resources\discord.png" />
+    <Resource Include="Resources\owner-avatar.png" />
+    <Resource Include="Resources\owner-banner.png" />
     <!-- Idiomas: Resources\Languages\<código>.json -->
     <EmbeddedResource Include="Resources\Languages\*.json" LogicalName="Languages.%(Filename).json" />
   </ItemGroup>

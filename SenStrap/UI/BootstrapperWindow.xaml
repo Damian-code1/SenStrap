@@ -3,76 +3,49 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="clr-namespace:SenStrap.UI"
         xmlns:controls="clr-namespace:SenStrap.UI.Controls"
-        Title="SenStrap" Width="600" Height="390"
+        Title="SenStrap" Width="560" Height="330"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         FontFamily="{StaticResource UiFont}" Icon="/SenStrap;component/Resources/senstrap.ico">
 
-    <!-- El margen deja sitio a la sombra -->
-    <Grid x:Name="Frame" Margin="24">
-        <Border CornerRadius="22" Background="{StaticResource BgBrush}">
+    <!-- The margin leaves room for the shadow -->
+    <Grid x:Name="Frame" Margin="16">
+        <Border CornerRadius="10" Background="{StaticResource BgBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="32" ShadowDepth="0" Opacity="0.65" Color="Black" />
+                <DropShadowEffect BlurRadius="16" ShadowDepth="0" Opacity="0.45" Color="Black" />
             </Border.Effect>
         </Border>
 
-        <Grid x:Name="Clipped" MouseLeftButtonDown="Window_MouseDown">
-            <controls:AnimatedBackground x:Name="Backdrop" />
-            <Border x:Name="GlowBorder" CornerRadius="22" BorderThickness="1.5">
-                <Border.BorderBrush>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <LinearGradientBrush.RelativeTransform>
-                            <RotateTransform CenterX="0.5" CenterY="0.5" />
-                        </LinearGradientBrush.RelativeTransform>
-                        <GradientStop Offset="0" Color="#AAFFB547" />
-                        <GradientStop Offset="0.35" Color="#22FFFFFF" />
-                        <GradientStop Offset="0.65" Color="#22FFFFFF" />
-                        <GradientStop Offset="1" Color="#AAFF2E7A" />
-                    </LinearGradientBrush>
-                </Border.BorderBrush>
-            </Border>
+        <Grid x:Name="Clipped" Margin="1" MouseLeftButtonDown="Window_MouseDown">
+            <controls:Snowfall x:Name="Snow" Density="1.4" />
 
-            <Grid Margin="38,28,38,22">
+            <Grid Margin="30,24,30,22">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- Logo con halo y nombre -->
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Grid Width="100" Height="100">
-                        <Ellipse x:Name="Halo" Width="200" Height="200" Margin="-50" IsHitTestVisible="False">
-                            <Ellipse.Fill>
-                                <RadialGradientBrush>
-                                    <GradientStop Offset="0" Color="#99FF5B3A" />
-                                    <GradientStop Offset="0.45" Color="#3DFF2E7A" />
-                                    <GradientStop Offset="1" Color="#00FF2E7A" />
-                                </RadialGradientBrush>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <Image x:Name="Logo" Source="/SenStrap;component/Resources/logo.png" Width="100" Height="100"
-                               RenderOptions.BitmapScalingMode="HighQuality" />
-                    </Grid>
-                    <TextBlock HorizontalAlignment="Center" Margin="0,16,0,0" FontSize="28" FontWeight="Bold" Foreground="White">
-                        <Run Text="Sen" Foreground="{StaticResource AccentHorizontalBrush}" /><Run Text="Strap" />
-                    </TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/SenStrap;component/Resources/logo.png" Width="30" Height="30" RenderOptions.BitmapScalingMode="HighQuality" />
+                    <TextBlock Text="SenStrap" Margin="11,0,0,0" FontSize="17" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}"
+                               VerticalAlignment="Center" />
                 </StackPanel>
 
-                <!-- Estado -->
-                <DockPanel Grid.Row="1" Margin="0,10,0,10">
-                    <TextBlock x:Name="PercentText" DockPanel.Dock="Right" FontSize="13" FontWeight="SemiBold"
-                               Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" />
-                    <TextBlock x:Name="StatusText" Text="{ui:Loc boot.starting}" FontSize="14.5" Foreground="{StaticResource TextBrush}"
-                               TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                <DockPanel Grid.Row="2" Margin="0,0,0,10">
+                    <TextBlock x:Name="PercentText" DockPanel.Dock="Right" FontSize="13" Foreground="{StaticResource MutedBrush}"
+                               VerticalAlignment="Bottom" />
+                    <TextBlock x:Name="StatusText" Text="{ui:Loc boot.starting}" FontSize="15" Foreground="{StaticResource TextBrush}"
+                               TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" />
                 </DockPanel>
 
-                <ProgressBar x:Name="Progress" Grid.Row="2" Style="{StaticResource SenProgress}" IsIndeterminate="True" />
+                <ProgressBar x:Name="Progress" Grid.Row="3" Style="{StaticResource SenProgress}" IsIndeterminate="True" />
 
-                <DockPanel Grid.Row="3" Margin="0,14,0,0">
+                <DockPanel Grid.Row="4" Margin="0,14,0,0">
                     <Button x:Name="CancelButton" DockPanel.Dock="Right" Style="{StaticResource GhostButton}"
-                            Content="{ui:Loc boot.cancel}" Click="Cancel_Click" />
+                            Content="{ui:Loc boot.cancel}" Click="Cancel_Click" Margin="0,0,-10,0" />
                     <TextBlock FontSize="12" Foreground="{StaticResource SubtleBrush}" VerticalAlignment="Center"
                                Text="{ui:Loc boot.hint}" TextTrimming="CharacterEllipsis" />
                 </DockPanel>

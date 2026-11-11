@@ -9,7 +9,7 @@
   <a href="https://github.com/Damian-code1/SenStrap/releases/latest"><b>⬇ Download the latest version</b></a>
 </p>
 
-SenStrap **doesn't modify the game**: it downloads the official Roblox client from Roblox's servers, applies your settings (FastFlags and mods) and launches it.
+SenStrap **doesn't modify the game**: it downloads the official Roblox client from Roblox's servers, applies your settings (FastFlags, mods and optimizations) and launches it.
 
 ![SenStrap screenshots](docs/screenshots.png)
 
@@ -24,6 +24,13 @@ SenStrap **doesn't modify the game**: it downloads the official Roblox client fr
 - Registers itself as the handler for `roblox://` and `roblox-player:` links, so the **Play** button on roblox.com opens Roblox through SenStrap.
 - Downloads and installs the latest Roblox version into `%LOCALAPPDATA%\SenStrap\Versions` and checks the MD5 hash of every package.
 - **16 languages**, chosen the first time you open it (and in Settings): English, Español, Português (Brasil), Français, Deutsch, Italiano, Русский, Українська, Polski, Türkçe, Bahasa Indonesia, Filipino, Tiếng Việt, 日本語, 한국어 and 简体中文.
+- **Optimizations**: 72 tweaks for Windows and Roblox in 10 categories (Roblox, gaming, mouse and keyboard, visual effects, privacy and ads, system, power, services, File Explorer and taskbar, cleanup).
+  - Every change can be undone. Before changing anything, SenStrap saves how it was in `Tweaks.json`. **Undo all** puts back the exact previous values, including keys that didn't exist before.
+  - **Apply recommended** turns on the 40 tweaks that are safe for everyone. Tweaks with side effects are marked **Read first**.
+  - Roblox options are applied every time SenStrap opens Roblox: high-performance GPU, above-normal CPU priority, no power throttling in the background, fullscreen optimizations and display scaling.
+  - Tweaks that change the whole PC (services, power plans, system policies) need administrator rights. Windows asks once per batch, and only those tweaks run elevated.
+  - Badges tell you when a change applies (next time Roblox opens, after restarting Explorer or the PC). Explorer can be restarted from the page.
+  - Cleanup: temporary files (older than a day), GPU shader caches, crash dumps, error reports, Roblox's cache and logs, and the DNS cache. Files in use are skipped.
 - **FastFlags**:
   - Quick settings with toggles: MSAA, voxelizer, gray sky, grass, mesh detail (slider), DPI scaling, rendering mode, Alt+Enter, quality level and textures. All of them use Roblox's allowlist.
   - Table editor: search, add, import/export JSON, copy, delete, profiles, and a ⚠ warning on flags Roblox ignores.
@@ -32,7 +39,6 @@ SenStrap **doesn't modify the game**: it downloads the official Roblox client fr
   - Asks before closing a Roblox window that's already open.
   - Closes the Crash Handler.
   - Background updates: if there's a new version, Roblox opens right away with the one you have and the new one downloads while you play (SenStrap waits for it to finish before closing).
-  - Compatibility: fullscreen optimizations and DPI scaling.
   - Automatic cleanup of old downloads and logs.
 - **Integrations** (SenStrap stays in the system tray while you play):
   - Activity tracking by reading Roblox's logs.
@@ -40,17 +46,21 @@ SenStrap **doesn't modify the game**: it downloads the official Roblox client fr
   - Playtime counter.
   - Game history with **Rejoin**.
   - Auto rejoin: if Roblox loses connection to the server (error 277, 266 or 279), it waits a few seconds in case it reconnects on its own; if not, it closes the disconnected Roblox and rejoins the same server. Never after a kick (267), the anti-cheat (268) or a session opened elsewhere (273). At most 3 times every 15 minutes.
-- **Animated interface**:
-  - Color aurora and particles of your choice (**snow**, **embers**, **stars** or none) that move away from your mouse.
-  - Rotating glow borders, tabs with a sliding indicator, cascading transitions and a loading window with a floating logo.
-  - Everything can be turned off in **Appearance**.
+- **Interface**:
+  - Flat design with one accent color.
+  - Snow falling behind the windows, with depth (small, dim flakes far away; large, soft ones up close), slow wind gusts and its own sway for every flake.
+  - A short intro with the logo when SenStrap opens. Click or press any key to skip it.
+  - Snow and the intro can be turned off in **Appearance**.
+- **Credits** page with the developer's Discord profile.
 - Creates shortcuts (the desktop one opens SenStrap) and shows up in *Settings > Apps* so it can be uninstalled.
-- Doesn't need administrator rights: it only writes to `HKEY_CURRENT_USER` and `%LOCALAPPDATA%`.
+- Only writes to `HKEY_CURRENT_USER` and `%LOCALAPPDATA%`, without administrator rights. The one exception is the machine-wide optimizations, which you apply yourself and which ask for permission first.
 
 ### What it intentionally doesn't do
 
 - **Use your Roblox account cookie:** having that cookie is the same as having your account, so SenStrap never reads it. That's also why there's no region selector or *BetterMatchmaking*: knowing where each server is before joining would require that cookie.
 - **SOCD or "Soft Key":** it would intercept everything you type and alter your key presses to gain a movement advantage. Many games consider it cheating.
+- **Turn off security features:** no optimization touches Windows Defender, UAC, Windows Update, the firewall or CPU security mitigations.
+- **Placebo tweaks:** registry values that "boost FPS" without doing anything (Nagle's algorithm for Roblox's UDP traffic, MMCSS "Games" priorities, `Win32PrioritySeparation` and the like) aren't included.
 
 ## Building from source
 
@@ -106,8 +116,9 @@ dotnet publish SenStrap\SenStrap.csproj -c Release -o publish-lite -p:SelfContai
 1. Open `SenStrap.exe` and click **Install SenStrap**. It copies itself to `%LOCALAPPDATA%\SenStrap`.
 2. Click **Play**, or go to roblox.com and press **Play** on any game.
 3. The first time it downloads Roblox (about 230 MB). After that it only checks for a new version.
+4. Optional: open **Optimizations** and click **Apply recommended**.
 
-To uninstall: in SenStrap go to **Settings > Uninstall**, or use *Windows Settings > Apps*. When it's installed, SenStrap remembers which launcher used to open Roblox links (Froststrap, Bloxstrap, the official one...) and hands them back when it's uninstalled. If that launcher no longer exists, it uses the official Roblox one; if that's missing too, reinstall Roblox from roblox.com.
+To uninstall: in SenStrap go to **Settings > Uninstall**, or use *Windows Settings > Apps*. When it's installed, SenStrap remembers which launcher used to open Roblox links (Froststrap, Bloxstrap, the official one...) and hands them back when it's uninstalled. If that launcher no longer exists, it uses the official Roblox one; if that's missing too, reinstall Roblox from roblox.com. If you applied optimizations, click **Undo all** in Optimizations before uninstalling to put Windows back as it was.
 
 Note: Roblox only allows one window at a time. If you open a game with SenStrap while Roblox is already open, the open one closes.
 
@@ -129,17 +140,21 @@ Note: Roblox only allows one window at a time. If you open a game with SenStrap 
 | `Core/ActivityWatcher.cs` | Activity tracking (reads Roblox's log) |
 | `Core/GameHistory.cs` | History, game names and icons, and server location |
 | `Core/Cleaner.cs`, `Core/Compatibility.cs` | Automatic cleanup and compatibility options |
+| `Core/Tweaks/TweakCatalog.cs` | Every optimization, with its English and Spanish text |
+| `Core/Tweaks/TweakTypes.cs` | Kinds of tweaks (registry values, services, power plans, cleanups...) and how each one is undone |
+| `Core/Tweaks/TweakEngine.cs` | Applies and undoes tweaks; machine-wide ones run in an elevated copy of SenStrap (`-tweaks`) |
+| `Core/Tweaks/LaunchTweaks.cs` | Roblox options applied on every launch (GPU, priority, power throttling) |
+| `Core/Tweaks/Sys.cs` | Registry, commands and folders, with a test sandbox (`SENSTRAP_TWEAK_SANDBOX`) |
+| `Core/OwnerProfile.cs` | The developer's Discord profile on the Credits page |
 | `UI/TrayHost.cs` | System tray icon while you play |
 | `UI/WelcomeWindow.xaml` | Welcome screen with language selection |
-| `UI/MainWindow.xaml` | Main window: title bar, sidebar, bottom bar and toasts |
-| `UI/Pages/` | The pages: Home, Launcher, Integrations, History, FastFlags, Mods, Appearance and Settings |
-| `UI/BootstrapperWindow.xaml` | Loading window with the logo and the progress bar |
-| `UI/Controls/ParticleCanvas.cs` | The animated particles (snow, embers, stars) |
-| `UI/Controls/AnimatedBackground.xaml` | Night-blue background with aurora and particles |
+| `UI/MainWindow.xaml` | Main window: intro, title bar, sidebar, bottom bar and toasts |
+| `UI/Pages/` | The pages: Home, Launcher, Integrations, History, Optimizations, FastFlags, Mods, Appearance, Settings and Credits |
+| `UI/BootstrapperWindow.xaml` | Loading window with the progress bar |
+| `UI/Controls/Snowfall.cs` | The snow |
 | `UI/Controls/SettingRow.cs` | Reusable settings row (icon, title, description and control) |
-| `UI/Anim.cs` | Entrance, float and pulse animations |
 | `UI/Theme.xaml` | Colors, buttons, toggles, dropdowns and other styles |
-| `Resources/` | Icon and logos |
+| `Resources/` | Icon, logos and the Credits pictures |
 
 ## Good to know
 
@@ -147,6 +162,7 @@ Note: Roblox only allows one window at a time. If you open a game with SenStrap 
 - **No code injection and no touching the game's memory.** SenStrap only downloads official files and writes configuration; that's what keeps it safe.
 - **Antivirus and SmartScreen:** a new unsigned .exe may trigger warnings when shared. Publishing the source on GitHub and building it with GitHub Actions helps people trust it.
 - If Roblox adds a new package, SenStrap tries to guess where it goes and writes it to the log. To handle it properly, add it to `PackageMap` in `Core/RobloxDeployment.cs`.
+- The Credits page refreshes the developer's Discord name and picture at most once a day (from japi.rest and Discord's CDN). If that fails, it shows the copy included in the app.
 - Logs are in `%LOCALAPPDATA%\SenStrap\Logs`.
 
 ## Ideas for later
@@ -154,6 +170,10 @@ Note: Roblox only allows one window at a time. If you open a game with SenStrap 
 - Discord Rich Presence: requires creating your own application in the Discord Developer Portal.
 - Self-updating from GitHub releases.
 - Building the .exe automatically with GitHub Actions on every release.
+
+## Credits
+
+Developer / Owner: **evosen.** on [Discord](https://discord.com/users/1407737422732853331).
 
 ## License
 

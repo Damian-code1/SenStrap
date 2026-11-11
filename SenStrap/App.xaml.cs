@@ -1,5 +1,6 @@
 using System.Windows;
 using SenStrap.Core;
+using SenStrap.Core.Tweaks;
 using SenStrap.UI;
 
 namespace SenStrap;
@@ -10,6 +11,7 @@ namespace SenStrap;
 ///   -player "roblox-player:…" -> la web pide abrir un juego
 ///   -play                     -> abrir Roblox
 ///   -uninstall                -> desinstalar
+///   -tweaks "request.json"    -> (como administrador) aplicar optimizaciones del sistema
 /// </summary>
 public partial class App : Application
 {
@@ -21,6 +23,13 @@ public partial class App : Application
 
         var settings = Settings.Load();
         Lang.Load(string.IsNullOrEmpty(settings.Language) ? Lang.Detect() : settings.Language);
+
+        // Copy started as administrator by the Optimizations page: make the machine-wide changes and exit
+        if (e.Args.Length == 2 && e.Args[0].Equals("-tweaks", StringComparison.OrdinalIgnoreCase))
+        {
+            Shutdown(TweakEngine.RunElevatedRequest(e.Args[1]));
+            return;
+        }
 
         DispatcherUnhandledException += (_, args) =>
         {

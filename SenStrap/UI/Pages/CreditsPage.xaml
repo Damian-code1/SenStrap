@@ -1,0 +1,103 @@
+<ui:ShellPage x:Class="SenStrap.UI.Pages.CreditsPage"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:ui="clr-namespace:SenStrap.UI"
+              xmlns:controls="clr-namespace:SenStrap.UI.Controls">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="32,26,32,24">
+            <TextBlock Text="{ui:Loc credits.title}" Style="{StaticResource PageTitle}" />
+            <TextBlock Text="{ui:Loc credits.subtitle}" Style="{StaticResource PageSubtitle}" />
+
+            <!-- Developer -->
+            <Border Background="#171925" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="140" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Border CornerRadius="7,7,0,0">
+                        <Border.Background>
+                            <ImageBrush x:Name="BannerBrush" Stretch="UniformToFill"
+                                        ImageSource="/SenStrap;component/Resources/owner-banner.png" />
+                        </Border.Background>
+                    </Border>
+
+                    <Grid Grid.Row="1" Margin="22,0,22,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Width="104" Height="104" Margin="0,-52,0,0" VerticalAlignment="Top">
+                            <Ellipse Fill="#171925" />
+                            <Ellipse Margin="6">
+                                <Ellipse.Fill>
+                                    <ImageBrush x:Name="AvatarBrush" Stretch="UniformToFill"
+                                                ImageSource="/SenStrap;component/Resources/owner-avatar.png" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </Grid>
+
+                        <StackPanel Grid.Column="1" Margin="16,12,12,0" VerticalAlignment="Top">
+                            <TextBlock x:Name="DisplayNameText" Text="sen" FontSize="22" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextBrush}" TextTrimming="CharacterEllipsis" />
+                            <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                                <Image Source="/SenStrap;component/Resources/discord.png" Width="16" Height="16" Opacity="0.85"
+                                       RenderOptions.BitmapScalingMode="HighQuality" VerticalAlignment="Center" />
+                                <TextBlock x:Name="UsernameText" Text="evosen." Margin="7,0,0,0" FontSize="14"
+                                           Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" />
+                            </StackPanel>
+                            <Border Style="{StaticResource Chip}" Background="{StaticResource AccentTintBrush}" HorizontalAlignment="Left"
+                                    Margin="0,10,0,0">
+                                <TextBlock Text="{ui:Loc credits.role}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" />
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="0,14,0,0" VerticalAlignment="Top">
+                            <Button Style="{StaticResource DiscordButton}" Padding="14,8" Click="Discord_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/SenStrap;component/Resources/discord.png" Width="16" Height="16" Margin="0,0,8,0"
+                                           RenderOptions.BitmapScalingMode="HighQuality" />
+                                    <TextBlock Text="{ui:Loc credits.openDiscord}" />
+                                </StackPanel>
+                            </Button>
+                            <Button Style="{StaticResource SecondaryButton}" Margin="0,8,0,0" Click="CopyUsername_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE8C8;" Style="{StaticResource BtnIcon}" />
+                                    <TextBlock Text="{ui:Loc credits.copyUsername}" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Project -->
+            <TextBlock Text="{ui:Loc credits.project}" Style="{StaticResource SectionTitle}" />
+            <controls:SettingRow x:Name="VersionRow" Icon="&#xE946;" Title="SenStrap" Description="{ui:Loc credits.repoDesc}">
+                <Button Style="{StaticResource SecondaryButton}" Content="GitHub" Click="GitHub_Click" />
+            </controls:SettingRow>
+            <controls:SettingRow Icon="&#xEBE8;" Title="{ui:Loc credits.issues}" Description="{ui:Loc credits.issuesDesc}">
+                <Button Style="{StaticResource SecondaryButton}" Content="{ui:Loc common.open}" Click="Issues_Click" />
+            </controls:SettingRow>
+            <controls:SettingRow Icon="&#xE8A5;" Title="{ui:Loc credits.license}" Description="{ui:Loc credits.licenseDesc}">
+                <Button Style="{StaticResource SecondaryButton}" Content="{ui:Loc common.open}" Click="License_Click" />
+            </controls:SettingRow>
+
+            <!-- Thanks -->
+            <TextBlock Text="{ui:Loc credits.thanks}" Style="{StaticResource SectionTitle}" />
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource CardDesc}" Text="{ui:Loc credits.thanksInspired}" />
+                    <TextBlock Style="{StaticResource CardDesc}" Text="{ui:Loc credits.thanksData}" Margin="0,6,0,0" />
+                    <TextBlock Style="{StaticResource CardDesc}" Text="{ui:Loc credits.thanksDiscord}" Margin="0,6,0,0" />
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="{ui:Loc credits.disclaimer}" FontSize="12" Foreground="{StaticResource SubtleBrush}"
+                       TextWrapping="Wrap" Margin="2,14,0,0" />
+        </StackPanel>
+    </ScrollViewer>
+</ui:ShellPage>
