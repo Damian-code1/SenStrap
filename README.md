@@ -5,156 +5,158 @@
 <h1 align="center">SenStrap</h1>
 
 <p align="center">
-  Launcher alternativo para Roblox en Windows, del estilo de Bloxstrap, escrito desde cero en C# (.NET 10 + WPF).<br>
-  <a href="https://github.com/Damian-code1/SenStrap/releases/latest"><b>⬇ Descargar la última versión</b></a>
+  An alternative Roblox launcher for Windows in the style of Bloxstrap, written from scratch in C# (.NET 10 + WPF).<br>
+  <a href="https://github.com/Damian-code1/SenStrap/releases/latest"><b>⬇ Download the latest version</b></a>
 </p>
 
-SenStrap **no modifica el juego**: descarga el cliente oficial de Roblox desde los servidores de Roblox, le aplica tus ajustes (FastFlags y mods) y lo abre.
+SenStrap **doesn't modify the game**: it downloads the official Roblox client from Roblox's servers, applies your settings (FastFlags and mods) and launches it.
 
-![Capturas de SenStrap](docs/capturas.png)
+![SenStrap screenshots](docs/screenshots.png)
 
-## Descargar e instalar
+## Download and install
 
-1. Descarga **`SenStrap.exe`** de la [última release](https://github.com/Damian-code1/SenStrap/releases/latest). Funciona en Windows 10 y 11 de 64 bits sin instalar nada más.
-2. Ábrelo. Windows puede avisar con "Windows protegió su PC" porque el programa no está firmado: pulsa **Más información** y luego **Ejecutar de todas formas**.
-3. Elige tu idioma y pulsa **Instalar SenStrap**.
+1. Download **`SenStrap.exe`** from the [latest release](https://github.com/Damian-code1/SenStrap/releases/latest). It runs on 64-bit Windows 10 and 11 with nothing else to install.
+2. Open it. Windows may show "Windows protected your PC" because the app isn't signed: click **More info**, then **Run anyway**.
+3. Pick your language and click **Install SenStrap**.
 
-## Qué hace
+## Features
 
-- Se registra como el programa que abre los enlaces `roblox://` y `roblox-player:`. Así, el botón **Jugar** de roblox.com abre Roblox a través de SenStrap.
-- Descarga e instala la última versión de Roblox en `%LOCALAPPDATA%\SenStrap\Versions` y comprueba el MD5 de cada paquete.
-- **16 idiomas**, que se eligen al abrirlo por primera vez (y en Ajustes): English, Español, Português (Brasil), Français, Deutsch, Italiano, Русский, Українська, Polski, Türkçe, Bahasa Indonesia, Filipino, Tiếng Việt, 日本語, 한국어 y 简体中文.
+- Registers itself as the handler for `roblox://` and `roblox-player:` links, so the **Play** button on roblox.com opens Roblox through SenStrap.
+- Downloads and installs the latest Roblox version into `%LOCALAPPDATA%\SenStrap\Versions` and checks the MD5 hash of every package.
+- **16 languages**, chosen the first time you open it (and in Settings): English, Español, Português (Brasil), Français, Deutsch, Italiano, Русский, Українська, Polski, Türkçe, Bahasa Indonesia, Filipino, Tiếng Việt, 日本語, 한국어 and 简体中文.
 - **FastFlags**:
-  - Ajustes rápidos con interruptores: MSAA, voxelizador, cielo gris, hierba, detalle de mallas (deslizador), escalado DPI, modo de renderizado, Alt+Enter, nivel de calidad y texturas. Todos usan la lista permitida de Roblox.
-  - Editor en tabla: búsqueda, añadir, importar y exportar JSON, copiar, borrar, perfiles y aviso ⚠ en los flags que Roblox ignora.
-- **Mods**: copia los archivos de `%LOCALAPPDATA%\SenStrap\Modifications` encima de Roblox. Desde la app puedes poner tu propio sonido al morir (.ogg), cursor (.png) e icono de Shift Lock (.png).
-- **Lanzador**:
-  - Confirmar si ya hay un Roblox abierto.
-  - Cerrar el Crash Handler.
-  - Actualizaciones en segundo plano: si hay versión nueva, Roblox se abre al momento con la que ya tienes y la nueva se descarga mientras juegas (SenStrap espera a que termine antes de cerrarse).
-  - Compatibilidad: optimizaciones de pantalla completa y escalado DPI.
-  - Limpieza automática de descargas y registros antiguos.
-- **Integraciones** (SenStrap se queda en la bandeja del sistema mientras juegas):
-  - Seguimiento de actividad leyendo los registros de Roblox.
-  - Ubicación del servidor (consulta su IP en ipinfo.io).
-  - Contador de tiempo de juego.
-  - Historial de partidas con **Volver a unirse**.
-  - Reconexión automática: si Roblox pierde la conexión con el servidor (errores 277, 266 o 279), espera unos segundos por si se reconecta solo y, si no, cierra el Roblox desconectado y vuelve a entrar al mismo servidor. Nunca tras una expulsión (267), el anti-trampas (268) o una sesión abierta en otro sitio (273). Como mucho 3 veces cada 15 minutos.
-- **Interfaz animada**:
-  - Aurora de colores y partículas a elegir (**nieve**, **brasas**, **estrellas** o ninguna) que se apartan del ratón.
-  - Bordes con brillo que gira, pestañas con indicador deslizante, transiciones en cascada y una ventana de carga con el logo flotando.
-  - Todo se puede desactivar en **Apariencia**.
-- Crea accesos directos (el del escritorio abre SenStrap) y aparece en *Configuración > Aplicaciones* para poder desinstalarlo.
-- No necesita permisos de administrador: solo escribe en `HKEY_CURRENT_USER` y en `%LOCALAPPDATA%`.
+  - Quick settings with toggles: MSAA, voxelizer, gray sky, grass, mesh detail (slider), DPI scaling, rendering mode, Alt+Enter, quality level and textures. All of them use Roblox's allowlist.
+  - Table editor: search, add, import/export JSON, copy, delete, profiles, and a ⚠ warning on flags Roblox ignores.
+- **Mods**: copies the files in `%LOCALAPPDATA%\SenStrap\Modifications` on top of Roblox. From the app you can set your own death sound (.ogg), cursor (.png) and Shift Lock icon (.png).
+- **Launcher**:
+  - Asks before closing a Roblox window that's already open.
+  - Closes the Crash Handler.
+  - Background updates: if there's a new version, Roblox opens right away with the one you have and the new one downloads while you play (SenStrap waits for it to finish before closing).
+  - Compatibility: fullscreen optimizations and DPI scaling.
+  - Automatic cleanup of old downloads and logs.
+- **Integrations** (SenStrap stays in the system tray while you play):
+  - Activity tracking by reading Roblox's logs.
+  - Server location (looks up the server IP on ipinfo.io).
+  - Playtime counter.
+  - Game history with **Rejoin**.
+  - Auto rejoin: if Roblox loses connection to the server (error 277, 266 or 279), it waits a few seconds in case it reconnects on its own; if not, it closes the disconnected Roblox and rejoins the same server. Never after a kick (267), the anti-cheat (268) or a session opened elsewhere (273). At most 3 times every 15 minutes.
+- **Animated interface**:
+  - Color aurora and particles of your choice (**snow**, **embers**, **stars** or none) that move away from your mouse.
+  - Rotating glow borders, tabs with a sliding indicator, cascading transitions and a loading window with a floating logo.
+  - Everything can be turned off in **Appearance**.
+- Creates shortcuts (the desktop one opens SenStrap) and shows up in *Settings > Apps* so it can be uninstalled.
+- Doesn't need administrator rights: it only writes to `HKEY_CURRENT_USER` and `%LOCALAPPDATA%`.
 
-### Lo que no incluye a propósito
+### What it intentionally doesn't do
 
-- **Usar la cookie de tu cuenta de Roblox:** tener esa cookie equivale a tener tu cuenta, así que SenStrap no la lee. Por eso tampoco tiene selector de región ni *BetterMatchmaking*: para saber dónde está cada servidor antes de entrar haría falta esa cookie.
-- **SOCD o "Soft Key":** interceptaría todo lo que tecleas y alteraría tus pulsaciones para tener ventaja de movimiento. Muchos juegos lo consideran trampa.
+- **Use your Roblox account cookie:** having that cookie is the same as having your account, so SenStrap never reads it. That's also why there's no region selector or *BetterMatchmaking*: knowing where each server is before joining would require that cookie.
+- **SOCD or "Soft Key":** it would intercept everything you type and alter your key presses to gain a movement advantage. Many games consider it cheating.
 
-## Requisitos para compilar
+## Building from source
 
-- Windows 10 u 11 de 64 bits.
-- El **SDK de .NET 10**:
+### Requirements
+
+- 64-bit Windows 10 or 11.
+- The **.NET 10 SDK**:
 
 ```bash
 winget install Microsoft.DotNet.SDK.10
 ```
 
-Después cierra y vuelve a abrir la terminal, y comprueba que está instalado:
+Then close and reopen the terminal and check it's installed:
 
 ```bash
 dotnet --version
 ```
 
-Tiene que salir un número que empiece por `10.`.
+It should print a number starting with `10.`.
 
-## Compilar y probar
+### Build and run
 
-Todos los comandos se ejecutan en esta carpeta (donde está `SenStrap.sln`).
+Run every command in this folder (where `SenStrap.sln` is).
 
-Compilar en modo desarrollo:
+Debug build:
 
 ```bash
 dotnet build
 ```
 
-Abrir la app sin generar el .exe final:
+Run the app without producing the final .exe:
 
 ```bash
 dotnet run --project SenStrap
 ```
 
-## Generar el .exe
+### Produce the .exe
 
 ```bash
 dotnet publish SenStrap\SenStrap.csproj -c Release -o publish
 ```
 
-Genera **`publish\SenStrap.exe`**: un único archivo (unos 70 MB) que funciona en cualquier PC con Windows de 64 bits, sin instalar nada más. También puedes hacer doble clic en **`compilar.bat`**, que ejecuta ese mismo comando.
+This creates **`publish\SenStrap.exe`**: a single file (about 70 MB) that runs on any 64-bit Windows PC with nothing else installed. You can also double-click **`build.bat`**, which runs the same command.
 
-Si prefieres un .exe pequeño (menos de 1 MB) que necesite el *.NET 10 Desktop Runtime* instalado en el PC donde se use:
+If you'd rather have a small .exe (under 1 MB) that needs the *.NET 10 Desktop Runtime* installed on the PC where it runs:
 
 ```bash
-dotnet publish SenStrap\SenStrap.csproj -c Release -o publish-ligero -p:SelfContained=false
+dotnet publish SenStrap\SenStrap.csproj -c Release -o publish-lite -p:SelfContained=false
 ```
 
-## Usarlo
+## Usage
 
-1. Abre `SenStrap.exe` y pulsa **Instalar SenStrap**. Se copia a `%LOCALAPPDATA%\SenStrap`.
-2. Pulsa **Jugar Roblox**, o entra en roblox.com y dale a **Jugar** en cualquier juego.
-3. La primera vez descarga Roblox (unos 230 MB). Las siguientes veces solo comprueba si hay versión nueva.
+1. Open `SenStrap.exe` and click **Install SenStrap**. It copies itself to `%LOCALAPPDATA%\SenStrap`.
+2. Click **Play**, or go to roblox.com and press **Play** on any game.
+3. The first time it downloads Roblox (about 230 MB). After that it only checks for a new version.
 
-Para desinstalarlo: en SenStrap ve a **Ajustes > Desinstalar**, o en *Configuración de Windows > Aplicaciones*. Al instalarse, SenStrap guarda qué launcher abría antes los enlaces de Roblox (Froststrap, Bloxstrap, el oficial...) y al desinstalarse se los devuelve. Si ese launcher ya no existe, usa el oficial de Roblox; si tampoco está, reinstala Roblox desde roblox.com.
+To uninstall: in SenStrap go to **Settings > Uninstall**, or use *Windows Settings > Apps*. When it's installed, SenStrap remembers which launcher used to open Roblox links (Froststrap, Bloxstrap, the official one...) and hands them back when it's uninstalled. If that launcher no longer exists, it uses the official Roblox one; if that's missing too, reinstall Roblox from roblox.com.
 
-Ojo: Roblox solo deja abrir una ventana a la vez. Si abres un juego con SenStrap mientras ya tienes Roblox abierto, se cierra el que estaba abierto.
+Note: Roblox only allows one window at a time. If you open a game with SenStrap while Roblox is already open, the open one closes.
 
-## Estructura del código
+## Project structure
 
-| Archivo | Para qué sirve |
+| File | What it does |
 |---|---|
-| `App.xaml.cs` | Punto de entrada: decide qué ventana abrir según los argumentos |
-| `AppInfo.cs` | Nombre, versión y carpetas |
-| `Core/RobloxDeployment.cs` | Habla con los servidores de Roblox (versión actual y lista de paquetes) |
-| `Core/RobloxInstaller.cs` | Descarga, comprueba e instala Roblox |
-| `Core/Launcher.cs` | Lo que pasa al darle a Jugar |
-| `Core/FastFlags.cs` | Escribe los FastFlags |
-| `Core/Mods.cs` | Aplica los mods |
-| `Core/ProtocolHandler.cs` | Registra los enlaces `roblox://` y `roblox-player:` |
-| `Core/SelfInstaller.cs` | Instala y desinstala SenStrap |
-| `Core/Lang.cs` y `Resources/Languages/*.json` | Idiomas. Para añadir uno, copia `en.json`, tradúcelo y añádelo a la lista de `Lang.cs` |
-| `Core/FastFlagCatalog.cs` | Lista permitida de Roblox y flags de los ajustes rápidos |
-| `Core/ActivityWatcher.cs` | Seguimiento de actividad (lee el log de Roblox) |
-| `Core/GameHistory.cs` | Historial, nombres e iconos de juegos y ubicación del servidor |
-| `Core/Cleaner.cs`, `Core/Compatibility.cs` | Limpieza automática y opciones de compatibilidad |
-| `UI/TrayHost.cs` | Icono en la bandeja mientras juegas |
-| `UI/WelcomeWindow.xaml` | Bienvenida con selección de idioma |
-| `UI/MainWindow.xaml` | Ventana principal: barra de título, menú lateral, barra inferior y avisos |
-| `UI/Pages/` | Las páginas: Inicio, Lanzador, Integraciones, Historial, FastFlags, Mods, Apariencia y Ajustes |
-| `UI/BootstrapperWindow.xaml` | Ventana de carga con el logo y la barra de progreso |
-| `UI/Controls/ParticleCanvas.cs` | Las partículas animadas (nieve, brasas, estrellas) |
-| `UI/Controls/AnimatedBackground.xaml` | Fondo azul noche con aurora y partículas |
-| `UI/Controls/SettingRow.cs` | Fila de ajuste reutilizable (icono, título, descripción y control) |
-| `UI/Anim.cs` | Animaciones de entrada, flotar y latir |
-| `UI/Theme.xaml` | Colores, botones, interruptores, desplegables y demás estilos |
-| `Resources/` | Icono y logos |
+| `App.xaml.cs` | Entry point: decides which window to open based on the arguments |
+| `AppInfo.cs` | Name, version and folders |
+| `Core/RobloxDeployment.cs` | Talks to Roblox's servers (current version and package list) |
+| `Core/RobloxInstaller.cs` | Downloads, verifies and installs Roblox |
+| `Core/Launcher.cs` | What happens when you press Play |
+| `Core/FastFlags.cs` | Writes the FastFlags |
+| `Core/Mods.cs` | Applies the mods |
+| `Core/ProtocolHandler.cs` | Registers the `roblox://` and `roblox-player:` links |
+| `Core/SelfInstaller.cs` | Installs and uninstalls SenStrap |
+| `Core/Lang.cs` and `Resources/Languages/*.json` | Languages. To add one, copy `en.json`, translate it and add it to the list in `Lang.cs` |
+| `Core/FastFlagCatalog.cs` | Roblox's allowlist and the quick-setting flags |
+| `Core/ActivityWatcher.cs` | Activity tracking (reads Roblox's log) |
+| `Core/GameHistory.cs` | History, game names and icons, and server location |
+| `Core/Cleaner.cs`, `Core/Compatibility.cs` | Automatic cleanup and compatibility options |
+| `UI/TrayHost.cs` | System tray icon while you play |
+| `UI/WelcomeWindow.xaml` | Welcome screen with language selection |
+| `UI/MainWindow.xaml` | Main window: title bar, sidebar, bottom bar and toasts |
+| `UI/Pages/` | The pages: Home, Launcher, Integrations, History, FastFlags, Mods, Appearance and Settings |
+| `UI/BootstrapperWindow.xaml` | Loading window with the logo and the progress bar |
+| `UI/Controls/ParticleCanvas.cs` | The animated particles (snow, embers, stars) |
+| `UI/Controls/AnimatedBackground.xaml` | Night-blue background with aurora and particles |
+| `UI/Controls/SettingRow.cs` | Reusable settings row (icon, title, description and control) |
+| `UI/Anim.cs` | Entrance, float and pulse animations |
+| `UI/Theme.xaml` | Colors, buttons, toggles, dropdowns and other styles |
+| `Resources/` | Icon and logos |
 
-## Cosas a tener en cuenta
+## Good to know
 
-- **FastFlags:** Roblox solo acepta los flags de su lista permitida y el resto los ignora.
-- **Nada de inyectar código ni tocar la memoria del juego.** SenStrap solo descarga archivos oficiales y escribe configuración; eso es lo que lo mantiene seguro.
-- **Antivirus y SmartScreen:** un .exe nuevo sin firmar puede dar avisos al compartirlo. Publicar el código en GitHub y compilarlo con GitHub Actions ayuda a que la gente se fíe.
-- Si Roblox añade un paquete nuevo, SenStrap intenta adivinar dónde va y lo apunta en el log. Para dejarlo bien, añádelo a `PackageMap` en `Core/RobloxDeployment.cs`.
-- Los registros (logs) están en `%LOCALAPPDATA%\SenStrap\Logs`.
+- **FastFlags:** Roblox only accepts the flags on its allowlist and ignores the rest.
+- **No code injection and no touching the game's memory.** SenStrap only downloads official files and writes configuration; that's what keeps it safe.
+- **Antivirus and SmartScreen:** a new unsigned .exe may trigger warnings when shared. Publishing the source on GitHub and building it with GitHub Actions helps people trust it.
+- If Roblox adds a new package, SenStrap tries to guess where it goes and writes it to the log. To handle it properly, add it to `PackageMap` in `Core/RobloxDeployment.cs`.
+- Logs are in `%LOCALAPPDATA%\SenStrap\Logs`.
 
-## Ideas para más adelante
+## Ideas for later
 
-- Estado en Discord (Rich Presence): necesitas crear tu propia aplicación en el portal de desarrolladores de Discord.
-- Que SenStrap se actualice solo desde las *releases* de GitHub.
-- Compilar el .exe automáticamente con GitHub Actions en cada release.
+- Discord Rich Presence: requires creating your own application in the Discord Developer Portal.
+- Self-updating from GitHub releases.
+- Building the .exe automatically with GitHub Actions on every release.
 
-## Licencia
+## License
 
-[MIT](LICENSE). Puedes usar, modificar y compartir el código citando el aviso de copyright.
+[MIT](LICENSE). You can use, modify and share the code as long as you keep the copyright notice.
 
-SenStrap no está afiliado a Roblox Corporation. Roblox es una marca de Roblox Corporation.
+SenStrap is not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.

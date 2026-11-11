@@ -1,8 +1,8 @@
-# Compilación
+# Build output
 bin/
 obj/
 publish/
-publish-ligero/
+publish-lite/
 
 # Visual Studio / VS Code
 .vs/
