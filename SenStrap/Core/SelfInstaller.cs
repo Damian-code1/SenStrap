@@ -91,6 +91,14 @@ public static class SelfInstaller
             var installed = new FileInfo(AppInfo.InstalledExe);
             if (current.Length == installed.Length && current.LastWriteTimeUtc == installed.LastWriteTimeUtc) return;
 
+            // An older SenStrap.exe (for example one left in Downloads) must not replace a newer installed copy
+            var installedVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(installed.FullName);
+            if (Version.TryParse(installedVersion.FileVersion, out var other) && other > Version.Parse(AppInfo.Version + ".0"))
+            {
+                Logger.Info($"The installed copy ({other}) is newer than this one ({AppInfo.Version}): not replaced.");
+                return;
+            }
+
             File.Copy(current.FullName, installed.FullName, overwrite: true);
             using (var key = Registry.CurrentUser.OpenSubKey(UninstallKey, writable: true))
                 key?.SetValue("DisplayVersion", AppInfo.Version);

@@ -52,6 +52,7 @@ SenStrap **doesn't modify the game**: it downloads the official Roblox client fr
   - A short intro with the logo when SenStrap opens. Click or press any key to skip it.
   - Snow and the intro can be turned off in **Appearance**.
 - **Credits** page with the developer's Discord profile.
+- **Updates itself**: when it opens, SenStrap checks the latest GitHub release. If there's a newer version it shows *Downloading SenStrap…*, checks the file against the SHA-256 in the release notes, replaces only `SenStrap.exe` and opens again where you were (including a game you clicked on roblox.com). Settings, mods, FastFlags, optimizations and the installed Roblox are kept. Can be turned off in Settings.
 - Creates shortcuts (the desktop one opens SenStrap) and shows up in *Settings > Apps* so it can be uninstalled.
 - Only writes to `HKEY_CURRENT_USER` and `%LOCALAPPDATA%`, without administrator rights. The one exception is the machine-wide optimizations, which you apply yourself and which ask for permission first.
 
@@ -145,6 +146,7 @@ Note: Roblox only allows one window at a time. If you open a game with SenStrap 
 | `Core/Tweaks/TweakEngine.cs` | Applies and undoes tweaks; machine-wide ones run in an elevated copy of SenStrap (`-tweaks`) |
 | `Core/Tweaks/LaunchTweaks.cs` | Roblox options applied on every launch (GPU, priority, power throttling) |
 | `Core/Tweaks/Sys.cs` | Registry, commands and folders, with a test sandbox (`SENSTRAP_TWEAK_SANDBOX`) |
+| `Core/AppUpdater.cs`, `UI/UpdateWindow.xaml` | Updates SenStrap from GitHub releases |
 | `Core/OwnerProfile.cs` | The developer's Discord profile on the Credits page |
 | `UI/TrayHost.cs` | System tray icon while you play |
 | `UI/WelcomeWindow.xaml` | Welcome screen with language selection |
@@ -168,7 +170,6 @@ Note: Roblox only allows one window at a time. If you open a game with SenStrap 
 ## Ideas for later
 
 - Discord Rich Presence: requires creating your own application in the Discord Developer Portal.
-- Self-updating from GitHub releases.
 - Building the .exe automatically with GitHub Actions on every release.
 
 ## Credits

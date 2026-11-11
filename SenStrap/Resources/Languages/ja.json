@@ -294,5 +294,12 @@
   "credits.thanksInspired": "Bloxstrap、Fishstrap、Froststrap を参考にしています。",
   "credits.thanksData": "ゲーム名とアイコンは Roblox の公開 API、サーバーの場所は ipinfo.io から取得しています。",
   "credits.thanksDiscord": "プロフィール画像は japi.rest 経由で Discord から取得しています。",
-  "credits.disclaimer": "SenStrap は Roblox Corporation とは無関係です。Roblox は Roblox Corporation の商標です。"
+  "credits.disclaimer": "SenStrap は Roblox Corporation とは無関係です。Roblox は Roblox Corporation の商標です。",
+  "update.checking": "アップデートを確認中…",
+  "update.downloading": "SenStrap {0} をダウンロード中… {1} / {2} MB",
+  "update.restarting": "アップデートをインストールしました。SenStrap を再起動しています…",
+  "update.failed": "SenStrap を更新できませんでした。このバージョンで起動します。",
+  "update.hint": "設定、Mod、Roblox はそのまま残ります",
+  "settings.autoUpdate": "SenStrap を自動更新",
+  "settings.autoUpdateDesc": "起動時に GitHub で新しいバージョンを確認してインストールします。置き換わるのは SenStrap だけで、設定と Roblox は残ります。"
 }

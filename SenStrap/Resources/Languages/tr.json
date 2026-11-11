@@ -294,5 +294,12 @@
   "credits.thanksInspired": "Bloxstrap, Fishstrap ve Froststrap'ten ilham alındı.",
   "credits.thanksData": "Oyun adları ve simgeleri Roblox'un herkese açık API'lerinden, sunucu konumları ipinfo.io'dan gelir.",
   "credits.thanksDiscord": "Profil fotoğrafı japi.rest aracılığıyla Discord'dan gelir.",
-  "credits.disclaimer": "SenStrap'in Roblox Corporation ile bir bağlantısı yoktur. Roblox, Roblox Corporation'ın ticari markasıdır."
+  "credits.disclaimer": "SenStrap'in Roblox Corporation ile bir bağlantısı yoktur. Roblox, Roblox Corporation'ın ticari markasıdır.",
+  "update.checking": "Güncellemeler denetleniyor…",
+  "update.downloading": "SenStrap {0} indiriliyor… {1} / {2} MB",
+  "update.restarting": "Güncelleme yüklendi. SenStrap yeniden başlatılıyor…",
+  "update.failed": "SenStrap güncellenemedi. Bu sürüm açılacak.",
+  "update.hint": "Ayarların, modların ve Roblox olduğu gibi kalır",
+  "settings.autoUpdate": "SenStrap'i otomatik güncelle",
+  "settings.autoUpdateDesc": "SenStrap açılırken GitHub'da yeni sürüm arar ve yükler. Yalnızca SenStrap değişir: ayarların ve Roblox kalır."
 }

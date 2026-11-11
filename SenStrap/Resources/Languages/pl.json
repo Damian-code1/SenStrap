@@ -294,5 +294,12 @@
   "credits.thanksInspired": "Zainspirowany Bloxstrap, Fishstrap i Froststrap.",
   "credits.thanksData": "Nazwy i ikony gier pochodzą z publicznych API Roblox, a lokalizacje serwerów z ipinfo.io.",
   "credits.thanksDiscord": "Zdjęcie profilowe pochodzi z Discorda przez japi.rest.",
-  "credits.disclaimer": "SenStrap nie jest powiązany z Roblox Corporation. Roblox jest znakiem towarowym Roblox Corporation."
+  "credits.disclaimer": "SenStrap nie jest powiązany z Roblox Corporation. Roblox jest znakiem towarowym Roblox Corporation.",
+  "update.checking": "Sprawdzanie aktualizacji…",
+  "update.downloading": "Pobieranie SenStrap {0}… {1} z {2} MB",
+  "update.restarting": "Aktualizacja zainstalowana. Ponowne uruchamianie SenStrap…",
+  "update.failed": "Nie udało się zaktualizować SenStrap. Otworzy się ta wersja.",
+  "update.hint": "Ustawienia, mody i Roblox zostają bez zmian",
+  "settings.autoUpdate": "Aktualizuj SenStrap automatycznie",
+  "settings.autoUpdateDesc": "Po otwarciu SenStrap szuka nowej wersji na GitHubie i ją instaluje. Wymieniany jest tylko SenStrap: ustawienia i Roblox zostają."
 }

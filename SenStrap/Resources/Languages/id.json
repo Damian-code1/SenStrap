@@ -294,5 +294,12 @@
   "credits.thanksInspired": "Terinspirasi dari Bloxstrap, Fishstrap, dan Froststrap.",
   "credits.thanksData": "Nama dan ikon game berasal dari API publik Roblox; lokasi server dari ipinfo.io.",
   "credits.thanksDiscord": "Foto profil berasal dari Discord melalui japi.rest.",
-  "credits.disclaimer": "SenStrap tidak berafiliasi dengan Roblox Corporation. Roblox adalah merek dagang Roblox Corporation."
+  "credits.disclaimer": "SenStrap tidak berafiliasi dengan Roblox Corporation. Roblox adalah merek dagang Roblox Corporation.",
+  "update.checking": "Memeriksa pembaruan…",
+  "update.downloading": "Mengunduh SenStrap {0}… {1} dari {2} MB",
+  "update.restarting": "Pembaruan terpasang. Memulai ulang SenStrap…",
+  "update.failed": "SenStrap gagal diperbarui. Versi ini yang akan dibuka.",
+  "update.hint": "Pengaturan, mod, dan Roblox tetap seperti semula",
+  "settings.autoUpdate": "Perbarui SenStrap otomatis",
+  "settings.autoUpdateDesc": "Saat dibuka, SenStrap mencari versi baru di GitHub dan memasangnya. Hanya SenStrap yang diganti: pengaturan dan Roblox tetap."
 }

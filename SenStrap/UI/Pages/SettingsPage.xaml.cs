@@ -28,6 +28,7 @@ public partial class SettingsPage : ShellPage
         _loading = true;
         string current = string.IsNullOrEmpty(Shell.Settings.Language) ? Lang.Current : Shell.Settings.Language;
         LanguageCombo.SelectedItem = LanguageCombo.Items.OfType<ComboBoxItem>().FirstOrDefault(i => (string)i.Tag == current);
+        AutoUpdateToggle.IsChecked = Shell.Settings.AutoUpdate;
         _loading = false;
     }
 
@@ -40,6 +41,13 @@ public partial class SettingsPage : ShellPage
         Shell.MarkDirty();
         bool changed = code != Lang.Current;
         RestartButton.Visibility = changed ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void AutoUpdate_Click(object sender, RoutedEventArgs e)
+    {
+        if (_loading) return;
+        Shell.Settings.AutoUpdate = AutoUpdateToggle.IsChecked == true;
+        Shell.MarkDirty();
     }
 
     private void Restart_Click(object sender, RoutedEventArgs e) => Shell.SaveAndRestart();

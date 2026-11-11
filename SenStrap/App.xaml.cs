@@ -12,10 +12,11 @@ namespace SenStrap;
 ///   -play                     -> abrir Roblox
 ///   -uninstall                -> desinstalar
 ///   -tweaks "request.json"    -> (como administrador) aplicar optimizaciones del sistema
+///   -noupdate                 -> no buscar actualizaciones (la copia recién actualizada)
 /// </summary>
 public partial class App : Application
 {
-    protected override void OnStartup(StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
         Logger.Init();
@@ -58,6 +59,31 @@ public partial class App : Application
         {
             RunUninstall();
             return;
+        }
+
+        // New version on GitHub: download it, swap SenStrap.exe and start again with the same arguments.
+        // Settings, mods and the installed Roblox are in %LOCALAPPDATA%\SenStrap and stay as they are.
+        AppUpdater.CleanUp();
+        bool skipUpdate = e.Args.Any(a => a.Equals(AppUpdater.SkipArgument, StringComparison.OrdinalIgnoreCase));
+        if (!skipUpdate && settings.AutoUpdate && AppUpdater.CanUpdate)
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            var update = await AppUpdater.CheckAsync();
+            if (update is not null)
+            {
+                var window = new UpdateWindow(update, settings);
+                var closed = new TaskCompletionSource();
+                window.Closed += (_, _) => closed.TrySetResult();
+                window.Show();
+                await closed.Task;
+                if (window.Installed)
+                {
+                    AppUpdater.Restart(e.Args);
+                    Shutdown();
+                    return;
+                }
+            }
+            ShutdownMode = ShutdownMode.OnLastWindowClose;
         }
 
         SelfInstaller.UpdateInstalledCopy();

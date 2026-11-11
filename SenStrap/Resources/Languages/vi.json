@@ -294,5 +294,12 @@
   "credits.thanksInspired": "Lấy cảm hứng từ Bloxstrap, Fishstrap và Froststrap.",
   "credits.thanksData": "Tên và biểu tượng game lấy từ API công khai của Roblox; vị trí máy chủ lấy từ ipinfo.io.",
   "credits.thanksDiscord": "Ảnh đại diện lấy từ Discord qua japi.rest.",
-  "credits.disclaimer": "SenStrap không liên kết với Roblox Corporation. Roblox là thương hiệu của Roblox Corporation."
+  "credits.disclaimer": "SenStrap không liên kết với Roblox Corporation. Roblox là thương hiệu của Roblox Corporation.",
+  "update.checking": "Đang kiểm tra cập nhật…",
+  "update.downloading": "Đang tải SenStrap {0}… {1}/{2} MB",
+  "update.restarting": "Đã cài bản cập nhật. Đang khởi động lại SenStrap…",
+  "update.failed": "Không thể cập nhật SenStrap. Phiên bản này sẽ được mở.",
+  "update.hint": "Cài đặt, mod và Roblox của bạn vẫn giữ nguyên",
+  "settings.autoUpdate": "Tự động cập nhật SenStrap",
+  "settings.autoUpdateDesc": "Khi mở, SenStrap tìm phiên bản mới trên GitHub và cài đặt. Chỉ SenStrap được thay: cài đặt và Roblox vẫn giữ nguyên."
 }

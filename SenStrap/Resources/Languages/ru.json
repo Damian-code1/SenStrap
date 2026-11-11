@@ -294,5 +294,12 @@
   "credits.thanksInspired": "Вдохновлён Bloxstrap, Fishstrap и Froststrap.",
   "credits.thanksData": "Названия и значки игр — из открытых API Roblox, местоположение серверов — из ipinfo.io.",
   "credits.thanksDiscord": "Аватар загружается из Discord через japi.rest.",
-  "credits.disclaimer": "SenStrap не связан с Roblox Corporation. Roblox — товарный знак Roblox Corporation."
+  "credits.disclaimer": "SenStrap не связан с Roblox Corporation. Roblox — товарный знак Roblox Corporation.",
+  "update.checking": "Проверка обновлений…",
+  "update.downloading": "Загрузка SenStrap {0}… {1} из {2} МБ",
+  "update.restarting": "Обновление установлено. Перезапуск SenStrap…",
+  "update.failed": "Не удалось обновить SenStrap. Откроется текущая версия.",
+  "update.hint": "Настройки, моды и Roblox останутся как есть",
+  "settings.autoUpdate": "Обновлять SenStrap автоматически",
+  "settings.autoUpdateDesc": "При запуске SenStrap ищет новую версию на GitHub и устанавливает её. Заменяется только SenStrap: настройки и Roblox остаются."
 }

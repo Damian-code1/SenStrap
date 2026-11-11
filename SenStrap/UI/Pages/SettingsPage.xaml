@@ -18,6 +18,10 @@
                 </StackPanel>
             </controls:SettingRow>
 
+            <controls:SettingRow Icon="&#xE895;" Title="{ui:Loc settings.autoUpdate}" Description="{ui:Loc settings.autoUpdateDesc}">
+                <CheckBox x:Name="AutoUpdateToggle" Style="{StaticResource Toggle}" Click="AutoUpdate_Click" />
+            </controls:SettingRow>
+
             <TextBlock Text="{ui:Loc settings.roblox}" Style="{StaticResource SectionTitle}" />
             <controls:SettingRow Icon="&#xE72C;" Title="{ui:Loc settings.reinstall}" Description="{ui:Loc settings.reinstallDesc}">
                 <Button Style="{StaticResource SecondaryButton}" Content="{ui:Loc settings.reinstallButton}" Click="Reinstall_Click" />

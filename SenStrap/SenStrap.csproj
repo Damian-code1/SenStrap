@@ -11,7 +11,7 @@
     <AssemblyName>SenStrap</AssemblyName>
     <RootNamespace>SenStrap</RootNamespace>
     <ApplicationIcon>Resources\senstrap.ico</ApplicationIcon>
-    <Version>1.3.0</Version>
+    <Version>1.4.0</Version>
     <Product>SenStrap</Product>
     <Company>SenStrap</Company>
     <Description>Alternative Roblox launcher</Description>

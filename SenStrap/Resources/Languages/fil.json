@@ -294,5 +294,12 @@
   "credits.thanksInspired": "Inspirado ng Bloxstrap, Fishstrap at Froststrap.",
   "credits.thanksData": "Galing sa public API ng Roblox ang mga pangalan at icon ng laro; sa ipinfo.io ang lokasyon ng server.",
   "credits.thanksDiscord": "Galing sa Discord ang profile picture sa pamamagitan ng japi.rest.",
-  "credits.disclaimer": "Hindi kaakibat ng Roblox Corporation ang SenStrap. Ang Roblox ay trademark ng Roblox Corporation."
+  "credits.disclaimer": "Hindi kaakibat ng Roblox Corporation ang SenStrap. Ang Roblox ay trademark ng Roblox Corporation.",
+  "update.checking": "Naghahanap ng update…",
+  "update.downloading": "Dina-download ang SenStrap {0}… {1} sa {2} MB",
+  "update.restarting": "Na-install ang update. Nire-restart ang SenStrap…",
+  "update.failed": "Hindi na-update ang SenStrap. Bubuksan ang bersyong ito.",
+  "update.hint": "Mananatili ang settings, mods at Roblox mo",
+  "settings.autoUpdate": "Awtomatikong i-update ang SenStrap",
+  "settings.autoUpdateDesc": "Pagbukas, hahanap ang SenStrap ng bagong bersyon sa GitHub at ii-install ito. SenStrap lang ang papalitan: mananatili ang settings at Roblox."
 }

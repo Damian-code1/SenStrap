@@ -294,5 +294,12 @@
   "credits.thanksInspired": "Bloxstrap, Fishstrap, Froststrap에서 영감을 받았어요.",
   "credits.thanksData": "게임 이름과 아이콘은 Roblox 공개 API에서, 서버 위치는 ipinfo.io에서 가져와요.",
   "credits.thanksDiscord": "프로필 사진은 japi.rest를 통해 Discord에서 가져와요.",
-  "credits.disclaimer": "SenStrap은 Roblox Corporation과 관련이 없어요. Roblox는 Roblox Corporation의 상표예요."
+  "credits.disclaimer": "SenStrap은 Roblox Corporation과 관련이 없어요. Roblox는 Roblox Corporation의 상표예요.",
+  "update.checking": "업데이트 확인 중…",
+  "update.downloading": "SenStrap {0} 다운로드 중… {1}/{2} MB",
+  "update.restarting": "업데이트를 설치했어요. SenStrap을 다시 시작하는 중…",
+  "update.failed": "SenStrap을 업데이트하지 못했어요. 현재 버전으로 열게요.",
+  "update.hint": "설정, 모드, Roblox는 그대로 유지돼요",
+  "settings.autoUpdate": "SenStrap 자동 업데이트",
+  "settings.autoUpdateDesc": "열 때 GitHub에서 새 버전을 찾아 설치해요. SenStrap만 바뀌고 설정과 Roblox는 그대로예요."
 }

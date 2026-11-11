@@ -44,6 +44,9 @@ public class Settings
 
     // ---------- Lanzador ----------
 
+    /// <summary>Update SenStrap from GitHub when it opens.</summary>
+    public bool AutoUpdate { get; set; } = true;
+
     public bool ConfirmLaunch { get; set; } = true;
     public bool CloseCrashHandler { get; set; }
 

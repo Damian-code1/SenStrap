@@ -294,5 +294,12 @@
   "credits.thanksInspired": "灵感来自 Bloxstrap、Fishstrap 和 Froststrap。",
   "credits.thanksData": "游戏名称和图标来自 Roblox 公开 API，服务器位置来自 ipinfo.io。",
   "credits.thanksDiscord": "头像通过 japi.rest 从 Discord 获取。",
-  "credits.disclaimer": "SenStrap 与 Roblox Corporation 无关。Roblox 是 Roblox Corporation 的商标。"
+  "credits.disclaimer": "SenStrap 与 Roblox Corporation 无关。Roblox 是 Roblox Corporation 的商标。",
+  "update.checking": "正在检查更新…",
+  "update.downloading": "正在下载 SenStrap {0}… {1}/{2} MB",
+  "update.restarting": "更新已安装，正在重启 SenStrap…",
+  "update.failed": "无法更新 SenStrap，将打开当前版本。",
+  "update.hint": "你的设置、模组和 Roblox 都会保留",
+  "settings.autoUpdate": "自动更新 SenStrap",
+  "settings.autoUpdateDesc": "打开时会在 GitHub 上检查新版本并安装。只替换 SenStrap，设置和 Roblox 都会保留。"
 }
