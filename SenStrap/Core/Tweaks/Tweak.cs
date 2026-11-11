@@ -70,9 +70,15 @@ public abstract class Tweak
 }
 
 /// <summary>What a tweak needs while it runs: the saved backups and, for cleanups, how much space was freed.</summary>
-public sealed class TweakContext(TweakStore store)
+public sealed class TweakContext(TweakStore store, string? userSid = null)
 {
     public TweakStore Store { get; } = store;
+
+    /// <summary>
+    /// The Windows account the change is for. The elevated copy can run as another administrator account,
+    /// so the normal copy sends its own SID along.
+    /// </summary>
+    public string UserSid { get; } = userSid ?? System.Security.Principal.WindowsIdentity.GetCurrent().User?.Value ?? "";
 
     public long FreedBytes { get; set; }
 }

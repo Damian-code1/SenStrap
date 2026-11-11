@@ -301,5 +301,11 @@
   "update.failed": "无法更新 SenStrap，将打开当前版本。",
   "update.hint": "你的设置、模组和 Roblox 都会保留",
   "settings.autoUpdate": "自动更新 SenStrap",
-  "settings.autoUpdateDesc": "打开时会在 GitHub 上检查新版本并安装。只替换 SenStrap，设置和 Roblox 都会保留。"
+  "settings.autoUpdateDesc": "打开时会在 GitHub 上检查新版本并安装。只替换 SenStrap，设置和 Roblox 都会保留。",
+  "flags.fps": "FPS 计数器",
+  "flags.fpsDesc": "在 Roblox 左上角显示 FPS。由 SenStrap 叠加显示，不修改 Roblox。",
+  "flags.fpsAllow": "允许",
+  "flags.fpsNeedsAccess": "要统计帧数，Windows 需要允许 SenStrap 读取图形事件（与 Xbox Game Bar 相同），只需请求一次管理员权限。",
+  "flags.fpsSignOut": "快完成了：注销 Windows 后重新登录，计数器就会出现在 Roblox 中。",
+  "flags.fpsAllowed": "已允许。注销并重新登录 Windows 即可完成"
 }

@@ -34,6 +34,7 @@ SenStrap **doesn't modify the game**: it downloads the official Roblox client fr
 - **FastFlags**:
   - Quick settings with toggles: MSAA, voxelizer, gray sky, grass, mesh detail (slider), DPI scaling, rendering mode, Alt+Enter, quality level and textures. All of them use Roblox's allowlist.
   - Table editor: search, add, import/export JSON, copy, delete, profiles, and a ⚠ warning on flags Roblox ignores.
+  - **FPS counter**: shows Roblox's FPS in its top-left corner, below the top bar. Roblox's own FPS flag isn't on the allowlist anymore, so SenStrap draws the counter itself in a small click-through window and counts frames from Windows' graphics events (the DXGI *Present* event, same as Xbox Game Bar). Nothing is injected into Roblox. The first time, Windows asks once for administrator permission to add your account to *Performance Log Users*, then you sign out and back in. Works with Direct3D (the default), not with Vulkan or OpenGL, and isn't visible in exclusive fullscreen.
 - **Mods**: copies the files in `%LOCALAPPDATA%\SenStrap\Modifications` on top of Roblox. From the app you can set your own death sound (.ogg), cursor (.png) and Shift Lock icon (.png).
 - **Launcher**:
   - Asks before closing a Roblox window that's already open.
@@ -146,6 +147,7 @@ Note: Roblox only allows one window at a time. If you open a game with SenStrap 
 | `Core/Tweaks/TweakEngine.cs` | Applies and undoes tweaks; machine-wide ones run in an elevated copy of SenStrap (`-tweaks`) |
 | `Core/Tweaks/LaunchTweaks.cs` | Roblox options applied on every launch (GPU, priority, power throttling) |
 | `Core/Tweaks/Sys.cs` | Registry, commands and folders, with a test sandbox (`SENSTRAP_TWEAK_SANDBOX`) |
+| `Core/FpsMonitor.cs`, `UI/FpsOverlay.cs` | FPS counter: counts Roblox's frames from Windows' graphics events and draws them over Roblox |
 | `Core/AppUpdater.cs`, `UI/UpdateWindow.xaml` | Updates SenStrap from GitHub releases |
 | `Core/OwnerProfile.cs` | The developer's Discord profile on the Credits page |
 | `UI/TrayHost.cs` | System tray icon while you play |

@@ -301,5 +301,11 @@
   "update.failed": "Não foi possível atualizar o SenStrap. Esta versão será aberta.",
   "update.hint": "Suas configurações, mods e o Roblox continuam como estão",
   "settings.autoUpdate": "Atualizar o SenStrap automaticamente",
-  "settings.autoUpdateDesc": "Ao abrir, o SenStrap procura uma versão nova no GitHub e a instala. Só o SenStrap é substituído: suas configurações e o Roblox ficam."
+  "settings.autoUpdateDesc": "Ao abrir, o SenStrap procura uma versão nova no GitHub e a instala. Só o SenStrap é substituído: suas configurações e o Roblox ficam.",
+  "flags.fps": "Contador de FPS",
+  "flags.fpsDesc": "Mostra os FPS do Roblox no canto superior esquerdo. O SenStrap desenha por cima; o Roblox não é modificado.",
+  "flags.fpsAllow": "Permitir",
+  "flags.fpsNeedsAccess": "Para contar quadros, o Windows precisa deixar o SenStrap ler eventos gráficos (como a Xbox Game Bar). Pede permissão de administrador uma vez.",
+  "flags.fpsSignOut": "Quase pronto: saia do Windows e entre de novo, e o contador vai aparecer no Roblox.",
+  "flags.fpsAllowed": "Permitido. Saia do Windows e entre de novo para terminar"
 }

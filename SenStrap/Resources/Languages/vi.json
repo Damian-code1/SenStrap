@@ -301,5 +301,11 @@
   "update.failed": "Không thể cập nhật SenStrap. Phiên bản này sẽ được mở.",
   "update.hint": "Cài đặt, mod và Roblox của bạn vẫn giữ nguyên",
   "settings.autoUpdate": "Tự động cập nhật SenStrap",
-  "settings.autoUpdateDesc": "Khi mở, SenStrap tìm phiên bản mới trên GitHub và cài đặt. Chỉ SenStrap được thay: cài đặt và Roblox vẫn giữ nguyên."
+  "settings.autoUpdateDesc": "Khi mở, SenStrap tìm phiên bản mới trên GitHub và cài đặt. Chỉ SenStrap được thay: cài đặt và Roblox vẫn giữ nguyên.",
+  "flags.fps": "Bộ đếm FPS",
+  "flags.fpsDesc": "Hiện FPS của Roblox ở góc trên bên trái. SenStrap vẽ đè lên; Roblox không bị chỉnh sửa.",
+  "flags.fpsAllow": "Cho phép",
+  "flags.fpsNeedsAccess": "Để đếm khung hình, Windows cần cho SenStrap đọc sự kiện đồ họa (giống Xbox Game Bar). Chỉ hỏi quyền quản trị một lần.",
+  "flags.fpsSignOut": "Sắp xong: đăng xuất Windows rồi đăng nhập lại, bộ đếm sẽ hiện trong Roblox.",
+  "flags.fpsAllowed": "Đã cho phép. Đăng xuất rồi đăng nhập lại để hoàn tất"
 }

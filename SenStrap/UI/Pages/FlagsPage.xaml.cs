@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
 using SenStrap.Core;
+using SenStrap.Core.Tweaks;
 using static SenStrap.Core.FastFlagCatalog;
 
 namespace SenStrap.UI.Pages;
@@ -87,8 +88,46 @@ public partial class FlagsPage : ShellPage
         LoadPresets();
         RefreshEditor();
         RefreshProfiles();
+        FpsToggle.IsChecked = Shell.Settings.FpsCounter;
+        UpdateFpsNotice();
         _loading = false;
         ShowTab(EditorTab.IsChecked == true);
+    }
+
+    // ===================== FPS counter =====================
+
+    private void Fps_Click(object sender, RoutedEventArgs e)
+    {
+        if (_loading) return;
+        Shell.Settings.FpsCounter = FpsToggle.IsChecked == true;
+        UpdateFpsNotice();
+        Shell.MarkDirty();
+    }
+
+    /// <summary>Explains what's missing when the counter is on but Windows doesn't allow it yet.</summary>
+    private void UpdateFpsNotice()
+    {
+        bool on = Shell.Settings.FpsCounter;
+        bool access = FpsMonitor.HasAccess();
+        bool pendingSignOut = !access && TweakStore.Load().Backups.ContainsKey(TweakIds.FpsAccess);
+        FpsNotice.Visibility = on && !access ? Visibility.Visible : Visibility.Collapsed;
+        FpsNoticeText.Text = Lang.T(pendingSignOut ? "flags.fpsSignOut" : "flags.fpsNeedsAccess");
+        FpsAllowButton.Visibility = pendingSignOut ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private async void FpsAllow_Click(object sender, RoutedEventArgs e)
+    {
+        FpsAllowButton.IsEnabled = false;
+        var results = await TweakEngine.ExecuteAsync([new TweakOp(TweakIds.FpsAccess, true)]);
+        FpsAllowButton.IsEnabled = true;
+        var result = results.FirstOrDefault();
+        if (result is { Ok: true })
+            Shell.ShowToast(Lang.T("flags.fpsAllowed"));
+        else if (result?.Error == TweakEngine.Cancelled)
+            Shell.ShowToast(Lang.T("opt.uacDenied"), ok: false);
+        else
+            Shell.ShowToast(Lang.F("opt.failed", 1, result?.Error ?? ""), ok: false);
+        UpdateFpsNotice();
     }
 
     // ===================== Pestañas =====================

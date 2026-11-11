@@ -67,7 +67,6 @@ public partial class App : Application
         bool skipUpdate = e.Args.Any(a => a.Equals(AppUpdater.SkipArgument, StringComparison.OrdinalIgnoreCase));
         if (!skipUpdate && settings.AutoUpdate && AppUpdater.CanUpdate)
         {
-            ShutdownMode = ShutdownMode.OnExplicitShutdown;
             var update = await AppUpdater.CheckAsync();
             if (update is not null)
             {
@@ -83,7 +82,6 @@ public partial class App : Application
                     return;
                 }
             }
-            ShutdownMode = ShutdownMode.OnLastWindowClose;
         }
 
         SelfInstaller.UpdateInstalledCopy();
@@ -95,8 +93,11 @@ public partial class App : Application
             boot.Closed += (_, _) =>
             {
                 var current = Settings.Load();
+                var overlay = boot.Result is not null && current.FpsCounter ? FpsOverlay.Start() : null;
                 if (boot.Result is { } result && current.ActivityTracking)
                     new TrayHost(current, result).Start();
+                else if (overlay is not null)
+                    overlay.Closed += (_, _) => ShutdownAfter(boot.Result?.BackgroundUpdate);
                 else
                     ShutdownAfter(boot.Result?.BackgroundUpdate);
             };

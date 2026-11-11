@@ -301,5 +301,11 @@
   "update.failed": "SenStrap güncellenemedi. Bu sürüm açılacak.",
   "update.hint": "Ayarların, modların ve Roblox olduğu gibi kalır",
   "settings.autoUpdate": "SenStrap'i otomatik güncelle",
-  "settings.autoUpdateDesc": "SenStrap açılırken GitHub'da yeni sürüm arar ve yükler. Yalnızca SenStrap değişir: ayarların ve Roblox kalır."
+  "settings.autoUpdateDesc": "SenStrap açılırken GitHub'da yeni sürüm arar ve yükler. Yalnızca SenStrap değişir: ayarların ve Roblox kalır.",
+  "flags.fps": "FPS sayacı",
+  "flags.fpsDesc": "Roblox'un FPS'ini sol üst köşede gösterir. SenStrap üstüne çizer; Roblox değiştirilmez.",
+  "flags.fpsAllow": "İzin ver",
+  "flags.fpsNeedsAccess": "Kareleri saymak için Windows'un SenStrap'in grafik olaylarını okumasına izin vermesi gerekir (Xbox Game Bar gibi). Bir kez yönetici izni ister.",
+  "flags.fpsSignOut": "Neredeyse bitti: Windows oturumunu kapatıp yeniden aç, sayaç Roblox'ta görünecek.",
+  "flags.fpsAllowed": "İzin verildi. Bitirmek için oturumu kapatıp yeniden aç"
 }

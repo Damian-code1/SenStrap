@@ -301,5 +301,11 @@
   "update.failed": "Nie udało się zaktualizować SenStrap. Otworzy się ta wersja.",
   "update.hint": "Ustawienia, mody i Roblox zostają bez zmian",
   "settings.autoUpdate": "Aktualizuj SenStrap automatycznie",
-  "settings.autoUpdateDesc": "Po otwarciu SenStrap szuka nowej wersji na GitHubie i ją instaluje. Wymieniany jest tylko SenStrap: ustawienia i Roblox zostają."
+  "settings.autoUpdateDesc": "Po otwarciu SenStrap szuka nowej wersji na GitHubie i ją instaluje. Wymieniany jest tylko SenStrap: ustawienia i Roblox zostają.",
+  "flags.fps": "Licznik FPS",
+  "flags.fpsDesc": "Pokazuje FPS Roblox w lewym górnym rogu. Rysuje go SenStrap na wierzchu; Roblox nie jest modyfikowany.",
+  "flags.fpsAllow": "Zezwól",
+  "flags.fpsNeedsAccess": "Aby liczyć klatki, Windows musi pozwolić SenStrap czytać zdarzenia graficzne (jak Xbox Game Bar). Raz poprosi o uprawnienia administratora.",
+  "flags.fpsSignOut": "Prawie gotowe: wyloguj się z Windows i zaloguj ponownie, a licznik pojawi się w Roblox.",
+  "flags.fpsAllowed": "Zezwolono. Wyloguj się i zaloguj ponownie, aby dokończyć"
 }

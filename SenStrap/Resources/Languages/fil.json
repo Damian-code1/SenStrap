@@ -301,5 +301,11 @@
   "update.failed": "Hindi na-update ang SenStrap. Bubuksan ang bersyong ito.",
   "update.hint": "Mananatili ang settings, mods at Roblox mo",
   "settings.autoUpdate": "Awtomatikong i-update ang SenStrap",
-  "settings.autoUpdateDesc": "Pagbukas, hahanap ang SenStrap ng bagong bersyon sa GitHub at ii-install ito. SenStrap lang ang papalitan: mananatili ang settings at Roblox."
+  "settings.autoUpdateDesc": "Pagbukas, hahanap ang SenStrap ng bagong bersyon sa GitHub at ii-install ito. SenStrap lang ang papalitan: mananatili ang settings at Roblox.",
+  "flags.fps": "FPS counter",
+  "flags.fpsDesc": "Ipinapakita ang FPS ng Roblox sa kaliwang itaas. Iginuguhit ito ng SenStrap sa ibabaw; hindi binabago ang Roblox.",
+  "flags.fpsAllow": "Payagan",
+  "flags.fpsNeedsAccess": "Para mabilang ang frames, kailangang payagan ng Windows ang SenStrap na basahin ang graphics events (gaya ng Xbox Game Bar). Hihingi ito ng pahintulot ng administrator nang isang beses.",
+  "flags.fpsSignOut": "Halos tapos na: mag-sign out sa Windows at mag-sign in ulit, at lalabas ang counter sa Roblox.",
+  "flags.fpsAllowed": "Pinayagan. Mag-sign out at mag-sign in ulit para matapos"
 }

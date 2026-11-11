@@ -26,6 +26,9 @@ public class Settings
     /// <summary>Si es false, no se aplica ningún FastFlag.</summary>
     public bool ManageFastFlags { get; set; } = true;
 
+    /// <summary>FPS counter drawn by SenStrap over Roblox (not a FastFlag: Roblox's own one isn't allowed).</summary>
+    public bool FpsCounter { get; set; }
+
     /// <summary>Perfiles de FastFlags guardados por el usuario.</summary>
     public Dictionary<string, Dictionary<string, JsonElement>> FlagProfiles { get; set; } = new();
 

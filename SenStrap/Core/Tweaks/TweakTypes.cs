@@ -558,3 +558,45 @@ public sealed class CleanupTweak : Tweak
         return freed;
     }
 }
+
+/// <summary>Adds the user's account to a built-in Windows group (for the FPS counter: Performance Log Users).</summary>
+public sealed class GroupMembershipTweak : Tweak
+{
+    public required string GroupSid { get; init; }
+
+    private static string AccountName(string sid) =>
+        ((System.Security.Principal.NTAccount)new System.Security.Principal.SecurityIdentifier(sid)
+            .Translate(typeof(System.Security.Principal.NTAccount))).Value;
+
+    /// <summary>The group's name in this Windows language, without the "BUILTIN\" part.</summary>
+    private string GroupName()
+    {
+        string name = AccountName(GroupSid);
+        int cut = name.IndexOf('\\');
+        return cut >= 0 ? name[(cut + 1)..] : name;
+    }
+
+    // In the current session: membership only shows up after signing in again, so a saved change also counts
+    public override bool IsApplied(TweakContext context) =>
+        FpsMonitor.HasAccess() || context.Store.Backups.ContainsKey(Id);
+
+    public override void Apply(TweakContext context)
+    {
+        string account = AccountName(context.UserSid);
+        var (code, output) = Sys.Run("net.exe", $"localgroup \"{GroupName()}\" \"{account}\" /add");
+        bool alreadyMember = output.Contains("1378", StringComparison.Ordinal);
+        if (code != 0 && !alreadyMember) throw new Exception(output.Trim());
+        if (!context.Store.Backups.ContainsKey(Id))
+            context.Store.Backups[Id] = new TweakBackup { Extra = { ["added"] = alreadyMember ? "0" : "1", ["sid"] = context.UserSid } };
+    }
+
+    public override void Revert(TweakContext context)
+    {
+        if (context.Store.Backups.TryGetValue(Id, out var backup) && backup.Extra.GetValueOrDefault("added") == "1")
+        {
+            string account = AccountName(backup.Extra.GetValueOrDefault("sid") ?? context.UserSid);
+            Sys.Run("net.exe", $"localgroup \"{GroupName()}\" \"{account}\" /delete");
+        }
+        context.Store.Backups.Remove(Id);
+    }
+}

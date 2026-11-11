@@ -301,5 +301,11 @@
   "update.failed": "SenStrap を更新できませんでした。このバージョンで起動します。",
   "update.hint": "設定、Mod、Roblox はそのまま残ります",
   "settings.autoUpdate": "SenStrap を自動更新",
-  "settings.autoUpdateDesc": "起動時に GitHub で新しいバージョンを確認してインストールします。置き換わるのは SenStrap だけで、設定と Roblox は残ります。"
+  "settings.autoUpdateDesc": "起動時に GitHub で新しいバージョンを確認してインストールします。置き換わるのは SenStrap だけで、設定と Roblox は残ります。",
+  "flags.fps": "FPS カウンター",
+  "flags.fpsDesc": "Roblox の左上に FPS を表示します。SenStrap が上に描画するだけで、Roblox は変更しません。",
+  "flags.fpsAllow": "許可",
+  "flags.fpsNeedsAccess": "フレームを数えるには、Windows が SenStrap にグラフィックイベントの読み取りを許可する必要があります（Xbox Game Bar と同じ）。管理者の許可を一度だけ求めます。",
+  "flags.fpsSignOut": "あと少しです。Windows からサインアウトして再度サインインすると、Roblox にカウンターが表示されます。",
+  "flags.fpsAllowed": "許可しました。サインアウトして再度サインインすると完了します"
 }

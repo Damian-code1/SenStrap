@@ -10,6 +10,7 @@ public static class TweakIds
     public const string RobloxEcoQos = "roblox.ecoqos";
     public const string RobloxFso = "roblox.fso";
     public const string RobloxDpi = "roblox.dpi";
+    public const string FpsAccess = "roblox.fpsaccess";
 }
 
 /// <summary>
@@ -114,6 +115,15 @@ public static class TweakCatalog
             Description = "Roblox renders at native resolution even with 125% scaling or more.",
             DescriptionEs = "Roblox se dibuja a resolución nativa aunque Windows use una escala del 125 % o más.",
             OnChange = LaunchTweaks.Refresh,
+        });
+        list.Add(new GroupMembershipTweak
+        {
+            Id = TweakIds.FpsAccess, Category = TweakCategory.Roblox, Admin = true, Note = TweakNote.SignOut,
+            GroupSid = FpsMonitor.PerformanceLogUsersSid,
+            Name = "Allow the FPS counter",
+            NameEs = "Permitir el contador de FPS",
+            Description = "Adds your account to Windows' Performance Log Users group so SenStrap can count Roblox's frames, the same way Xbox Game Bar does. Roblox isn't touched.",
+            DescriptionEs = "Añade tu cuenta al grupo Usuarios del registro de rendimiento de Windows para que SenStrap pueda contar los fotogramas de Roblox, igual que la Xbox Game Bar. Roblox no se toca.",
         });
         list.Add(new CleanupTweak
         {

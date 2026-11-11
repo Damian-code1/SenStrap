@@ -12,6 +12,9 @@ public sealed record TweakResult(string Id, bool Ok, string? Error = null, long 
 public sealed class ElevatedRequest
 {
     public List<TweakOp> Ops { get; set; } = new();
+
+    /// <summary>SID of the account that asked for the changes.</summary>
+    public string? UserSid { get; set; }
     public Dictionary<string, TweakBackup> Backups { get; set; } = new();
 }
 
@@ -47,7 +50,7 @@ public static class TweakEngine
     }
 
     /// <summary>Runs the changes in this process.</summary>
-    public static List<TweakResult> RunHere(IEnumerable<TweakOp> ops, TweakStore store)
+    public static List<TweakResult> RunHere(IEnumerable<TweakOp> ops, TweakStore store, string? userSid = null)
     {
         var results = new List<TweakResult>();
         foreach (var op in ops)
@@ -59,7 +62,7 @@ public static class TweakEngine
                 continue;
             }
 
-            var context = new TweakContext(store);
+            var context = new TweakContext(store, userSid);
             try
             {
                 if (op.Apply) tweak.Apply(context);
@@ -122,7 +125,7 @@ public static class TweakEngine
         Directory.CreateDirectory(dir);
         try
         {
-            var request = new ElevatedRequest { Ops = ops };
+            var request = new ElevatedRequest { Ops = ops, UserSid = System.Security.Principal.WindowsIdentity.GetCurrent().User?.Value };
             foreach (var key in ops.Select(o => o.Id).Concat(SharedKeys(store.Backups)))
             {
                 if (store.Backups.TryGetValue(key, out var backup))
@@ -186,7 +189,8 @@ public static class TweakEngine
             var request = JsonStore.Load<ElevatedRequest>(path);
             var store = new TweakStore { Backups = request.Backups };
             var ops = request.Ops.Where(o => TweakCatalog.Find(o.Id) is { Admin: true }).ToList();
-            var response = new ElevatedResponse { Results = RunHere(ops, store) };
+            string? userSid = request.UserSid is { } sid && IsSid(sid) ? sid : null;
+            var response = new ElevatedResponse { Results = RunHere(ops, store, userSid) };
             foreach (var key in ops.Select(o => o.Id).Concat(SharedKeys(store.Backups)))
             {
                 if (store.Backups.TryGetValue(key, out var backup))
@@ -200,6 +204,12 @@ public static class TweakEngine
             Logger.Error("Elevated tweaks failed", ex);
             return 1;
         }
+    }
+
+    private static bool IsSid(string value)
+    {
+        try { _ = new System.Security.Principal.SecurityIdentifier(value); return true; }
+        catch { return false; }
     }
 
     /// <summary>Backups shared by several tweaks (the power plan one), passed along with any request.</summary>

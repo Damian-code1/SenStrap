@@ -301,5 +301,11 @@
   "update.failed": "SenStrap gagal diperbarui. Versi ini yang akan dibuka.",
   "update.hint": "Pengaturan, mod, dan Roblox tetap seperti semula",
   "settings.autoUpdate": "Perbarui SenStrap otomatis",
-  "settings.autoUpdateDesc": "Saat dibuka, SenStrap mencari versi baru di GitHub dan memasangnya. Hanya SenStrap yang diganti: pengaturan dan Roblox tetap."
+  "settings.autoUpdateDesc": "Saat dibuka, SenStrap mencari versi baru di GitHub dan memasangnya. Hanya SenStrap yang diganti: pengaturan dan Roblox tetap.",
+  "flags.fps": "Penghitung FPS",
+  "flags.fpsDesc": "Menampilkan FPS Roblox di pojok kiri atas. Digambar oleh SenStrap di atasnya; Roblox tidak diubah.",
+  "flags.fpsAllow": "Izinkan",
+  "flags.fpsNeedsAccess": "Untuk menghitung frame, Windows harus mengizinkan SenStrap membaca event grafis (seperti Xbox Game Bar). Meminta izin administrator sekali.",
+  "flags.fpsSignOut": "Hampir selesai: keluar dari Windows lalu masuk lagi, dan penghitung akan muncul di Roblox.",
+  "flags.fpsAllowed": "Diizinkan. Keluar lalu masuk lagi ke Windows untuk menyelesaikan"
 }
