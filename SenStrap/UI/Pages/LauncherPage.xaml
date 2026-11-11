@@ -1,0 +1,50 @@
+<ui:ShellPage x:Class="SenStrap.UI.Pages.LauncherPage"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:ui="clr-namespace:SenStrap.UI"
+              xmlns:controls="clr-namespace:SenStrap.UI.Controls">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel x:Name="Root" Margin="32,26,32,24">
+            <TextBlock Text="{ui:Loc launcher.title}" Style="{StaticResource PageTitle}" />
+            <TextBlock Text="{ui:Loc launcher.subtitle}" Style="{StaticResource PageSubtitle}" />
+
+            <TextBlock Text="{ui:Loc launcher.onLaunch}" Style="{StaticResource SectionTitle}" Margin="2,0,0,10" />
+            <controls:SettingRow Icon="&#xE7BA;" Title="{ui:Loc launcher.confirm}" Description="{ui:Loc launcher.confirmDesc}">
+                <CheckBox x:Name="ConfirmToggle" Style="{StaticResource Toggle}" Click="Changed" />
+            </controls:SettingRow>
+            <controls:SettingRow Icon="&#xE711;" Title="{ui:Loc launcher.crash}" Description="{ui:Loc launcher.crashDesc}">
+                <CheckBox x:Name="CrashToggle" Style="{StaticResource Toggle}" Click="Changed" />
+            </controls:SettingRow>
+            <controls:SettingRow Icon="&#xE896;" Title="{ui:Loc launcher.bgUpdates}" Description="{ui:Loc launcher.bgUpdatesDesc}">
+                <CheckBox x:Name="BackgroundToggle" Style="{StaticResource Toggle}" Click="Changed" />
+            </controls:SettingRow>
+
+            <TextBlock Text="{ui:Loc launcher.compat}" Style="{StaticResource SectionTitle}" />
+            <controls:SettingRow Icon="&#xE740;" Title="{ui:Loc launcher.fso}" Description="{ui:Loc launcher.fsoDesc}">
+                <CheckBox x:Name="FsoToggle" Style="{StaticResource Toggle}" Click="Changed" />
+            </controls:SettingRow>
+            <controls:SettingRow Icon="&#xE7F4;" Title="{ui:Loc launcher.dpi}" Description="{ui:Loc launcher.dpiDesc}">
+                <CheckBox x:Name="DpiToggle" Style="{StaticResource Toggle}" Click="Changed" />
+            </controls:SettingRow>
+
+            <TextBlock Text="{ui:Loc launcher.cleaner}" Style="{StaticResource SectionTitle}" />
+            <controls:SettingRow Icon="&#xE74D;" Title="{ui:Loc launcher.cleanerWhen}" Description="{ui:Loc launcher.cleanerWhenDesc}">
+                <ComboBox x:Name="CleanerCombo" Style="{StaticResource Combo}" SelectionChanged="Changed">
+                    <ComboBoxItem Content="{ui:Loc launcher.never}" Tag="0" />
+                    <ComboBoxItem Content="{ui:Loc launcher.day1}" Tag="1" />
+                    <ComboBoxItem Content="{ui:Loc launcher.day7}" Tag="7" />
+                    <ComboBoxItem Content="{ui:Loc launcher.day30}" Tag="30" />
+                </ComboBox>
+            </controls:SettingRow>
+            <controls:SettingRow Icon="&#xE896;" Title="{ui:Loc launcher.cleanDownloads}" Description="{ui:Loc launcher.cleanDownloadsDesc}">
+                <CheckBox x:Name="CleanDownloadsToggle" Style="{StaticResource Toggle}" Click="Changed" />
+            </controls:SettingRow>
+            <controls:SettingRow Icon="&#xE8A5;" Title="{ui:Loc launcher.cleanRobloxLogs}" Description="{ui:Loc launcher.cleanRobloxLogsDesc}">
+                <CheckBox x:Name="CleanRobloxLogsToggle" Style="{StaticResource Toggle}" Click="Changed" />
+            </controls:SettingRow>
+            <controls:SettingRow Icon="&#xE8A5;" Title="{ui:Loc launcher.cleanAppLogs}" Description="{ui:Loc launcher.cleanAppLogsDesc}">
+                <CheckBox x:Name="CleanAppLogsToggle" Style="{StaticResource Toggle}" Click="Changed" />
+            </controls:SettingRow>
+        </StackPanel>
+    </ScrollViewer>
+</ui:ShellPage>

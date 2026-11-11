@@ -1,0 +1,31 @@
+<ui:ShellPage x:Class="SenStrap.UI.Pages.IntegrationsPage"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:ui="clr-namespace:SenStrap.UI"
+              xmlns:controls="clr-namespace:SenStrap.UI.Controls">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel x:Name="Root" Margin="32,26,32,24">
+            <TextBlock Text="{ui:Loc integrations.title}" Style="{StaticResource PageTitle}" />
+            <TextBlock Text="{ui:Loc integrations.subtitle}" Style="{StaticResource PageSubtitle}" />
+
+            <controls:SettingRow Icon="&#xE7C4;" Title="{ui:Loc integrations.tracking}" Description="{ui:Loc integrations.trackingDesc}">
+                <CheckBox x:Name="TrackingToggle" Style="{StaticResource Toggle}" Click="Changed" />
+            </controls:SettingRow>
+
+            <StackPanel x:Name="Dependent" Margin="26,0,0,0">
+                <controls:SettingRow Icon="&#xE774;" Title="{ui:Loc integrations.location}" Description="{ui:Loc integrations.locationDesc}">
+                    <CheckBox x:Name="LocationToggle" Style="{StaticResource Toggle}" Click="Changed" />
+                </controls:SettingRow>
+                <controls:SettingRow Icon="&#xE916;" Title="{ui:Loc integrations.playtime}" Description="{ui:Loc integrations.playtimeDesc}">
+                    <CheckBox x:Name="PlaytimeToggle" Style="{StaticResource Toggle}" Click="Changed" />
+                </controls:SettingRow>
+                <controls:SettingRow Icon="&#xE81C;" Title="{ui:Loc integrations.history}" Description="{ui:Loc integrations.historyDesc}">
+                    <CheckBox x:Name="HistoryToggle" Style="{StaticResource Toggle}" Click="Changed" />
+                </controls:SettingRow>
+                <controls:SettingRow Icon="&#xE72C;" Title="{ui:Loc integrations.autoRejoin}" Description="{ui:Loc integrations.autoRejoinDesc}">
+                    <CheckBox x:Name="AutoRejoinToggle" Style="{StaticResource Toggle}" Click="Changed" />
+                </controls:SettingRow>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</ui:ShellPage>

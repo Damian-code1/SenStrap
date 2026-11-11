@@ -1,0 +1,102 @@
+<ui:ShellPage x:Class="SenStrap.UI.Pages.ModsPage"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:ui="clr-namespace:SenStrap.UI"
+              xmlns:controls="clr-namespace:SenStrap.UI.Controls">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel x:Name="Root" Margin="32,26,32,24">
+            <TextBlock Text="{ui:Loc mods.title}" Style="{StaticResource PageTitle}" />
+            <TextBlock Text="{ui:Loc mods.subtitle}" Style="{StaticResource PageSubtitle}" />
+
+            <UniformGrid Columns="2">
+                <Button Style="{StaticResource CardAction}" Margin="0,0,6,0" Click="OpenFolder_Click">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Border Style="{StaticResource IconBox}">
+                            <TextBlock Text="&#xE8B7;" Style="{StaticResource IconGlyph}" />
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{ui:Loc mods.openFolder}" Style="{StaticResource CardTitle}" />
+                            <TextBlock Text="{ui:Loc mods.openFolderDesc}" Style="{StaticResource CardDesc}" />
+                        </StackPanel>
+                    </Grid>
+                </Button>
+                <Button Style="{StaticResource CardAction}" Margin="6,0,0,0" Click="RemoveAll_Click">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Border Style="{StaticResource IconBox}" Background="#26FF6B7A">
+                            <TextBlock Text="&#xE74D;" Style="{StaticResource IconGlyph}" Foreground="{StaticResource ErrorBrush}" />
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{ui:Loc mods.removeAll}" Style="{StaticResource CardTitle}" />
+                            <TextBlock Text="{ui:Loc mods.removeAllDesc}" Style="{StaticResource CardDesc}" />
+                        </StackPanel>
+                    </Grid>
+                </Button>
+            </UniformGrid>
+
+            <TextBlock Text="{ui:Loc mods.customize}" Style="{StaticResource SectionTitle}" />
+
+            <controls:SettingRow x:Name="DeathRow" Icon="&#xE767;" Title="{ui:Loc mods.death}">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="DeathReset" Style="{StaticResource GhostButton}" Content="{ui:Loc common.remove}" Margin="0,0,6,0" Click="Reset_Click" Tag="death" />
+                    <Button Style="{StaticResource SecondaryButton}" Click="Pick_Click" Tag="death">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8E5;" Style="{StaticResource BtnIcon}" />
+                            <TextBlock Text="{ui:Loc mods.pickOgg}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </controls:SettingRow>
+
+            <controls:SettingRow x:Name="CursorRow" Icon="&#xE7C9;" Title="{ui:Loc mods.cursor}">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="CursorReset" Style="{StaticResource GhostButton}" Content="{ui:Loc common.remove}" Margin="0,0,6,0" Click="Reset_Click" Tag="cursor" />
+                    <Button Style="{StaticResource SecondaryButton}" Click="Pick_Click" Tag="cursor">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8E5;" Style="{StaticResource BtnIcon}" />
+                            <TextBlock Text="{ui:Loc mods.pickPng}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </controls:SettingRow>
+
+            <controls:SettingRow x:Name="ShiftRow" Icon="&#xE72E;" Title="{ui:Loc mods.shiftlock}">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="ShiftReset" Style="{StaticResource GhostButton}" Content="{ui:Loc common.remove}" Margin="0,0,6,0" Click="Reset_Click" Tag="shift" />
+                    <Button Style="{StaticResource SecondaryButton}" Click="Pick_Click" Tag="shift">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8E5;" Style="{StaticResource BtnIcon}" />
+                            <TextBlock Text="{ui:Loc mods.pickPng}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </controls:SettingRow>
+
+            <TextBlock Text="{ui:Loc mods.active}" Style="{StaticResource SectionTitle}" />
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock x:Name="NoMods" Style="{StaticResource CardDesc}" Text="{ui:Loc mods.none}" />
+                    <ItemsControl x:Name="ModList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="0,3">
+                                    <TextBlock Text="&#xE8A5;" FontFamily="{StaticResource IconFont}" FontSize="13"
+                                               Foreground="{StaticResource AccentSolidBrush}" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding}" Margin="10,0,0,0" FontFamily="Cascadia Mono, Consolas"
+                                               FontSize="12.5" Foreground="{StaticResource TextBrush}" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</ui:ShellPage>

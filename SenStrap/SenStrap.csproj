@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <!-- Solo para el icono de la bandeja del sistema -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>SenStrap</AssemblyName>
+    <RootNamespace>SenStrap</RootNamespace>
+    <ApplicationIcon>Resources\senstrap.ico</ApplicationIcon>
+    <Version>1.2.0</Version>
+    <Product>SenStrap</Product>
+    <Company>SenStrap</Company>
+    <Description>Launcher alternativo para Roblox</Description>
+    <Copyright>SenStrap</Copyright>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <!-- Al publicar en Release se genera un único SenStrap.exe que no necesita nada instalado -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <!-- WinForms y WPF tienen clases con el mismo nombre (Button, Application...): no se importan solas -->
+  <ItemGroup>
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\senstrap.ico" />
+    <Resource Include="Resources\logo.png" />
+    <Resource Include="Resources\logo-texto.png" />
+    <!-- Idiomas: Resources\Languages\<código>.json -->
+    <EmbeddedResource Include="Resources\Languages\*.json" LogicalName="Languages.%(Filename).json" />
+  </ItemGroup>
+
+</Project>

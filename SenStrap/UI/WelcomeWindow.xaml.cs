@@ -1,0 +1,94 @@
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using SenStrap.Core;
+
+namespace SenStrap.UI;
+
+/// <summary>Primera vez que se abre SenStrap: elegir idioma.</summary>
+public partial class WelcomeWindow : Window
+{
+    private string _selected;
+
+    /// <summary>true si el usuario pulsó Continuar.</summary>
+    public bool Accepted { get; private set; }
+
+    public WelcomeWindow()
+    {
+        InitializeComponent();
+        _selected = Lang.Current;
+
+        var settings = Settings.Load();
+        Backdrop.ParticleEffect = settings.Effect;
+        Backdrop.Interactive = true;
+
+        foreach (var language in Lang.All)
+        {
+            var card = new RadioButton
+            {
+                Style = (Style)FindResource("LangCard"),
+                GroupName = "Languages",
+                Tag = language.Code,
+                IsChecked = language.Code == _selected,
+                Content = new StackPanel
+                {
+                    Children =
+                    {
+                        new TextBlock { Text = language.NativeName, FontSize = 15, FontWeight = FontWeights.SemiBold, Foreground = (Brush)FindResource("TextBrush") },
+                        new TextBlock { Text = language.EnglishName, FontSize = 12, Foreground = (Brush)FindResource("MutedBrush"), Margin = new Thickness(0, 2, 0, 0) },
+                    },
+                },
+            };
+            card.Checked += (_, _) => Select(language.Code);
+            LanguageGrid.Children.Add(card);
+        }
+        UpdateTexts();
+
+        Clipped.SizeChanged += (_, _) =>
+            Clipped.Clip = new RectangleGeometry(new Rect(0, 0, Clipped.ActualWidth, Clipped.ActualHeight), 22, 22);
+
+        Loaded += (_, _) =>
+        {
+            Anim.PopIn(Frame, 0.9, 520);
+            Anim.Float(Logo, 5, 2.8);
+            Anim.Pulse(Halo);
+            Anim.SpinBorder(GlowBorder, 7);
+            Anim.FadeIn(TitleText, 12, 420, 120);
+            Anim.FadeIn(SubtitleText, 12, 420, 200);
+            Anim.Cascade(LanguageGrid, 35, 20);
+        };
+    }
+
+    private void Select(string code)
+    {
+        _selected = code;
+        Lang.Load(code);
+        UpdateTexts();
+        Anim.FadeIn(TitleText, 6, 240);
+    }
+
+    private void UpdateTexts()
+    {
+        TitleText.Text = Lang.T("welcome.title");
+        SubtitleText.Text = Lang.T("welcome.subtitle");
+        ContinueText.Text = Lang.T("welcome.continue");
+    }
+
+    private void Continue_Click(object sender, RoutedEventArgs e)
+    {
+        var settings = Settings.Load();
+        settings.Language = _selected;
+        settings.Save();
+        Accepted = true;
+        Close();
+    }
+
+    private void Close_Click(object sender, RoutedEventArgs e) => Close();
+
+    private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ChangedButton == MouseButton.Left && e.OriginalSource is not TextBlock)
+            DragMove();
+    }
+}

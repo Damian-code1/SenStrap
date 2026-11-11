@@ -1,0 +1,74 @@
+<Window x:Class="SenStrap.UI.WelcomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:SenStrap.UI.Controls"
+        Title="SenStrap" Width="900" Height="630"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        FontFamily="{StaticResource UiFont}" Icon="/SenStrap;component/Resources/senstrap.ico">
+
+    <Grid x:Name="Frame" Margin="24">
+        <Border CornerRadius="22" Background="{StaticResource BgBrush}">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="32" ShadowDepth="0" Opacity="0.65" Color="Black" />
+            </Border.Effect>
+        </Border>
+
+        <Grid x:Name="Clipped" MouseLeftButtonDown="Window_MouseDown">
+            <controls:AnimatedBackground x:Name="Backdrop" />
+            <Border x:Name="GlowBorder" CornerRadius="22" BorderThickness="1.5">
+                <Border.BorderBrush>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Offset="0" Color="#AAFFB547" />
+                        <GradientStop Offset="0.35" Color="#22FFFFFF" />
+                        <GradientStop Offset="0.65" Color="#22FFFFFF" />
+                        <GradientStop Offset="1" Color="#AAFF2E7A" />
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+            </Border>
+
+            <Button Style="{StaticResource TitleBarCloseButton}" Content="&#xE8BB;" HorizontalAlignment="Right" VerticalAlignment="Top"
+                    Margin="0,8,10,0" Click="Close_Click" />
+
+            <Grid Margin="40,30,40,26">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="LogoBox" Width="88" Height="88" HorizontalAlignment="Center">
+                    <Ellipse x:Name="Halo" Width="180" Height="180" Margin="-46" IsHitTestVisible="False">
+                        <Ellipse.Fill>
+                            <RadialGradientBrush>
+                                <GradientStop Offset="0" Color="#99FF5B3A" />
+                                <GradientStop Offset="0.45" Color="#3DFF2E7A" />
+                                <GradientStop Offset="1" Color="#00FF2E7A" />
+                            </RadialGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Image x:Name="Logo" Source="/SenStrap;component/Resources/logo.png" RenderOptions.BitmapScalingMode="HighQuality" />
+                </Grid>
+
+                <TextBlock x:Name="TitleText" Grid.Row="1" HorizontalAlignment="Center" Margin="0,16,0,0" FontSize="28"
+                           FontWeight="Bold" Foreground="White" />
+                <TextBlock x:Name="SubtitleText" Grid.Row="2" HorizontalAlignment="Center" Margin="0,4,0,18" FontSize="15"
+                           Foreground="{StaticResource MutedBrush}" />
+
+                <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto">
+                    <UniformGrid x:Name="LanguageGrid" Columns="4" VerticalAlignment="Top" />
+                </ScrollViewer>
+
+                <Button x:Name="ContinueButton" Grid.Row="4" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Right"
+                        Margin="0,18,0,0" FontSize="15" Padding="30,12" Click="Continue_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock x:Name="ContinueText" />
+                        <TextBlock Text="&#xE76C;" Style="{StaticResource BtnIcon}" Margin="10,0,0,0" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

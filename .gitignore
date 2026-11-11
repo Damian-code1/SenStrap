@@ -1,0 +1,11 @@
+# Compilación
+bin/
+obj/
+publish/
+publish-ligero/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.user
+*.suo

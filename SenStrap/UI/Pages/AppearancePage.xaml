@@ -1,0 +1,56 @@
+<ui:ShellPage x:Class="SenStrap.UI.Pages.AppearancePage"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:ui="clr-namespace:SenStrap.UI"
+              xmlns:controls="clr-namespace:SenStrap.UI.Controls">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel x:Name="Root" Margin="32,26,32,24">
+            <TextBlock Text="{ui:Loc appearance.title}" Style="{StaticResource PageTitle}" />
+            <TextBlock Text="{ui:Loc appearance.subtitle}" Style="{StaticResource PageSubtitle}" />
+
+            <TextBlock Text="{ui:Loc appearance.effects}" Style="{StaticResource SectionTitle}" Margin="2,0,0,10" />
+
+            <controls:SettingRow Icon="&#xE790;" Title="{ui:Loc appearance.effect}" Description="{ui:Loc appearance.effectDesc}">
+                <ComboBox x:Name="EffectCombo" Style="{StaticResource Combo}" SelectionChanged="Effect_Changed">
+                    <ComboBoxItem Content="{ui:Loc effect.snow}" Tag="Nieve" />
+                    <ComboBoxItem Content="{ui:Loc effect.embers}" Tag="Brasas" />
+                    <ComboBoxItem Content="{ui:Loc effect.stars}" Tag="Estrellas" />
+                    <ComboBoxItem Content="{ui:Loc effect.none}" Tag="Ninguno" />
+                </ComboBox>
+            </controls:SettingRow>
+
+            <controls:SettingRow Icon="&#xE7C9;" Title="{ui:Loc appearance.interactive}" Description="{ui:Loc appearance.interactiveDesc}">
+                <CheckBox x:Name="InteractiveToggle" Style="{StaticResource Toggle}" Click="Toggle_Click" />
+            </controls:SettingRow>
+
+            <controls:SettingRow Icon="&#xE945;" Title="{ui:Loc appearance.animations}" Description="{ui:Loc appearance.animationsDesc}">
+                <CheckBox x:Name="AnimationsToggle" Style="{StaticResource Toggle}" Click="Toggle_Click" />
+            </controls:SettingRow>
+
+            <controls:SettingRow Icon="&#xE7F4;" Title="{ui:Loc appearance.launcherFx}" Description="{ui:Loc appearance.launcherFxDesc}">
+                <CheckBox x:Name="LauncherEffectToggle" Style="{StaticResource Toggle}" Click="Toggle_Click" />
+            </controls:SettingRow>
+
+            <TextBlock Text="{ui:Loc appearance.preview}" Style="{StaticResource SectionTitle}" />
+
+            <Button Style="{StaticResource CardAction}" Click="Preview_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border Style="{StaticResource IconBox}">
+                        <TextBlock Text="&#xE768;" Style="{StaticResource IconGlyph}" />
+                    </Border>
+                    <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+                        <TextBlock Text="{ui:Loc appearance.previewTitle}" Style="{StaticResource CardTitle}" />
+                        <TextBlock Text="{ui:Loc appearance.previewDesc}" Style="{StaticResource CardDesc}" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2" Text="&#xE76C;" FontFamily="{StaticResource IconFont}" FontSize="14"
+                               Foreground="{StaticResource MutedBrush}" VerticalAlignment="Center" Margin="12,0,4,0" />
+                </Grid>
+            </Button>
+        </StackPanel>
+    </ScrollViewer>
+</ui:ShellPage>

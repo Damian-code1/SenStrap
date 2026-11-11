@@ -1,0 +1,57 @@
+<UserControl x:Class="SenStrap.UI.Controls.AnimatedBackground"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SenStrap.UI.Controls"
+             IsHitTestVisible="False">
+    <Grid ClipToBounds="True">
+        <!-- Fondo azul noche -->
+        <Rectangle>
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#171B42" />
+                    <GradientStop Offset="0.5" Color="#0D0F25" />
+                    <GradientStop Offset="1" Color="#090A18" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <!-- Aurora: manchas de color que se mueven despacio -->
+        <Canvas x:Name="Aurora">
+            <Ellipse x:Name="Blob1">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Offset="0" Color="#47FF6A3A" />
+                        <GradientStop Offset="1" Color="#00FF6A3A" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+                <Ellipse.RenderTransform>
+                    <TranslateTransform />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <Ellipse x:Name="Blob2">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Offset="0" Color="#3DFF2E7A" />
+                        <GradientStop Offset="1" Color="#00FF2E7A" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+                <Ellipse.RenderTransform>
+                    <TranslateTransform />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <Ellipse x:Name="Blob3">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Offset="0" Color="#384A5BFF" />
+                        <GradientStop Offset="1" Color="#004A5BFF" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+                <Ellipse.RenderTransform>
+                    <TranslateTransform />
+                </Ellipse.RenderTransform>
+            </Ellipse>
+        </Canvas>
+
+        <controls:ParticleCanvas x:Name="Particles" />
+    </Grid>
+</UserControl>
