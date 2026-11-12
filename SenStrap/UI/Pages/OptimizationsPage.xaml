@@ -57,7 +57,7 @@
 
             <!-- Pending changes -->
             <Border x:Name="PendingBar" VerticalAlignment="Bottom" Margin="32,0,32,16" Padding="16,10" CornerRadius="8"
-                    Background="#1E2130" BorderBrush="#3A3F55" BorderThickness="1" Visibility="Collapsed">
+                    Background="#1B1229" BorderBrush="#3F2E5C" BorderThickness="1" Visibility="Collapsed">
                 <DockPanel>
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                         <Button x:Name="DiscardButton" Style="{StaticResource GhostButton}" Content="{ui:Loc opt.discard}" Click="Discard_Click" />

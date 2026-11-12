@@ -86,7 +86,7 @@
 
                 <!-- Unsaved changes (only while there are some) -->
                 <Border x:Name="DirtyBar" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,18"
-                        Padding="18,9,9,9" CornerRadius="8" Background="#1E2130" BorderBrush="#3A3F55" BorderThickness="1"
+                        Padding="18,9,9,9" CornerRadius="8" Background="#1B1229" BorderBrush="#3F2E5C" BorderThickness="1"
                         Visibility="Collapsed">
                     <StackPanel Orientation="Horizontal">
                         <Ellipse Width="7" Height="7" Fill="{StaticResource WarnBrush}" VerticalAlignment="Center" />
@@ -98,7 +98,7 @@
 
                 <!-- Toast -->
                 <Border x:Name="Toast" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,76"
-                        Padding="14,9" CornerRadius="6" Background="#1E2130" BorderBrush="#33374A"
+                        Padding="14,9" CornerRadius="6" Background="#1B1229" BorderBrush="#3A2B54"
                         BorderThickness="1" Visibility="Collapsed" IsHitTestVisible="False">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock x:Name="ToastIcon" FontFamily="{StaticResource IconFont}" FontSize="13" VerticalAlignment="Center" />
@@ -114,7 +114,7 @@
                 <Image Source="/SenStrap;component/Resources/logo.png" Width="76" Height="76" RenderOptions.BitmapScalingMode="HighQuality" />
                 <TextBlock Text="SenStrap" Margin="0,16,0,0" FontSize="24" FontWeight="SemiBold" HorizontalAlignment="Center"
                            Foreground="{StaticResource TextBrush}" />
-                <Border Width="132" Height="2" Margin="0,18,0,0" CornerRadius="1" Background="#24273A">
+                <Border Width="132" Height="2" Margin="0,18,0,0" CornerRadius="1" Background="#2B1F42">
                     <Border x:Name="IntroBar" Width="0" HorizontalAlignment="Left" CornerRadius="1" Background="{StaticResource AccentBrush}" />
                 </Border>
             </StackPanel>

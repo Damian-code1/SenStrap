@@ -82,7 +82,7 @@ public partial class OptimizationsPage : ShellPage
             TextTrimming = TextTrimming.None,
             VerticalAlignment = VerticalAlignment.Center,
         });
-        if (tweak.Recommended) titleLine.Children.Add(Badge(Lang.T("opt.badge.recommended"), "AccentTintBrush", "AccentBrush"));
+        if (tweak.Recommended) titleLine.Children.Add(Badge(Lang.T("opt.badge.recommended"), "AccentTintBrush", "AccentTextBrush"));
         if (tweak.Admin) titleLine.Children.Add(Badge(Lang.T("opt.badge.admin"), null, "MutedBrush", ""));
         if (tweak.Caution) titleLine.Children.Add(Badge(Lang.T("opt.badge.caution"), null, "WarnBrush"));
         string? note = tweak.Note switch
@@ -172,7 +172,7 @@ public partial class OptimizationsPage : ShellPage
         return new Border
         {
             Style = (Style)FindResource("Badge"),
-            Background = backgroundKey is null ? new SolidColorBrush(Color.FromRgb(0x20, 0x23, 0x32)) : (Brush)FindResource(backgroundKey),
+            Background = backgroundKey is null ? new SolidColorBrush(Color.FromRgb(0x22, 0x18, 0x36)) : (Brush)FindResource(backgroundKey),
             Child = content,
         };
     }

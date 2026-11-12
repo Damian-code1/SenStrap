@@ -47,7 +47,7 @@ SenStrap **doesn't modify the game**: it downloads the official Roblox client fr
   - Game history with **Rejoin**.
   - Auto rejoin: if Roblox loses connection to the server (error 277, 266 or 279), it waits a few seconds in case it reconnects on its own; if not, it closes the disconnected Roblox and rejoins the same server. Never after a kick (267), the anti-cheat (268) or a session opened elsewhere (273). At most 3 times every 15 minutes.
 - **Interface**:
-  - Flat design with one accent color, a grouped sidebar with a **Play** button always at hand, and rounded window corners on Windows 11.
+  - Black and dark violet gradients with a violet accent, a grouped sidebar with a **Play** button always at hand, and rounded window corners on Windows 11.
   - Home dashboard: your last game with its Roblox thumbnail and a **Rejoin** button, playtime, games played, FastFlags and optimizations at a glance, and your recent games.
   - No Save/Close bar in the way: a bar with **Save** and **Discard** only shows up when you have unsaved changes.
   - Snow falling behind the windows, with depth (small, dim flakes far away; large, soft ones up close), slow wind gusts and its own sway for every flake.

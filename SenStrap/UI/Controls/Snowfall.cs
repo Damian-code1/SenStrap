@@ -213,8 +213,8 @@ public sealed class Snowfall : FrameworkElement
 
     private static Brush[][] BuildBrushes()
     {
-        // Far flakes are slightly blue (they are seen through more air)
-        var colors = new[] { Color.FromRgb(214, 226, 250), Color.FromRgb(238, 243, 255), Color.FromRgb(255, 255, 255) };
+        // Far flakes are slightly lavender (they are seen through more of the violet air)
+        var colors = new[] { Color.FromRgb(218, 208, 250), Color.FromRgb(240, 236, 255), Color.FromRgb(255, 255, 255) };
         var result = new Brush[3][];
         for (int layer = 0; layer < 3; layer++)
         {

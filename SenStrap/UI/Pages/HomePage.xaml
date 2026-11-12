@@ -16,7 +16,7 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Border Style="{StaticResource IconBox}">
-                        <TextBlock Text="&#xE896;" Style="{StaticResource IconGlyph}" Foreground="{StaticResource AccentBrush}" />
+                        <TextBlock Text="&#xE896;" Style="{StaticResource IconGlyph}" Foreground="{StaticResource AccentTextBrush}" />
                     </Border>
                     <StackPanel Grid.Column="1" Margin="14,0,18,0" VerticalAlignment="Center">
                         <TextBlock Text="{ui:Loc home.notInstalled}" Style="{StaticResource CardTitle}" />
@@ -35,7 +35,7 @@
 
             <!-- Banner: last game (or ready to play) -->
             <Grid Height="236">
-                <Border CornerRadius="10" Background="#171925" />
+                <Border CornerRadius="10" Background="#150D22" />
                 <Border CornerRadius="10" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
                     <Border.Background>
                         <ImageBrush x:Name="HeroImage" Stretch="UniformToFill" AlignmentY="Center" />
@@ -45,9 +45,9 @@
                 <Border CornerRadius="10">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Offset="0" Color="#FA101119" />
-                            <GradientStop Offset="0.5" Color="#C0101119" />
-                            <GradientStop Offset="1" Color="#30101119" />
+                            <GradientStop Offset="0" Color="#FA0B0713" />
+                            <GradientStop Offset="0.5" Color="#C00B0713" />
+                            <GradientStop Offset="1" Color="#300B0713" />
                         </LinearGradientBrush>
                     </Border.Background>
                 </Border>
@@ -56,10 +56,10 @@
                        RenderOptions.BitmapScalingMode="HighQuality" />
 
                 <StackPanel VerticalAlignment="Bottom" Margin="28,0,28,24" MaxWidth="560" HorizontalAlignment="Left">
-                    <TextBlock x:Name="HeroLabel" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" />
+                    <TextBlock x:Name="HeroLabel" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AccentTextBrush}" />
                     <TextBlock x:Name="HeroTitle" FontFamily="{StaticResource DisplayFont}" FontSize="28" FontWeight="SemiBold"
                                Foreground="White" Margin="0,4,0,0" TextTrimming="CharacterEllipsis" />
-                    <TextBlock x:Name="HeroDetails" FontSize="13" Foreground="#C9CBD6" Margin="0,4,0,16" TextWrapping="Wrap" />
+                    <TextBlock x:Name="HeroDetails" FontSize="13" Foreground="#CFC8DD" Margin="0,4,0,16" TextWrapping="Wrap" />
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="HeroRejoin" Style="{StaticResource PrimaryButton}" Padding="18,9" Click="Rejoin_Click">
                             <StackPanel Orientation="Horizontal">
