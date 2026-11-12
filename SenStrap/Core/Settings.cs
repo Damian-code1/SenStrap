@@ -44,6 +44,9 @@ public class Settings
 
     // ---------- Lanzador ----------
 
+    /// <summary>Values for Roblox's own settings file, written before every launch (Roblox Settings tab).</summary>
+    public Dictionary<string, string> RobloxSettings { get; set; } = new();
+
     /// <summary>Update SenStrap from GitHub when it opens.</summary>
     public bool AutoUpdate { get; set; } = true;
 

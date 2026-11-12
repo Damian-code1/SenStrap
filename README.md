@@ -24,17 +24,20 @@ SenStrap **doesn't modify the game**: it downloads the official Roblox client fr
 - Registers itself as the handler for `roblox://` and `roblox-player:` links, so the **Play** button on roblox.com opens Roblox through SenStrap.
 - Downloads and installs the latest Roblox version into `%LOCALAPPDATA%\SenStrap\Versions` and checks the MD5 hash of every package.
 - **16 languages**, chosen the first time you open it (and in Settings): English, Español, Português (Brasil), Français, Deutsch, Italiano, Русский, Українська, Polski, Türkçe, Bahasa Indonesia, Filipino, Tiếng Việt, 日本語, 한국어 and 简体中文.
-- **Optimizations**: 72 tweaks for Windows and Roblox in 10 categories (Roblox, gaming, mouse and keyboard, visual effects, privacy and ads, system, power, services, File Explorer and taskbar, cleanup).
+- **Optimizations**: 107 tweaks for Windows and Roblox in 10 categories (Roblox, gaming, mouse and keyboard, visual effects, privacy and ads, system, power, services, File Explorer and taskbar, cleanup).
   - Every change can be undone. Before changing anything, SenStrap saves how it was in `Tweaks.json`. **Undo all** puts back the exact previous values, including keys that didn't exist before.
-  - **Apply recommended** turns on the 40 tweaks that are safe for everyone. Tweaks with side effects are marked **Read first**.
+  - **Apply recommended** turns on the 49 tweaks that are safe for everyone. Tweaks with side effects are marked **Read first**.
   - Roblox options are applied every time SenStrap opens Roblox: high-performance GPU, above-normal CPU priority, no power throttling in the background, fullscreen optimizations and display scaling.
   - Tweaks that change the whole PC (services, power plans, system policies) need administrator rights. Windows asks once per batch, and only those tweaks run elevated.
   - Badges tell you when a change applies (next time Roblox opens, after restarting Explorer or the PC). Explorer can be restarted from the page.
   - Cleanup: temporary files (older than a day), GPU shader caches, crash dumps, error reports, Roblox's cache and logs, and the DNS cache. Files in use are skipped.
 - **FastFlags**:
+  - Presets: **Max performance**, **Balanced**, **Quality** and **Reset**, made only of flags on Roblox's allowlist (Roblox ignores every other flag, so SenStrap doesn't offer them).
   - Quick settings with toggles: MSAA, voxelizer, gray sky, grass, mesh detail (slider), DPI scaling, rendering mode, Alt+Enter, quality level and textures. All of them use Roblox's allowlist.
   - Table editor: search, add, import/export JSON, copy, delete, profiles, and a ⚠ warning on flags Roblox ignores.
+- **Roblox Settings** tab: Roblox's own in-game settings (maximum frame rate up to Roblox's 240, graphics quality, fullscreen, volumes, camera sensitivity, performance stats, chat, player names and more). SenStrap writes them into Roblox's settings file before every launch, so they stick even if Roblox resets them, and only touches the values you change.
 - **Mods**: copies the files in `%LOCALAPPDATA%\SenStrap\Modifications` on top of Roblox. From the app you can set your own death sound (.ogg), cursor (.png) and Shift Lock icon (.png).
+  - **Avatar Editor**: replace the classic torso, arm and leg meshes with your own `.mesh` files (and export the originals to edit them), plus a **Headless** toggle that deletes `content\avatar\heads` on every install. Only on your screen, and everything stays when Roblox updates.
 - **Launcher**:
   - Asks before closing a Roblox window that's already open.
   - Closes the Crash Handler.
@@ -44,7 +47,7 @@ SenStrap **doesn't modify the game**: it downloads the official Roblox client fr
   - Activity tracking by reading Roblox's logs.
   - Server location (looks up the server IP on ipinfo.io).
   - Playtime counter.
-  - Game history with **Rejoin**.
+  - Game history with **Rejoin**, and a desktop shortcut for any game (with the game's icon) that opens it through SenStrap.
   - Auto rejoin: if Roblox loses connection to the server (error 277, 266 or 279), it waits a few seconds in case it reconnects on its own; if not, it closes the disconnected Roblox and rejoins the same server. Never after a kick (267), the anti-cheat (268) or a session opened elsewhere (273). At most 3 times every 15 minutes.
 - **Interface**:
   - Black and dark violet gradients with a violet accent, a grouped sidebar with a **Play** button always at hand, and rounded window corners on Windows 11.
@@ -54,6 +57,7 @@ SenStrap **doesn't modify the game**: it downloads the official Roblox client fr
   - A short intro with the logo when SenStrap opens. Click or press any key to skip it.
   - Snow and the intro can be turned off in **Appearance**.
 - **Credits** page with the developer's Discord profile.
+- **Backup and restore**: save your settings, FastFlags, Roblox settings, history and mods in a .zip and bring them back on any PC.
 - **Updates itself**: when it opens, SenStrap checks the latest GitHub release. If there's a newer version it shows *Downloading SenStrap…*, checks the file against the SHA-256 in the release notes, replaces only `SenStrap.exe` and opens again where you were (including a game you clicked on roblox.com). Settings, mods, FastFlags, optimizations and the installed Roblox are kept. Can be turned off in Settings.
 - Creates shortcuts (the desktop one opens SenStrap) and shows up in *Settings > Apps* so it can be uninstalled.
 - Only writes to `HKEY_CURRENT_USER` and `%LOCALAPPDATA%`, without administrator rights. The one exception is the machine-wide optimizations, which you apply yourself and which ask for permission first.
@@ -149,11 +153,13 @@ Note: Roblox only allows one window at a time. If you open a game with SenStrap 
 | `Core/Tweaks/LaunchTweaks.cs` | Roblox options applied on every launch (GPU, priority, power throttling) |
 | `Core/Tweaks/Sys.cs` | Registry, commands and folders, with a test sandbox (`SENSTRAP_TWEAK_SANDBOX`) |
 | `Core/AppUpdater.cs`, `UI/UpdateWindow.xaml` | Updates SenStrap from GitHub releases |
+| `Core/RobloxGameSettings.cs` | Reads and writes Roblox's own settings file (Roblox Settings tab) |
+| `Core/Backup.cs` | Backup and restore |
 | `Core/OwnerProfile.cs` | The developer's Discord profile on the Credits page |
 | `UI/TrayHost.cs` | System tray icon while you play |
 | `UI/WelcomeWindow.xaml` | Welcome screen with language selection |
 | `UI/MainWindow.xaml` | Main window: intro, title bar, sidebar, bottom bar and toasts |
-| `UI/Pages/` | The pages: Home, Launcher, Integrations, History, Optimizations, FastFlags, Mods, Appearance, Settings and Credits |
+| `UI/Pages/` | The pages: Home, Launcher, Integrations, History, Optimizations, FastFlags, Roblox Settings, Mods, Appearance, Settings and Credits |
 | `UI/BootstrapperWindow.xaml` | Loading window with the progress bar |
 | `UI/Controls/Snowfall.cs` | The snow |
 | `UI/Controls/SettingRow.cs` | Reusable settings row (icon, title, description and control) |

@@ -11,6 +11,7 @@ public static class TweakIds
     public const string RobloxFso = "roblox.fso";
     public const string RobloxDpi = "roblox.dpi";
     public const string FpsAccess = "roblox.fpsaccess";
+    public const string RobloxPriorityHigh = "roblox.priorityhigh";
 }
 
 /// <summary>
@@ -66,6 +67,7 @@ public static class TweakCatalog
         AddServices(list);
         AddExplorer(list);
         AddCleanup(list);
+        AddMore(list);
         return list;
     }
 
@@ -84,7 +86,7 @@ public static class TweakCatalog
         });
         list.Add(new LaunchOptionTweak
         {
-            Id = TweakIds.RobloxPriority, Category = TweakCategory.Roblox, Recommended = true, Note = TweakNote.NextLaunch,
+            Id = TweakIds.RobloxPriority, Category = TweakCategory.Roblox, Recommended = true, Note = TweakNote.NextLaunch, ExclusiveGroup = "priority",
             Name = "Above-normal CPU priority",
             NameEs = "Prioridad de CPU superior a la normal",
             Description = "Roblox gets the processor first when other programs are busy in the background.",
@@ -867,6 +869,333 @@ public static class TweakCatalog
             {
                 if (!Native.DnsFlushResolverCache()) throw new Exception("DnsFlushResolverCache failed");
             },
+        });
+    }
+
+    // ---------- 2.0 additions ----------
+
+    private static void AddMore(List<Tweak> list)
+    {
+        const string RunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
+        const string Explorer = @"Software\Microsoft\Windows\CurrentVersion\Explorer";
+
+        list.Add(new LaunchOptionTweak
+        {
+            Id = TweakIds.RobloxPriorityHigh, Category = TweakCategory.Roblox, Note = TweakNote.NextLaunch, Caution = true, ExclusiveGroup = "priority",
+            Name = "High CPU priority",
+            NameEs = "Prioridad de CPU alta",
+            Description = "Stronger than above-normal. Roblox gets the processor before almost everything else; other apps can feel slower while you play.",
+            DescriptionEs = "Más fuerte que superior a la normal. Roblox usa el procesador antes que casi todo; otras apps pueden ir más lentas mientras juegas.",
+        });
+
+        // Gaming
+        list.Add(new RegistryTweak
+        {
+            Id = "gaming.ducking", Category = TweakCategory.Gaming, Recommended = true,
+            Name = "Don't lower game volume during calls",
+            NameEs = "No bajar el volumen del juego en llamadas",
+            Description = "Windows stops turning Roblox down by 80% when Discord or another app uses the microphone.",
+            DescriptionEs = "Windows deja de bajar Roblox un 80 % cuando Discord u otra app usa el micrófono.",
+            Values = [Cu(@"Software\Microsoft\Multimedia\Audio", "UserDuckingPreference", 3, absentMeans: 1)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "gaming.fsoglobal", Category = TweakCategory.Gaming, Caution = true, Note = TweakNote.NextLaunch,
+            Name = "Disable fullscreen optimizations for all games",
+            NameEs = "Desactivar optimizaciones de pantalla completa en todos los juegos",
+            Description = "Games in exclusive fullscreen use real exclusive mode. Can lower input lag; Alt+Tab gets slower.",
+            DescriptionEs = "Los juegos en pantalla completa exclusiva usan el modo exclusivo real. Puede bajar el retraso; Alt+Tab va más lento.",
+            Values =
+            [
+                Cu(@"System\GameConfigStore", "GameDVR_FSEBehaviorMode", 2, absentMeans: 0),
+                Cu(@"System\GameConfigStore", "GameDVR_FSEBehavior", 2, absentMeans: 0),
+                Cu(@"System\GameConfigStore", "GameDVR_HonorUserFSEBehaviorMode", 1, absentMeans: 0),
+                Cu(@"System\GameConfigStore", "GameDVR_DXGIHonorFSEWindowsCompatible", 1, absentMeans: 0),
+            ],
+        });
+
+        // Mouse and keyboard
+        list.Add(new RegistryTweak
+        {
+            Id = "input.langhotkey", Category = TweakCategory.Input, Recommended = true, Note = TweakNote.SignOut,
+            Name = "No keyboard layout switch with Alt+Shift",
+            NameEs = "Sin cambio de distribución con Alt+Mayús",
+            Description = "Alt+Shift and Ctrl+Shift no longer switch the keyboard language in the middle of a game.",
+            DescriptionEs = "Alt+Mayús y Ctrl+Mayús ya no cambian el idioma del teclado en mitad de una partida.",
+            Values =
+            [
+                CuText(@"Keyboard Layout\Toggle", "Hotkey", "3", def: "1"),
+                CuText(@"Keyboard Layout\Toggle", "Language Hotkey", "3", def: "1"),
+                CuText(@"Keyboard Layout\Toggle", "Layout Hotkey", "3", def: "2"),
+            ],
+        });
+        list.Add(new FlagBitTweak
+        {
+            Id = "input.highcontrast", Category = TweakCategory.Input, Recommended = true,
+            Key = $@"{Accessibility}\HighContrast", Bit = 0x4, DefaultFlags = 126,
+            Name = "No High Contrast shortcut",
+            NameEs = "Sin atajo de Contraste alto",
+            Description = "Left Alt + Left Shift + Print Screen no longer switches the screen to high contrast.",
+            DescriptionEs = "Alt izq. + Mayús izq. + Impr Pant ya no cambia la pantalla a contraste alto.",
+        });
+        list.Add(new FlagBitTweak
+        {
+            Id = "input.mousekeys", Category = TweakCategory.Input, Recommended = true,
+            Key = $@"{Accessibility}\MouseKeys", Bit = 0x4, DefaultFlags = 62,
+            Name = "No Mouse Keys shortcut",
+            NameEs = "Sin atajo de Teclas del mouse",
+            Description = "Left Alt + Left Shift + Num Lock no longer turns on Mouse Keys.",
+            DescriptionEs = "Alt izq. + Mayús izq. + Bloq Num ya no activa las Teclas del mouse.",
+        });
+
+        // Visual effects
+        list.Add(new RegistryTweak
+        {
+            Id = "visual.hover", Category = TweakCategory.Visual, Note = TweakNote.SignOut,
+            Name = "Faster hover popups",
+            NameEs = "Ventanas emergentes más rápidas",
+            Description = "Taskbar previews and tooltips appear after 100 ms instead of 400 ms.",
+            DescriptionEs = "Las vistas previas de la barra de tareas y las ayudas aparecen a los 100 ms en lugar de 400 ms.",
+            Values = [CuText(Mouse, "MouseHoverTime", "100", absentMeans: "400", def: "400")],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "visual.shake", Category = TweakCategory.Visual, Note = TweakNote.Explorer,
+            Name = "Turn off Aero Shake",
+            NameEs = "Desactivar Aero Shake",
+            Description = "Shaking a window by its title bar no longer minimizes all the others.",
+            DescriptionEs = "Agitar una ventana por su barra de título ya no minimiza todas las demás.",
+            Values = [Cu(ExplorerAdvanced, "DisallowShaking", 1, absentMeans: 0)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "visual.snapassist", Category = TweakCategory.Visual,
+            Name = "No Snap Assist suggestions",
+            NameEs = "Sin sugerencias de Snap Assist",
+            Description = "Snapping a window to one side no longer shows other windows to fill the rest.",
+            DescriptionEs = "Acoplar una ventana a un lado ya no muestra otras ventanas para llenar el resto.",
+            Values = [Cu(ExplorerAdvanced, "SnapAssist", 0, absentMeans: 1)],
+        });
+
+        // Privacy and ads
+        list.Add(new RegistryTweak
+        {
+            Id = "privacy.recentdocs", Category = TweakCategory.Privacy, Note = TweakNote.Explorer,
+            Name = "Don't show recent files in Start",
+            NameEs = "No mostrar archivos recientes en Inicio",
+            Description = "Start and Jump Lists stop listing the files you opened recently.",
+            DescriptionEs = "Inicio y las listas de accesos rápidos dejan de mostrar los archivos que abriste.",
+            Values = [Cu(ExplorerAdvanced, "Start_TrackDocs", 0, absentMeans: 1)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "privacy.quickaccess", Category = TweakCategory.Privacy, Note = TweakNote.Explorer,
+            Name = "No recent items in Quick Access",
+            NameEs = "Sin elementos recientes en Acceso rápido",
+            Description = "File Explorer's Home stops showing recent files and frequent folders.",
+            DescriptionEs = "El inicio del Explorador deja de mostrar archivos recientes y carpetas frecuentes.",
+            Values = [Cu(Explorer, "ShowRecent", 0, absentMeans: 1), Cu(Explorer, "ShowFrequent", 0, absentMeans: 1)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "privacy.cloudclipboard", Category = TweakCategory.Privacy,
+            Name = "Don't sync the clipboard to the cloud",
+            NameEs = "No sincronizar el portapapeles en la nube",
+            Description = "What you copy isn't uploaded to share with your other devices.",
+            DescriptionEs = "Lo que copias no se sube para compartirlo con tus otros dispositivos.",
+            Values = [Cu(@"Software\Microsoft\Clipboard", "EnableCloudClipboard", 0, absentMeans: 0)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "privacy.location", Category = TweakCategory.Privacy, Caution = true,
+            Name = "Turn off location for apps",
+            NameEs = "Desactivar la ubicación para las apps",
+            Description = "Apps can't use your location. Weather, maps and Find my device won't know where you are.",
+            DescriptionEs = "Las apps no pueden usar tu ubicación. El tiempo, los mapas y Buscar mi dispositivo no sabrán dónde estás.",
+            Values = [CuText(@"Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location", "Value", "Deny", absentMeans: "Allow", def: "Allow")],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "privacy.onedrive", Category = TweakCategory.Privacy, Caution = true,
+            Name = "Don't start OneDrive with Windows",
+            NameEs = "No iniciar OneDrive con Windows",
+            Description = "Saves memory and bandwidth while you play. Files only sync after you open OneDrive yourself.",
+            DescriptionEs = "Ahorra memoria y conexión mientras juegas. Los archivos solo se sincronizan cuando abras OneDrive.",
+            Values = [new RegValue(Hive.HKCU, RunKey, "OneDrive", RegValue.Delete, RegistryValueKind.String)],
+            Available = () => Sys.GetValue(Hive.HKCU, RunKey, "OneDrive") is not null || TweakStore.Load().Backups.ContainsKey("privacy.onedrive"),
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "privacy.edge", Category = TweakCategory.Privacy, Admin = true, Caution = true,
+            Name = "Stop Edge running in the background",
+            NameEs = "Que Edge no se ejecute en segundo plano",
+            Description = "Edge no longer preloads at startup or keeps running after you close it. Saves memory. Edge will say it's managed by your organization.",
+            DescriptionEs = "Edge deja de precargarse al iniciar y de seguir abierto al cerrarlo. Ahorra memoria. Edge dirá que lo administra tu organización.",
+            Values =
+            [
+                Lm(@"SOFTWARE\Policies\Microsoft\Edge", "StartupBoostEnabled", 0),
+                Lm(@"SOFTWARE\Policies\Microsoft\Edge", "BackgroundModeEnabled", 0),
+            ],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "privacy.cortana", Category = TweakCategory.Privacy, Admin = true, Recommended = true,
+            Name = "Turn off Cortana",
+            NameEs = "Desactivar Cortana",
+            Description = "Cortana stops running in the background (Windows 10).",
+            DescriptionEs = "Cortana deja de ejecutarse en segundo plano (Windows 10).",
+            Values = [Lm(@"SOFTWARE\Policies\Microsoft\Windows\Windows Search", "AllowCortana", 0, absentMeans: 1)],
+        });
+
+        // File Explorer and taskbar
+        list.Add(new RegistryTweak
+        {
+            Id = "explorer.hidden", Category = TweakCategory.Explorer, Note = TweakNote.Explorer,
+            Name = "Show hidden files",
+            NameEs = "Mostrar archivos ocultos",
+            Description = "File Explorer shows hidden files and folders, like AppData.",
+            DescriptionEs = "El Explorador muestra los archivos y carpetas ocultos, como AppData.",
+            Values = [Cu(ExplorerAdvanced, "Hidden", 1, absentMeans: 2, def: 2)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "explorer.thispc", Category = TweakCategory.Explorer,
+            Name = "Open File Explorer to This PC",
+            NameEs = "Abrir el Explorador en Este equipo",
+            Description = "File Explorer opens on your drives instead of Home or Quick Access.",
+            DescriptionEs = "El Explorador se abre en tus unidades en lugar de Inicio o Acceso rápido.",
+            Values = [Cu(ExplorerAdvanced, "LaunchTo", 1, absentMeans: 2)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "explorer.searchbox", Category = TweakCategory.Explorer, Note = TweakNote.Explorer,
+            Name = "Hide the taskbar search box",
+            NameEs = "Ocultar el cuadro de búsqueda de la barra de tareas",
+            Description = "More room on the taskbar. Press Windows and type to search.",
+            DescriptionEs = "Más espacio en la barra de tareas. Pulsa Windows y escribe para buscar.",
+            Values = [Cu(@"Software\Microsoft\Windows\CurrentVersion\Search", "SearchboxTaskbarMode", 0, absentMeans: 2)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "explorer.taskview", Category = TweakCategory.Explorer, Note = TweakNote.Explorer,
+            Name = "Hide the Task View button",
+            NameEs = "Ocultar el botón Vista de tareas",
+            Description = "Win+Tab still works.",
+            DescriptionEs = "Win+Tab sigue funcionando.",
+            Values = [Cu(ExplorerAdvanced, "ShowTaskViewButton", 0, absentMeans: 1)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "explorer.seconds", Category = TweakCategory.Explorer, Note = TweakNote.Explorer,
+            Name = "Show seconds in the taskbar clock",
+            NameEs = "Mostrar segundos en el reloj",
+            Description = "Handy for timing things in games.",
+            DescriptionEs = "Útil para cronometrar cosas en los juegos.",
+            Values = [Cu(ExplorerAdvanced, "ShowSecondsInSystemClock", 1, absentMeans: 0)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "explorer.shortcuttext", Category = TweakCategory.Explorer, Note = TweakNote.Explorer,
+            Name = "No \"- Shortcut\" on new shortcuts",
+            NameEs = "Sin \"- Acceso directo\" en los accesos nuevos",
+            Description = "New shortcuts keep just the program's name.",
+            DescriptionEs = "Los accesos directos nuevos se quedan solo con el nombre del programa.",
+            Values = [new RegValue(Hive.HKCU, Explorer, "link", new byte[] { 0, 0, 0, 0 }, RegistryValueKind.Binary)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "explorer.autoplay", Category = TweakCategory.Explorer, Recommended = true,
+            Name = "Turn off AutoPlay",
+            NameEs = "Desactivar la reproducción automática",
+            Description = "USB drives and discs no longer open or run anything by themselves. Safer.",
+            DescriptionEs = "Los USB y discos ya no abren ni ejecutan nada por sí solos. Más seguro.",
+            Values = [Cu($@"{Explorer}\AutoplayHandlers", "DisableAutoplay", 1, absentMeans: 0)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "explorer.leftalign", Category = TweakCategory.Explorer,
+            Name = "Taskbar icons on the left",
+            NameEs = "Iconos de la barra de tareas a la izquierda",
+            Description = "Start and the taskbar icons go back to the left, like Windows 10.",
+            DescriptionEs = "Inicio y los iconos de la barra de tareas vuelven a la izquierda, como en Windows 10.",
+            Values = [Cu(ExplorerAdvanced, "TaskbarAl", 0, absentMeans: 1)],
+            Available = () => IsWindows11,
+        });
+
+        // System
+        list.Add(new RegistryTweak
+        {
+            Id = "system.remoteassist", Category = TweakCategory.System, Admin = true, Recommended = true,
+            Name = "Turn off Remote Assistance",
+            NameEs = "Desactivar Asistencia remota",
+            Description = "Nobody can be invited to control your PC through Remote Assistance. Safer; many scams use it.",
+            DescriptionEs = "Nadie puede ser invitado a controlar tu PC con Asistencia remota. Más seguro; lo usan muchas estafas.",
+            Values = [Lm(@"SYSTEM\CurrentControlSet\Control\Remote Assistance", "fAllowToGetHelp", 0, absentMeans: 1, def: 1)],
+        });
+        list.Add(new RegistryTweak
+        {
+            Id = "system.ipv4", Category = TweakCategory.System, Admin = true, Caution = true, Note = TweakNote.Restart,
+            Name = "Prefer IPv4 over IPv6",
+            NameEs = "Preferir IPv4 sobre IPv6",
+            Description = "Can help with routers that handle IPv6 badly. IPv6 still works when it's the only option.",
+            DescriptionEs = "Puede ayudar con routers que manejan mal IPv6. IPv6 sigue funcionando cuando es la única opción.",
+            Values = [Lm(@"SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters", "DisabledComponents", 0x20)],
+        });
+
+        // Services
+        list.Add(Service("services.semgr", "SEMgrSvc", 4, 3, recommended: true,
+            "Payments and NFC service", "Servicio de pagos y NFC",
+            "Tap-to-pay on PCs with NFC.", "Pagos sin contacto en PCs con NFC."));
+        list.Add(Service("services.ajrouter", "AJRouter", 4, 3, recommended: true,
+            "AllJoyn Router service", "Servicio de enrutador AllJoyn",
+            "Old smart-home device protocol almost nothing uses.", "Protocolo antiguo de dispositivos domésticos que casi nada usa."));
+        list.Add(Service("services.wisvc", "wisvc", 4, 3, recommended: false,
+            "Windows Insider service", "Servicio de Windows Insider",
+            "Only needed if you get Windows Insider preview builds.", "Solo hace falta si recibes versiones de prueba de Windows Insider.", caution: true));
+        list.Add(Service("services.icssvc", "icssvc", 4, 3, recommended: false,
+            "Mobile hotspot service", "Servicio de zona con cobertura móvil",
+            "Only if you never share your PC's connection as a hotspot.", "Solo si nunca compartes la conexión del PC como zona Wi-Fi.", caution: true));
+        list.Add(Service("services.lfsvc", "lfsvc", 4, 3, recommended: false,
+            "Geolocation service", "Servicio de geolocalización",
+            "Apps can't get your location at all.", "Las apps no pueden obtener tu ubicación.", caution: true));
+
+        // Cleanup
+        list.Add(new CleanupTweak
+        {
+            Id = "cleanup.wucache", Category = TweakCategory.Cleanup, Admin = true, MinAgeHours = 72,
+            Name = "Windows Update downloads",
+            NameEs = "Descargas de Windows Update",
+            Description = "Update files older than three days. Windows downloads again whatever it still needs.",
+            DescriptionEs = "Archivos de actualizaciones de hace más de tres días. Windows vuelve a bajar lo que necesite.",
+            Folders = () => [Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "SoftwareDistribution", "Download")],
+        });
+        list.Add(new CleanupTweak
+        {
+            Id = "cleanup.docache", Category = TweakCategory.Cleanup, Admin = true,
+            Name = "Delivery Optimization cache",
+            NameEs = "Caché de Optimización de distribución",
+            Description = "Update pieces Windows kept to share with other PCs.",
+            DescriptionEs = "Trozos de actualizaciones que Windows guardaba para compartir con otros PCs.",
+            Folders = () => [Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "ServiceProfiles", "NetworkService",
+                "AppData", "Local", "Microsoft", "Windows", "DeliveryOptimization", "Cache")],
+        });
+        list.Add(new CleanupTweak
+        {
+            Id = "cleanup.inetcache", Category = TweakCategory.Cleanup,
+            Name = "Internet cache",
+            NameEs = "Caché de Internet",
+            Description = "Temporary internet files used by Windows and older apps.",
+            DescriptionEs = "Archivos temporales de Internet que usan Windows y apps antiguas.",
+            Folders = () => [Path.Combine(LocalAppData, "Microsoft", "Windows", "INetCache")],
+        });
+        list.Add(new CleanupTweak
+        {
+            Id = "cleanup.thumbcache", Category = TweakCategory.Cleanup,
+            Name = "Thumbnail and icon cache",
+            NameEs = "Caché de miniaturas e iconos",
+            Description = "Fixes wrong or blank thumbnails and icons. Windows rebuilds the cache as you browse.",
+            DescriptionEs = "Arregla miniaturas e iconos incorrectos o en blanco. Windows rehace la caché al navegar.",
+            Folders = () => [Path.Combine(LocalAppData, "Microsoft", "Windows", "Explorer")],
         });
     }
 

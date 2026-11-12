@@ -128,6 +128,7 @@ public partial class MainWindow : Window, IShell
                 "History" => new HistoryPage(this),
                 "Optimizations" => new OptimizationsPage(this),
                 "Flags" => new FlagsPage(this),
+                "GameSettings" => new GameSettingsPage(this),
                 "Mods" => new ModsPage(this),
                 "Appearance" => new AppearancePage(this),
                 "Settings" => new SettingsPage(this),
@@ -205,6 +206,7 @@ public partial class MainWindow : Window, IShell
     private bool SaveAll()
     {
         Settings.Save();
+        RobloxGameSettings.Apply(Settings.RobloxSettings);
         SetDirty(false);
         ShowToast(Lang.T("common.saved"));
         return true;

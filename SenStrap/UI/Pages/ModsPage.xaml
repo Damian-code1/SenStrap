@@ -79,6 +79,14 @@
                 </StackPanel>
             </controls:SettingRow>
 
+            <!-- Avatar Editor -->
+            <TextBlock Text="{ui:Loc mods.avatar}" Style="{StaticResource SectionTitle}" />
+            <TextBlock Text="{ui:Loc mods.avatarDesc}" Style="{StaticResource CardDesc}" Margin="2,-2,0,10" />
+            <controls:SettingRow x:Name="HeadlessRow" Icon="&#xE77B;" Title="{ui:Loc mods.headless}">
+                <CheckBox x:Name="HeadlessToggle" Style="{StaticResource Toggle}" Click="Headless_Click" />
+            </controls:SettingRow>
+            <StackPanel x:Name="BodyPartsPanel" />
+
             <TextBlock Text="{ui:Loc mods.active}" Style="{StaticResource SectionTitle}" />
             <Border Style="{StaticResource Card}">
                 <StackPanel>

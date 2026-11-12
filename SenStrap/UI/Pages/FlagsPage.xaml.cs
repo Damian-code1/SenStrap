@@ -229,6 +229,54 @@ public partial class FlagsPage : ShellPage
         Set(f, MeshL34, (d / 4).ToString());
     }
 
+    /// <summary>One-click sets of the allowlisted flags (the only ones Roblox reads).</summary>
+    private void ApplyPreset_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string preset }) return;
+        var f = Flags;
+        foreach (var name in PresetFlags) f.Remove(name);
+        switch (preset)
+        {
+            case "performance":
+                Set(f, Msaa, "1");
+                Set(f, PauseVoxelizer, "True");
+                Set(f, GrassMin, "0");
+                Set(f, GrassMax, "0");
+                Set(f, GrassMotion, "0");
+                Set(f, Mesh, "60");
+                Set(f, MeshL12, "45");
+                Set(f, MeshL23, "30");
+                Set(f, MeshL34, "15");
+                Set(f, QualityLevel, "1");
+                Set(f, TextureEnabled, "True");
+                Set(f, TextureLevel, "0");
+                Set(f, GraySky, "True");
+                break;
+            case "balanced":
+                Set(f, PauseVoxelizer, "True");
+                Set(f, Mesh, "150");
+                Set(f, MeshL12, "112");
+                Set(f, MeshL23, "75");
+                Set(f, MeshL34, "37");
+                Set(f, TextureEnabled, "True");
+                Set(f, TextureLevel, "2");
+                break;
+            case "quality":
+                Set(f, Msaa, "4");
+                Set(f, Mesh, "250");
+                Set(f, MeshL12, "187");
+                Set(f, MeshL23, "125");
+                Set(f, MeshL34, "62");
+                Set(f, TextureEnabled, "True");
+                Set(f, TextureLevel, "3");
+                break;
+        }
+        LoadPresets();
+        RefreshEditor();
+        Shell.MarkDirty();
+        Shell.ShowToast(Lang.T("flags.presetApplied"));
+    }
+
     private void MeshSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
         if (MeshValue is null) return;

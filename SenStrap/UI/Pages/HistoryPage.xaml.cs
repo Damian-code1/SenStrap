@@ -39,6 +39,23 @@ public partial class HistoryPage : ShellPage
         TotalText.Text = Lang.F("history.total", Lang.Duration(total));
     }
 
+    private async void Shortcut_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: GameEntry game } button) return;
+        button.IsEnabled = false;
+        try
+        {
+            await SelfInstaller.CreateGameShortcutAsync(game);
+            Shell.ShowToast(Lang.F("history.shortcutDone", game.DisplayName));
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn($"Couldn't create the game shortcut: {ex.Message}");
+            Shell.ShowToast(ex.Message, ok: false);
+        }
+        button.IsEnabled = true;
+    }
+
     private void Rejoin_Click(object sender, RoutedEventArgs e)
     {
         if (sender is Button { Tag: GameEntry game })

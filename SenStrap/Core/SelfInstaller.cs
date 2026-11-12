@@ -144,7 +144,64 @@ public static class SelfInstaller
         });
     }
 
-    private static void CreateShortcut(string path, string target, string arguments, string description)
+    /// <summary>
+    /// A desktop shortcut that opens a game through SenStrap, with the game's icon
+    /// (the PNG from Roblox is wrapped in an .ico file).
+    /// </summary>
+    public static async Task CreateGameShortcutAsync(GameEntry game)
+    {
+        string exe = IsInstalled() ? AppInfo.InstalledExe : AppInfo.CurrentExe;
+        string? icon = null;
+        if (game.IconUrl is { Length: > 0 } url)
+        {
+            try
+            {
+                byte[] png = await RobloxDeployment.Http.GetByteArrayAsync(url);
+                if (png.Length > 8 && png[0] == 0x89 && png[1] == (byte)'P')
+                {
+                    string iconsDir = Path.Combine(AppInfo.BaseDir, "Icons");
+                    Directory.CreateDirectory(iconsDir);
+                    icon = Path.Combine(iconsDir, $"{game.PlaceId}.ico");
+                    await File.WriteAllBytesAsync(icon, PngToIco(png));
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Info($"Game icon not available: {ex.Message}");
+            }
+        }
+
+        string name = string.Concat(game.DisplayName.Select(c => Path.GetInvalidFileNameChars().Contains(c) ? '_' : c)).Trim();
+        if (name.Length == 0) name = $"Roblox {game.PlaceId}";
+        string link = Path.Combine(DesktopDir, name + ".lnk");
+        CreateShortcut(link, exe, $"-player \"roblox://experiences/start?placeId={game.PlaceId}\"", $"{game.DisplayName} (SenStrap)", icon);
+        Logger.Info($"Game shortcut created: {link}");
+    }
+
+    /// <summary>An .ico file that holds a single PNG image (supported since Windows Vista).</summary>
+    private static byte[] PngToIco(byte[] png)
+    {
+        int width = png[16] << 24 | png[17] << 16 | png[18] << 8 | png[19];
+        int height = png[20] << 24 | png[21] << 16 | png[22] << 8 | png[23];
+        using var stream = new MemoryStream();
+        using var writer = new BinaryWriter(stream);
+        writer.Write((short)0);          // reserved
+        writer.Write((short)1);          // type: icon
+        writer.Write((short)1);          // one image
+        writer.Write((byte)(width >= 256 ? 0 : width));
+        writer.Write((byte)(height >= 256 ? 0 : height));
+        writer.Write((byte)0);           // no palette
+        writer.Write((byte)0);
+        writer.Write((short)1);          // color planes
+        writer.Write((short)32);         // bits per pixel
+        writer.Write(png.Length);
+        writer.Write(6 + 16);            // image data offset
+        writer.Write(png);
+        writer.Flush();
+        return stream.ToArray();
+    }
+
+    private static void CreateShortcut(string path, string target, string arguments, string description, string? icon = null)
     {
         try
         {
@@ -157,7 +214,7 @@ public static class SelfInstaller
                 link.TargetPath = target;
                 link.Arguments = arguments;
                 link.WorkingDirectory = Path.GetDirectoryName(target);
-                link.IconLocation = target + ",0";
+                link.IconLocation = icon is not null ? icon + ",0" : target + ",0";
                 link.Description = description;
                 link.Save();
                 Marshal.FinalReleaseComObject(link);

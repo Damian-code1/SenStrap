@@ -22,6 +22,14 @@
                 <CheckBox x:Name="AutoUpdateToggle" Style="{StaticResource Toggle}" Click="AutoUpdate_Click" />
             </controls:SettingRow>
 
+            <TextBlock Text="{ui:Loc settings.backup}" Style="{StaticResource SectionTitle}" />
+            <controls:SettingRow Icon="&#xE896;" Title="{ui:Loc settings.export}" Description="{ui:Loc settings.exportDesc}">
+                <Button Style="{StaticResource SecondaryButton}" Content="{ui:Loc settings.exportButton}" Click="Export_Click" />
+            </controls:SettingRow>
+            <controls:SettingRow Icon="&#xE898;" Title="{ui:Loc settings.import}" Description="{ui:Loc settings.importDesc}">
+                <Button Style="{StaticResource SecondaryButton}" Content="{ui:Loc settings.importButton}" Click="Import_Click" />
+            </controls:SettingRow>
+
             <TextBlock Text="{ui:Loc settings.roblox}" Style="{StaticResource SectionTitle}" />
             <controls:SettingRow Icon="&#xE72C;" Title="{ui:Loc settings.reinstall}" Description="{ui:Loc settings.reinstallDesc}">
                 <Button Style="{StaticResource SecondaryButton}" Content="{ui:Loc settings.reinstallButton}" Click="Reinstall_Click" />

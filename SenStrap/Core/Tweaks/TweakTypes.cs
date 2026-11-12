@@ -7,6 +7,9 @@ namespace SenStrap.Core.Tweaks;
 /// <summary>A registry value and what the tweak sets it to.</summary>
 public sealed record RegValue(Hive Hive, string Key, string Name, object On, RegistryValueKind Kind = RegistryValueKind.DWord)
 {
+    /// <summary>Use as <c>On</c> to delete the value (for example a program starting with Windows).</summary>
+    public static readonly object Delete = new();
+
     /// <summary>What Windows assumes when the value doesn't exist (only used to show the current state).</summary>
     public object? AbsentMeans { get; init; }
 
@@ -22,8 +25,11 @@ internal static class RegBackups
         RegistryValueKind.ExpandString, RegistryValueKind.Binary, RegistryValueKind.MultiString,
     ];
 
-    public static bool Same(object? actual, object expected, RegistryValueKind kind) => kind switch
+    public static bool Same(object? actual, object expected, RegistryValueKind kind) => expected == RegValue.Delete
+        ? actual is null
+        : kind switch
     {
+        RegistryValueKind.Binary => actual is byte[] a && expected is byte[] b && a.AsSpan().SequenceEqual(b),
         RegistryValueKind.DWord => actual is int i && i == Convert.ToInt32(expected, CultureInfo.InvariantCulture),
         RegistryValueKind.QWord => actual is long l && l == Convert.ToInt64(expected, CultureInfo.InvariantCulture),
         _ => actual is not null && string.Equals(actual.ToString(), expected.ToString(), StringComparison.Ordinal),
@@ -148,7 +154,10 @@ public sealed class RegistryTweak : Tweak
         }
 
         foreach (var v in Values)
-            Sys.SetValue(v.Hive, v.Key, v.Name, v.On, v.Kind);
+        {
+            if (v.On == RegValue.Delete) Sys.DeleteValue(v.Hive, v.Key, v.Name);
+            else Sys.SetValue(v.Hive, v.Key, v.Name, v.On, v.Kind);
+        }
         if (!Sys.Sandboxed) AfterChange?.Invoke(true);
     }
 

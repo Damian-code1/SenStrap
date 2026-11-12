@@ -40,12 +40,13 @@ public static class LaunchTweaks
     public static void AfterLaunch(Process roblox)
     {
         var store = TweakStore.Load();
-        if (store.LaunchOptions.Contains(TweakIds.RobloxPriority))
+        bool high = store.LaunchOptions.Contains(TweakIds.RobloxPriorityHigh);
+        if (high || store.LaunchOptions.Contains(TweakIds.RobloxPriority))
         {
             try
             {
-                roblox.PriorityClass = ProcessPriorityClass.AboveNormal;
-                Logger.Info("Roblox CPU priority: above normal.");
+                roblox.PriorityClass = high ? ProcessPriorityClass.High : ProcessPriorityClass.AboveNormal;
+                Logger.Info($"Roblox CPU priority: {roblox.PriorityClass}.");
             }
             catch (Exception ex)
             {

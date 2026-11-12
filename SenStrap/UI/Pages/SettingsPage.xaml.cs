@@ -43,6 +43,52 @@ public partial class SettingsPage : ShellPage
         RestartButton.Visibility = changed ? Visibility.Visible : Visibility.Collapsed;
     }
 
+    private void Export_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new Microsoft.Win32.SaveFileDialog
+        {
+            FileName = $"SenStrap-backup-{DateTime.Now:yyyy-MM-dd}.zip",
+            Filter = "ZIP (*.zip)|*.zip",
+        };
+        if (dialog.ShowDialog() != true) return;
+        try
+        {
+            Shell.Settings.Save();
+            Backup.Export(dialog.FileName);
+            Shell.ShowToast(Lang.T("settings.exported"));
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Backup failed", ex);
+            Shell.ShowToast(ex.Message, ok: false);
+        }
+    }
+
+    private void Import_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new Microsoft.Win32.OpenFileDialog { Filter = "ZIP (*.zip)|*.zip", CheckFileExists = true };
+        if (dialog.ShowDialog() != true) return;
+        if (MessageBox.Show(Owner, Lang.T("settings.importConfirm"), AppInfo.Name, MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning) != MessageBoxResult.OK)
+            return;
+        try
+        {
+            if (!Backup.Import(dialog.FileName))
+            {
+                Shell.ShowToast(Lang.T("settings.importInvalid"), ok: false);
+                return;
+            }
+            // Restart without saving, so the restored settings are the ones that load
+            Process.Start(new ProcessStartInfo(AppInfo.CurrentExe) { UseShellExecute = false });
+            Application.Current.Shutdown();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Restore failed", ex);
+            Shell.ShowToast(ex.Message, ok: false);
+        }
+    }
+
     private void AutoUpdate_Click(object sender, RoutedEventArgs e)
     {
         if (_loading) return;

@@ -11,6 +11,54 @@ public static class Mods
 {
     private const string ReadmeName = "LEEME.txt";
 
+    /// <summary>Paths (relative to Roblox's folder) that are deleted after the mods are copied, one per line.</summary>
+    private const string RemovalsName = "_remove.txt";
+
+    /// <summary>Roblox's head meshes. Deleting the folder makes heads disappear on your screen only.</summary>
+    public const string HeadsFolder = @"content\avatar\heads";
+
+    /// <summary>The classic body part meshes Roblox ships with (Avatar Editor).</summary>
+    public static readonly (string Key, string Path)[] BodyParts =
+    [
+        ("torso", @"content\avatar\meshes\torso.mesh"),
+        ("leftarm", @"content\avatar\meshes\leftarm.mesh"),
+        ("rightarm", @"content\avatar\meshes\rightarm.mesh"),
+        ("leftleg", @"content\avatar\meshes\leftleg.mesh"),
+        ("rightleg", @"content\avatar\meshes\rightleg.mesh"),
+    ];
+
+    private static string RemovalsFile => Path.Combine(AppInfo.ModsDir, RemovalsName);
+
+    public static List<string> Removals() =>
+        File.Exists(RemovalsFile)
+            ? File.ReadAllLines(RemovalsFile).Select(l => l.Trim()).Where(IsSafeRelative).Distinct(StringComparer.OrdinalIgnoreCase).ToList()
+            : [];
+
+    public static bool IsRemoved(string relativePath) => Removals().Contains(relativePath, StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>Adds or takes a path off the list of things deleted from Roblox on every install.</summary>
+    public static void SetRemoved(string relativePath, bool removed)
+    {
+        var list = Removals();
+        list.RemoveAll(p => p.Equals(relativePath, StringComparison.OrdinalIgnoreCase));
+        if (removed) list.Add(relativePath);
+        if (list.Count == 0)
+        {
+            if (File.Exists(RemovalsFile)) File.Delete(RemovalsFile);
+        }
+        else
+        {
+            Directory.CreateDirectory(AppInfo.ModsDir);
+            File.WriteAllLines(RemovalsFile, list);
+        }
+        Logger.Info($"Mod {(removed ? "removal added" : "removal taken off")}: {relativePath}");
+    }
+
+    /// <summary>Only paths inside Roblox's content folder, never outside it.</summary>
+    private static bool IsSafeRelative(string path) =>
+        path.Length > 0 && !Path.IsPathRooted(path) && !path.Contains("..")
+        && path.StartsWith(@"content\", StringComparison.OrdinalIgnoreCase);
+
     public static void EnsureFolder()
     {
         Directory.CreateDirectory(AppInfo.ModsDir);
@@ -37,6 +85,7 @@ public static class Mods
 
         return Directory.EnumerateFiles(AppInfo.ModsDir, "*", SearchOption.AllDirectories)
             .Where(f => !string.Equals(Path.GetRelativePath(AppInfo.ModsDir, f), ReadmeName, StringComparison.OrdinalIgnoreCase))
+            .Where(f => !string.Equals(Path.GetRelativePath(AppInfo.ModsDir, f), RemovalsName, StringComparison.OrdinalIgnoreCase))
             .OrderBy(f => f, StringComparer.OrdinalIgnoreCase);
     }
 
@@ -51,6 +100,8 @@ public static class Mods
               .Append(info.Length).Append('|')
               .Append(info.LastWriteTimeUtc.Ticks).Append('\n');
         }
+        foreach (var removal in Removals())
+            sb.Append("remove|").Append(removal).Append('\n');
         return sb.Length == 0 ? "" : Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(sb.ToString())));
     }
 
@@ -90,6 +141,7 @@ public static class Mods
     {
         foreach (var file in ModFiles().ToList())
             File.Delete(file);
+        if (File.Exists(RemovalsFile)) File.Delete(RemovalsFile);
         DeleteEmptyFolders();
         Logger.Info("Todos los mods quitados.");
     }
@@ -113,6 +165,17 @@ public static class Mods
             string target = Path.Combine(versionDir, Path.GetRelativePath(AppInfo.ModsDir, file));
             Directory.CreateDirectory(Path.GetDirectoryName(target)!);
             File.Copy(file, target, overwrite: true);
+            count++;
+        }
+        string root = Path.GetFullPath(versionDir).TrimEnd('\\') + "\\";
+        foreach (var removal in Removals())
+        {
+            string target = Path.GetFullPath(Path.Combine(versionDir, removal));
+            if (!target.StartsWith(root, StringComparison.OrdinalIgnoreCase)) continue;
+            if (Directory.Exists(target)) Directory.Delete(target, recursive: true);
+            else if (File.Exists(target)) File.Delete(target);
+            else continue;
+            Logger.Info($"Mod removal applied: {removal}");
             count++;
         }
         if (count > 0)

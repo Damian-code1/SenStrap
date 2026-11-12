@@ -70,13 +70,21 @@
                                         <TextBlock Text="{Binding Name}" Style="{StaticResource CardTitle}" FontSize="15.5" />
                                         <TextBlock Text="{Binding Details}" Style="{StaticResource CardDesc}" Margin="0,3,0,0" />
                                     </StackPanel>
-                                    <Button Grid.Column="2" Style="{StaticResource SecondaryButton}" VerticalAlignment="Center"
-                                            Tag="{Binding Entry}" Click="Rejoin_Click">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="&#xE72C;" Style="{StaticResource BtnIcon}" />
-                                            <TextBlock Text="{ui:Loc history.rejoin}" />
-                                        </StackPanel>
-                                    </Button>
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Button Style="{StaticResource GhostButton}" Tag="{Binding Entry}" Click="Shortcut_Click"
+                                                ToolTip="{ui:Loc history.shortcutTip}" Margin="0,0,6,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="&#xE71B;" Style="{StaticResource BtnIcon}" />
+                                                <TextBlock Text="{ui:Loc history.shortcut}" />
+                                            </StackPanel>
+                                        </Button>
+                                        <Button Style="{StaticResource SecondaryButton}" Tag="{Binding Entry}" Click="Rejoin_Click">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="&#xE72C;" Style="{StaticResource BtnIcon}" />
+                                                <TextBlock Text="{ui:Loc history.rejoin}" />
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
                                 </Grid>
                             </Border>
                         </DataTemplate>
