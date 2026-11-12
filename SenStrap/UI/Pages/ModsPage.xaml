@@ -4,7 +4,7 @@
               xmlns:ui="clr-namespace:SenStrap.UI"
               xmlns:controls="clr-namespace:SenStrap.UI.Controls">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel x:Name="Root" Margin="32,26,32,24">
+        <StackPanel x:Name="Root" Margin="32,6,32,24">
             <TextBlock Text="{ui:Loc mods.title}" Style="{StaticResource PageTitle}" />
             <TextBlock Text="{ui:Loc mods.subtitle}" Style="{StaticResource PageSubtitle}" />
 

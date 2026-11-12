@@ -17,12 +17,15 @@ public partial class MainWindow : Window, IShell
     private Storyboard? _intro;
     private bool _dirty;
 
-    public Settings Settings { get; } = Settings.Load();
+    public Settings Settings { get; private set; } = Settings.Load();
+
+    private string _current = "Home";
 
     public MainWindow()
     {
         InitializeComponent();
-        VersionLabel.Text = $"SenStrap v{AppInfo.Version}";
+        VersionLabel.Text = $"SenStrap {AppInfo.Version}";
+        SourceInitialized += (_, _) => RoundCorners();
         ApplyAppearance();
 
         StateChanged += (_, _) =>
@@ -135,13 +138,15 @@ public partial class MainWindow : Window, IShell
         }
         if (ReferenceEquals(PageHost.Content, page)) return;
 
+        _current = key;
         PageHost.Content = page;
+        var roblox = AppState.Load().RobloxVersion;
+        RobloxLabel.Text = roblox is null ? "" : $"Roblox {roblox}";
         foreach (var item in NavPanel.Children.OfType<RadioButton>())
         {
             if ((string)item.CommandParameter == key)
             {
                 if (item.IsChecked != true) item.IsChecked = true;
-                PageCrumb.Text = $"›  {item.Content}";
             }
         }
         page.OnShown();
@@ -192,7 +197,8 @@ public partial class MainWindow : Window, IShell
 
     private void SetDirty(bool dirty)
     {
-        DirtyHint.Visibility = dirty ? Visibility.Visible : Visibility.Collapsed;
+        DirtyBar.Visibility = dirty ? Visibility.Visible : Visibility.Collapsed;
+        PageHost.Margin = new Thickness(0, 0, 0, dirty ? 64 : 0); // so the bar doesn't cover the last row
         _dirty = dirty;
     }
 
@@ -215,10 +221,35 @@ public partial class MainWindow : Window, IShell
 
     private void Save_Click(object sender, RoutedEventArgs e) => SaveAll();
 
-    private void SaveAndPlay_Click(object sender, RoutedEventArgs e)
+    private void SidebarPlay_Click(object sender, RoutedEventArgs e) => Play();
+
+    /// <summary>Throws away the unsaved changes: settings are read again and the pages rebuilt.</summary>
+    private void Discard_Click(object sender, RoutedEventArgs e)
     {
-        if (SaveAll()) Play();
+        Settings = Settings.Load();
+        _pages.Clear();
+        PageHost.Content = null;
+        SetDirty(false);
+        ApplyAppearance();
+        Navigate(_current);
     }
+
+    // Windows 11: rounded corners like other windows (ignored on Windows 10)
+    private void RoundCorners()
+    {
+        try
+        {
+            int round = 2; // DWMWCP_ROUND
+            var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            DwmSetWindowAttribute(hwnd, 33, ref round, sizeof(int));
+        }
+        catch
+        {
+        }
+    }
+
+    [System.Runtime.InteropServices.DllImport("dwmapi.dll")]
+    private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int value, int size);
 
     private void Minimize_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 

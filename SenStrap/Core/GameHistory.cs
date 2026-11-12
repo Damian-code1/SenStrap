@@ -70,6 +70,29 @@ public static class GameHistory
         lock (Lock) JsonStore.Save(FilePath, new List<GameEntry>());
     }
 
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<long, string?> Thumbnails = new();
+
+    /// <summary>The game's wide thumbnail (768x432) from Roblox's public API, or null.</summary>
+    public static async Task<string?> GetThumbnailUrlAsync(long universeId)
+    {
+        if (universeId <= 0) return null;
+        if (Thumbnails.TryGetValue(universeId, out var cached)) return cached;
+        try
+        {
+            using var doc = JsonDocument.Parse(await Http.GetStringAsync(
+                $"https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds={universeId}&countPerUniverse=1&size=768x432&format=Png&isCircular=false"));
+            var thumbs = doc.RootElement.GetProperty("data")[0].GetProperty("thumbnails");
+            string? url = thumbs.GetArrayLength() > 0 ? thumbs[0].GetProperty("imageUrl").GetString() : null;
+            Thumbnails[universeId] = url;
+            return url;
+        }
+        catch (Exception ex)
+        {
+            Logger.Info($"No thumbnail for universe {universeId}: {ex.Message}");
+            return null;
+        }
+    }
+
     /// <summary>Nombre e icono del juego (APIs públicas de Roblox, sin iniciar sesión).</summary>
     public static async Task FillGameInfoAsync(GameEntry entry)
     {

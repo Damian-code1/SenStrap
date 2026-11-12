@@ -119,11 +119,11 @@ public static class TweakCatalog
         list.Add(new GroupMembershipTweak
         {
             Id = TweakIds.FpsAccess, Category = TweakCategory.Roblox, Admin = true, Note = TweakNote.SignOut,
-            GroupSid = FpsMonitor.PerformanceLogUsersSid,
-            Name = "Allow the FPS counter",
-            NameEs = "Permitir el contador de FPS",
-            Description = "Adds your account to Windows' Performance Log Users group so SenStrap can count Roblox's frames, the same way Xbox Game Bar does. Roblox isn't touched.",
-            DescriptionEs = "Añade tu cuenta al grupo Usuarios del registro de rendimiento de Windows para que SenStrap pueda contar los fotogramas de Roblox, igual que la Xbox Game Bar. Roblox no se toca.",
+            GroupSid = "S-1-5-32-559", HiddenUnlessApplied = true,
+            Name = "FPS counter permission (removed feature)",
+            NameEs = "Permiso del contador de FPS (función eliminada)",
+            Description = "Left over from the FPS counter in 1.5.0. Turn it off to take your account out of Windows' Performance Log Users group again.",
+            DescriptionEs = "Quedó del contador de FPS de la 1.5.0. Desactívalo para sacar tu cuenta del grupo Usuarios del registro de rendimiento de Windows.",
         });
         list.Add(new CleanupTweak
         {

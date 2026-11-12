@@ -3,43 +3,23 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:ui="clr-namespace:SenStrap.UI">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel x:Name="Root" Margin="32,26,32,20">
+        <StackPanel x:Name="Root" Margin="32,6,32,24">
+            <TextBlock x:Name="Greeting" Style="{StaticResource PageTitle}" />
+            <TextBlock x:Name="StatusLine" Style="{StaticResource PageSubtitle}" Margin="0,4,0,18" />
 
-            <!-- Status and Play -->
-            <Border x:Name="Hero" Style="{StaticResource HeroCard}">
+            <!-- Install -->
+            <Border x:Name="InstallCard" Style="{StaticResource Card}" Margin="0,0,0,14" Padding="18,14">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Image Source="/SenStrap;component/Resources/logo.png" Width="52" Height="52" VerticalAlignment="Center"
-                           RenderOptions.BitmapScalingMode="HighQuality" />
-                    <StackPanel Grid.Column="1" Margin="18,0,20,0" VerticalAlignment="Center">
-                        <TextBlock x:Name="StatusTitle" FontSize="19" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}" />
-                        <TextBlock x:Name="StatusDetails" FontSize="13" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0"
-                                   TextTrimming="CharacterEllipsis" />
-                    </StackPanel>
-                    <Button Grid.Column="2" Style="{StaticResource PlayButton}" VerticalAlignment="Center" Click="Play_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE768;" Style="{StaticResource BtnIcon}" FontSize="15" Margin="0,0,10,0" />
-                            <TextBlock Text="{ui:Loc home.play}" />
-                        </StackPanel>
-                    </Button>
-                </Grid>
-            </Border>
-
-            <!-- Instalar -->
-            <Border x:Name="InstallCard" Style="{StaticResource Card}" Margin="0,12,0,0" Padding="18,14">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="&#xE896;" Style="{StaticResource IconGlyph}" FontSize="20" Margin="4,0,4,0" />
-                    <StackPanel Grid.Column="1" Margin="16,0,18,0" VerticalAlignment="Center">
-                        <TextBlock Text="{ui:Loc home.notInstalled}" Style="{StaticResource CardTitle}" FontSize="15.5" />
+                    <Border Style="{StaticResource IconBox}">
+                        <TextBlock Text="&#xE896;" Style="{StaticResource IconGlyph}" Foreground="{StaticResource AccentBrush}" />
+                    </Border>
+                    <StackPanel Grid.Column="1" Margin="14,0,18,0" VerticalAlignment="Center">
+                        <TextBlock Text="{ui:Loc home.notInstalled}" Style="{StaticResource CardTitle}" />
                         <TextBlock Text="{ui:Loc home.installDesc}" Style="{StaticResource CardDesc}" Margin="0,3,0,10" />
                         <CheckBox x:Name="DesktopShortcut" Style="{StaticResource Toggle}" IsChecked="True"
                                   Content="{ui:Loc home.desktopShortcut}" FontSize="13" />
@@ -53,76 +33,85 @@
                 </Grid>
             </Border>
 
-            <!-- Última partida -->
-            <Border x:Name="LastGameCard" Style="{StaticResource Card}" Margin="0,12,0,0" Padding="16,13">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid Width="52" Height="52">
-                        <Border CornerRadius="6" Background="#1F2231">
-                            <TextBlock Text="&#xE7FC;" Style="{StaticResource IconGlyph}" FontSize="20" />
-                        </Border>
-                        <Border CornerRadius="6">
-                            <Border.Background>
-                                <ImageBrush x:Name="LastGameIcon" Stretch="UniformToFill" />
-                            </Border.Background>
-                        </Border>
-                    </Grid>
-                    <StackPanel Grid.Column="1" Margin="14,0,16,0" VerticalAlignment="Center">
-                        <TextBlock Text="{ui:Loc home.lastGame}" FontSize="12" Foreground="{StaticResource SubtleBrush}" />
-                        <TextBlock x:Name="LastGameName" Style="{StaticResource CardTitle}" FontSize="15.5" Margin="0,1,0,1" />
-                        <TextBlock x:Name="LastGameDetails" Style="{StaticResource CardDesc}" />
-                    </StackPanel>
-                    <Button Grid.Column="2" Style="{StaticResource SecondaryButton}" VerticalAlignment="Center" Click="Rejoin_Click">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE72C;" Style="{StaticResource BtnIcon}" />
-                            <TextBlock Text="{ui:Loc history.rejoin}" />
-                        </StackPanel>
-                    </Button>
-                </Grid>
-            </Border>
+            <!-- Banner: last game (or ready to play) -->
+            <Grid Height="236">
+                <Border CornerRadius="10" Background="#171925" />
+                <Border CornerRadius="10" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+                    <Border.Background>
+                        <ImageBrush x:Name="HeroImage" Stretch="UniformToFill" AlignmentY="Center" />
+                    </Border.Background>
+                </Border>
+                <!-- Darkens the left side so the text stays readable over any thumbnail -->
+                <Border CornerRadius="10">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Offset="0" Color="#FA101119" />
+                            <GradientStop Offset="0.5" Color="#C0101119" />
+                            <GradientStop Offset="1" Color="#30101119" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+                <Image x:Name="HeroLogo" Source="/SenStrap;component/Resources/logo.png" Width="120" Height="120"
+                       HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,48,0" Opacity="0.9"
+                       RenderOptions.BitmapScalingMode="HighQuality" />
 
-            <TextBlock Text="{ui:Loc home.quick}" Style="{StaticResource SectionTitle}" />
-            <UniformGrid Columns="4">
-                <Button Style="{StaticResource CardAction}" Margin="0,0,5,0" Click="Optimizations_Click">
-                    <StackPanel>
-                        <TextBlock Text="&#xE945;" Style="{StaticResource IconGlyph}" HorizontalAlignment="Left" FontSize="18" />
-                        <TextBlock Text="{ui:Loc nav.optimizations}" Style="{StaticResource CardTitle}" Margin="0,12,0,2" />
-                        <TextBlock Text="{ui:Loc home.quickOptimizations}" Style="{StaticResource CardDesc}" />
+                <StackPanel VerticalAlignment="Bottom" Margin="28,0,28,24" MaxWidth="560" HorizontalAlignment="Left">
+                    <TextBlock x:Name="HeroLabel" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" />
+                    <TextBlock x:Name="HeroTitle" FontFamily="{StaticResource DisplayFont}" FontSize="28" FontWeight="SemiBold"
+                               Foreground="White" Margin="0,4,0,0" TextTrimming="CharacterEllipsis" />
+                    <TextBlock x:Name="HeroDetails" FontSize="13" Foreground="#C9CBD6" Margin="0,4,0,16" TextWrapping="Wrap" />
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="HeroRejoin" Style="{StaticResource PrimaryButton}" Padding="18,9" Click="Rejoin_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE72C;" Style="{StaticResource BtnIcon}" />
+                                <TextBlock Text="{ui:Loc history.rejoin}" />
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="HeroPlay" Style="{StaticResource SecondaryButton}" Padding="18,9" Margin="8,0,0,0" Click="Play_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE768;" Style="{StaticResource BtnIcon}" />
+                                <TextBlock Text="{ui:Loc home.openRoblox}" />
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
-                </Button>
+                </StackPanel>
+            </Grid>
+
+            <!-- Stats -->
+            <UniformGrid Columns="4" Margin="0,14,0,0">
+                <Border Style="{StaticResource Card}" Margin="0,0,5,0">
+                    <StackPanel>
+                        <TextBlock Text="{ui:Loc home.statPlaytime}" Style="{StaticResource CardDesc}" />
+                        <TextBlock x:Name="StatPlaytime" Style="{StaticResource StatValue}" />
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource Card}" Margin="3,0,3,0">
+                    <StackPanel>
+                        <TextBlock Text="{ui:Loc home.statGames}" Style="{StaticResource CardDesc}" />
+                        <TextBlock x:Name="StatGames" Style="{StaticResource StatValue}" />
+                    </StackPanel>
+                </Border>
                 <Button Style="{StaticResource CardAction}" Margin="3,0,3,0" Click="Flags_Click">
                     <StackPanel>
-                        <TextBlock Text="&#xE7C1;" Style="{StaticResource IconGlyph}" HorizontalAlignment="Left" FontSize="18" />
-                        <TextBlock Text="{ui:Loc nav.flags}" Style="{StaticResource CardTitle}" Margin="0,12,0,2" />
-                        <TextBlock Text="{ui:Loc home.quickFlags}" Style="{StaticResource CardDesc}" />
+                        <TextBlock Text="{ui:Loc home.statFlags}" Style="{StaticResource CardDesc}" />
+                        <TextBlock x:Name="StatFlags" Style="{StaticResource StatValue}" />
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource CardAction}" Margin="3,0,3,0" Click="Mods_Click">
+                <Button Style="{StaticResource CardAction}" Margin="5,0,0,0" Click="Optimizations_Click">
                     <StackPanel>
-                        <TextBlock Text="&#xE90F;" Style="{StaticResource IconGlyph}" HorizontalAlignment="Left" FontSize="18" />
-                        <TextBlock Text="{ui:Loc nav.mods}" Style="{StaticResource CardTitle}" Margin="0,12,0,2" />
-                        <TextBlock Text="{ui:Loc home.quickMods}" Style="{StaticResource CardDesc}" />
-                    </StackPanel>
-                </Button>
-                <Button Style="{StaticResource CardAction}" Margin="5,0,0,0" Click="History_Click">
-                    <StackPanel>
-                        <TextBlock Text="&#xE81C;" Style="{StaticResource IconGlyph}" HorizontalAlignment="Left" FontSize="18" />
-                        <TextBlock Text="{ui:Loc nav.history}" Style="{StaticResource CardTitle}" Margin="0,12,0,2" />
-                        <TextBlock Text="{ui:Loc home.quickHistory}" Style="{StaticResource CardDesc}" />
+                        <TextBlock Text="{ui:Loc home.statOptimizations}" Style="{StaticResource CardDesc}" />
+                        <TextBlock x:Name="StatOptimizations" Style="{StaticResource StatValue}" />
                     </StackPanel>
                 </Button>
             </UniformGrid>
 
-            <Border Style="{StaticResource Card}" Margin="0,12,0,0" Padding="16,11">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xEA18;" Style="{StaticResource IconGlyph}" FontSize="16" Foreground="{StaticResource OkBrush}" />
-                    <TextBlock Text="{ui:Loc home.safe}" Style="{StaticResource CardDesc}" Margin="12,0,0,0" VerticalAlignment="Center" />
-                </StackPanel>
-            </Border>
+            <!-- Recent games -->
+            <DockPanel x:Name="RecentHeader" Margin="0,8,0,0">
+                <Button DockPanel.Dock="Right" Style="{StaticResource GhostButton}" Content="{ui:Loc home.seeAll}" VerticalAlignment="Bottom"
+                        Margin="0,0,-10,4" Click="History_Click" />
+                <TextBlock Text="{ui:Loc home.recent}" Style="{StaticResource SectionTitle}" />
+            </DockPanel>
+            <UniformGrid x:Name="RecentGrid" Columns="3" />
         </StackPanel>
     </ScrollViewer>
 </ui:ShellPage>

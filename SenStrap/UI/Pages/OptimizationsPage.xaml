@@ -9,7 +9,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="32,26,32,0">
+        <StackPanel Margin="32,6,32,0">
             <TextBlock Text="{ui:Loc opt.title}" Style="{StaticResource PageTitle}" />
             <TextBlock Text="{ui:Loc opt.subtitle}" Style="{StaticResource PageSubtitle}" Margin="0,4,0,16" />
         </StackPanel>

@@ -3,7 +3,7 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:ui="clr-namespace:SenStrap.UI"
               xmlns:controls="clr-namespace:SenStrap.UI.Controls">
-    <Grid Margin="32,26,32,16">
+    <Grid Margin="32,6,32,16">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -31,22 +31,6 @@
             <!-- ============ Ajustes rápidos ============ -->
             <ScrollViewer x:Name="PresetsView" VerticalScrollBarVisibility="Auto">
                 <StackPanel x:Name="PresetsPanel" Margin="0,0,4,8">
-                    <controls:SettingRow Icon="&#xEC4A;" Title="{ui:Loc flags.fps}" Description="{ui:Loc flags.fpsDesc}">
-                        <CheckBox x:Name="FpsToggle" Style="{StaticResource Toggle}" Click="Fps_Click" />
-                    </controls:SettingRow>
-                    <Border x:Name="FpsNotice" Style="{StaticResource WarnCard}" Margin="0,-2,0,8" Visibility="Collapsed">
-                        <DockPanel>
-                            <Button x:Name="FpsAllowButton" DockPanel.Dock="Right" Style="{StaticResource SecondaryButton}" Padding="12,5"
-                                    Margin="12,0,0,0" Click="FpsAllow_Click">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="&#xEA18;" Style="{StaticResource BtnIcon}" />
-                                    <TextBlock Text="{ui:Loc flags.fpsAllow}" />
-                                </StackPanel>
-                            </Button>
-                            <TextBlock x:Name="FpsNoticeText" FontSize="12.5" TextWrapping="Wrap" VerticalAlignment="Center"
-                                       Foreground="{StaticResource TextBrush}" />
-                        </DockPanel>
-                    </Border>
                     <controls:SettingRow Icon="&#xE771;" Title="{ui:Loc flags.msaa}" Description="{ui:Loc flags.msaaDesc}">
                         <ComboBox x:Name="MsaaCombo" Style="{StaticResource Combo}" SelectionChanged="Preset_Changed">
                             <ComboBoxItem Content="{ui:Loc common.default}" Tag="" />

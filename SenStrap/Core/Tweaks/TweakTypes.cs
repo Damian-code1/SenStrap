@@ -576,9 +576,8 @@ public sealed class GroupMembershipTweak : Tweak
         return cut >= 0 ? name[(cut + 1)..] : name;
     }
 
-    // In the current session: membership only shows up after signing in again, so a saved change also counts
-    public override bool IsApplied(TweakContext context) =>
-        FpsMonitor.HasAccess() || context.Store.Backups.ContainsKey(Id);
+    // Only what SenStrap itself did counts (the account may have been in the group before)
+    public override bool IsApplied(TweakContext context) => context.Store.Backups.ContainsKey(Id);
 
     public override void Apply(TweakContext context)
     {

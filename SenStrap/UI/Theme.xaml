@@ -30,8 +30,11 @@
     <SolidColorBrush x:Key="DiscordHoverBrush" Color="#6B76F5" />
 
     <!-- Text -->
+    <FontFamily x:Key="DisplayFont">Segoe UI Variable Display, Segoe UI</FontFamily>
+
     <Style x:Key="PageTitle" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontFamily" Value="{StaticResource DisplayFont}" />
+        <Setter Property="FontSize" Value="27" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
     </Style>
@@ -61,6 +64,15 @@
         <Setter Property="FontSize" Value="12.5" />
         <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
         <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StatValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource DisplayFont}" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
     </Style>
 
     <Style x:Key="IconGlyph" TargetType="TextBlock">
@@ -100,9 +112,10 @@
     </Style>
 
     <Style x:Key="IconBox" TargetType="Border">
-        <Setter Property="Width" Value="32" />
-        <Setter Property="Height" Value="32" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Width" Value="34" />
+        <Setter Property="Height" Value="34" />
+        <Setter Property="CornerRadius" Value="7" />
+        <Setter Property="Background" Value="#1D2030" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
@@ -281,6 +294,13 @@
     </Style>
 
     <!-- Sidebar -->
+    <Style x:Key="NavGroup" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="11.5" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource SubtleBrush}" />
+        <Setter Property="Margin" Value="12,18,0,6" />
+    </Style>
+
     <Style x:Key="NavItem" TargetType="RadioButton">
         <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
         <Setter Property="FontSize" Value="13.5" />
@@ -289,7 +309,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Grid x:Name="Bd" Background="Transparent" Height="36" Margin="0,1">
+                    <Grid x:Name="Bd" Background="Transparent" Height="35" Margin="0,1">
                         <Border x:Name="Indicator" Width="3" Height="16" CornerRadius="1.5" HorizontalAlignment="Left"
                                 Background="{StaticResource AccentBrush}" Visibility="Hidden" />
                         <StackPanel Orientation="Horizontal" Margin="14,0,10,0" VerticalAlignment="Center">

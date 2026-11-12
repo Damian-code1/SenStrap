@@ -51,6 +51,9 @@ public abstract class Tweak
     /// <summary>Tweaks in the same group can't be on at the same time (power plans).</summary>
     public string? ExclusiveGroup { get; init; }
 
+    /// <summary>Only listed while it's applied (kept so a removed feature's change can still be undone).</summary>
+    public bool HiddenUnlessApplied { get; init; }
+
     /// <summary>Runs once (cleanup) instead of staying on.</summary>
     public virtual bool IsAction => false;
 

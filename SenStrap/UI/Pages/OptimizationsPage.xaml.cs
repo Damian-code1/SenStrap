@@ -252,9 +252,10 @@ public partial class OptimizationsPage : ShellPage
             PendingText.Text = pending.Count == 1 ? Lang.T("opt.pendingOne") : Lang.F("opt.pending", pending.Count);
         ApplyShield.Visibility = pending.Any(r => r.Tweak.Admin) && !TweakEngine.IsElevated ? Visibility.Visible : Visibility.Collapsed;
 
-        int applicable = _rows.Count(r => !r.Tweak.IsAction && r.Available);
-        int applied = _rows.Count(r => !r.Tweak.IsAction && r.Available && r.Applied);
-        SummaryText.Text = Lang.F("opt.summary", applied, applicable, _rows.Count);
+        var listed = _rows.Where(r => !r.Tweak.HiddenUnlessApplied || r.Applied).ToList();
+        int applicable = listed.Count(r => !r.Tweak.IsAction && r.Available);
+        int applied = listed.Count(r => !r.Tweak.IsAction && r.Available && r.Applied);
+        SummaryText.Text = Lang.F("opt.summary", applied, applicable, listed.Count);
     }
 
     private void SetBusy(bool busy)
@@ -415,7 +416,8 @@ public partial class OptimizationsPage : ShellPage
         foreach (var row in _rows)
         {
             var t = row.Tweak;
-            bool visible = (category is null || t.Category == category)
+            bool visible = (!t.HiddenUnlessApplied || row.Applied)
+                && (category is null || t.Category == category)
                 && (query.Length == 0
                     || t.DisplayName.Contains(query, StringComparison.CurrentCultureIgnoreCase)
                     || t.DisplayDescription.Contains(query, StringComparison.CurrentCultureIgnoreCase)
