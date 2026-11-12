@@ -65,7 +65,9 @@ public partial class App : Application
         // Settings, mods and the installed Roblox are in %LOCALAPPDATA%\SenStrap and stay as they are.
         AppUpdater.CleanUp();
         bool skipUpdate = e.Args.Any(a => a.Equals(AppUpdater.SkipArgument, StringComparison.OrdinalIgnoreCase));
-        if (!skipUpdate && settings.AutoUpdate && AppUpdater.CanUpdate)
+        if (!skipUpdate && settings.AutoUpdate && AppUpdater.CanUpdate && AppUpdater.OtherInstanceRunning())
+            Logger.Info("Another SenStrap is open: the update check waits until next time.");
+        else if (!skipUpdate && settings.AutoUpdate && AppUpdater.CanUpdate)
         {
             var update = await AppUpdater.CheckAsync();
             if (update is not null)

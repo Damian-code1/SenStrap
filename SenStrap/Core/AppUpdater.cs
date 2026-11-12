@@ -34,11 +34,46 @@ public static partial class AppUpdater
         && File.Exists(Exe)
         && !File.Exists(Path.Combine(Path.GetDirectoryName(Exe)!, "SenStrap.dll"));
 
-    /// <summary>Removes what a previous update left behind (the replaced .exe and the download folder).</summary>
+    /// <summary>Removes what previous updates left behind (replaced .exe files and the download folder).</summary>
     public static void CleanUp()
     {
-        try { if (File.Exists(OldExe)) File.Delete(OldExe); } catch { /* still running: next time */ }
+        try
+        {
+            string dir = Path.GetDirectoryName(Exe)!;
+            foreach (var old in Directory.EnumerateFiles(dir, Path.GetFileName(Exe) + ".old*"))
+            {
+                try { File.Delete(old); } catch { /* an old copy is still running: next time */ }
+            }
+        }
+        catch
+        {
+        }
         try { if (Directory.Exists(DownloadDir)) Directory.Delete(DownloadDir, recursive: true); } catch { }
+    }
+
+    /// <summary>
+    /// Another SenStrap is running from this same .exe (another window, or the tray icon while you play).
+    /// Swapping the file under it would make it crash when it closes, so the update waits for next time.
+    /// </summary>
+    public static bool OtherInstanceRunning()
+    {
+        int me = Environment.ProcessId;
+        foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Exe)))
+        {
+            using (process)
+            {
+                if (process.Id == me) continue;
+                try
+                {
+                    if (string.Equals(process.MainModule?.FileName, Exe, StringComparison.OrdinalIgnoreCase)) return true;
+                }
+                catch
+                {
+                    return true; // can't tell: better to wait
+                }
+            }
+        }
+        return false;
     }
 
     /// <summary>Asks GitHub for the latest release. Returns null if there's nothing newer or GitHub can't be reached.</summary>
@@ -126,16 +161,25 @@ public static partial class AppUpdater
 
         ct.ThrowIfCancellationRequested();
 
-        // Windows lets a running .exe be renamed: move the current one aside and put the new one in its place
-        if (File.Exists(OldExe)) File.Delete(OldExe);
-        File.Move(Exe, OldExe);
+        // Windows lets a running .exe be renamed: move the current one aside and put the new one in its place.
+        // If an older copy can't be deleted (still running), use another name; CleanUp removes them later.
+        string aside = OldExe;
+        try
+        {
+            if (File.Exists(aside)) File.Delete(aside);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            aside = $"{OldExe}-{DateTime.UtcNow:yyyyMMddHHmmss}";
+        }
+        File.Move(Exe, aside);
         try
         {
             File.Move(download, Exe);
         }
         catch
         {
-            File.Move(OldExe, Exe);
+            File.Move(aside, Exe);
             throw;
         }
         Logger.Info($"SenStrap updated to {update.Version}.");
