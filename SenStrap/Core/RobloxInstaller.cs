@@ -108,14 +108,30 @@ public class RobloxInstaller(IProgress<BootstrapStatus> progress)
     /// ¿Hay algún proceso de Roblox abierto (el juego, su CrashHandler, Studio...)?
     /// Mientras lo haya, SenStrap no borra ni mueve ninguna carpeta de versiones:
     /// un .exe en marcha no impide renombrar su carpeta, pero sí se rompería al moverla.
+    /// Solo cuenta los procesos oficiales de Roblox: programas de terceros cuyo nombre
+    /// empieza por "Roblox" (p. ej. RobloxMultiHub) no deben bloquear nada.
     /// </summary>
     public static bool IsRobloxRunning()
     {
-        var processes = Process.GetProcesses();
-        bool running = processes.Any(p => p.ProcessName.StartsWith("Roblox", StringComparison.OrdinalIgnoreCase));
-        foreach (var p in processes) p.Dispose();
-        return running;
+        foreach (var name in RobloxProcessNames)
+        {
+            var processes = Process.GetProcessesByName(name);
+            foreach (var p in processes) p.Dispose();
+            if (processes.Length > 0) return true;
+        }
+        return false;
     }
+
+    private static readonly string[] RobloxProcessNames =
+    {
+        "RobloxPlayerBeta",
+        "RobloxCrashHandler",
+        "RobloxPlayerLauncher",
+        "RobloxPlayerInstaller",
+        "RobloxStudioBeta",
+        "RobloxStudioLauncherBeta",
+        "RobloxStudioInstaller",
+    };
 
     /// <summary>¿Está abierto el juego (RobloxPlayerBeta)?</summary>
     public static bool IsRobloxPlayerRunning()
