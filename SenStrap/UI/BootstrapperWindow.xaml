@@ -3,47 +3,177 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="clr-namespace:SenStrap.UI"
         xmlns:controls="clr-namespace:SenStrap.UI.Controls"
-        Title="SenStrap" Width="560" Height="330"
+        Title="SenStrap" Width="560" Height="340"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
         FontFamily="{StaticResource UiFont}" Icon="/SenStrap;component/Resources/senstrap.ico">
 
+    <Window.Resources>
+        <SineEase x:Key="Sine" EasingMode="EaseInOut" />
+
+        <!-- Background aurora, logo glow and the two spinning arcs. Run for as long as the window is open. -->
+        <Storyboard x:Key="Ambient">
+            <DoubleAnimation Storyboard.TargetName="BlobA" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                             From="-40" To="70" Duration="0:0:7" AutoReverse="True" RepeatBehavior="Forever" EasingFunction="{StaticResource Sine}" />
+            <DoubleAnimation Storyboard.TargetName="BlobA" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                             From="-20" To="30" Duration="0:0:5" AutoReverse="True" RepeatBehavior="Forever" EasingFunction="{StaticResource Sine}" />
+            <DoubleAnimation Storyboard.TargetName="BlobB" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)"
+                             From="50" To="-60" Duration="0:0:8" AutoReverse="True" RepeatBehavior="Forever" EasingFunction="{StaticResource Sine}" />
+            <DoubleAnimation Storyboard.TargetName="BlobB" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                             From="25" To="-25" Duration="0:0:6" AutoReverse="True" RepeatBehavior="Forever" EasingFunction="{StaticResource Sine}" />
+
+            <DoubleAnimation Storyboard.TargetName="ArcOuter" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                             From="0" To="360" Duration="0:0:1.3" RepeatBehavior="Forever" />
+            <DoubleAnimation Storyboard.TargetName="ArcInner" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                             From="360" To="0" Duration="0:0:2.6" RepeatBehavior="Forever" />
+
+            <DoubleAnimation Storyboard.TargetName="Glow" Storyboard.TargetProperty="Opacity"
+                             From="0.45" To="1" Duration="0:0:1.6" AutoReverse="True" RepeatBehavior="Forever" EasingFunction="{StaticResource Sine}" />
+            <DoubleAnimation Storyboard.TargetName="Logo" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                             From="1" To="1.06" Duration="0:0:1.6" AutoReverse="True" RepeatBehavior="Forever" EasingFunction="{StaticResource Sine}" />
+            <DoubleAnimation Storyboard.TargetName="Logo" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                             From="1" To="1.06" Duration="0:0:1.6" AutoReverse="True" RepeatBehavior="Forever" EasingFunction="{StaticResource Sine}" />
+
+            <!-- Light sweeping across the bar: a band while waiting, a soft shine over the filled part -->
+            <DoubleAnimation Storyboard.TargetName="Sweep" Storyboard.TargetProperty="(Border.Background).(Brush.RelativeTransform).(TranslateTransform.X)"
+                             From="-1" To="1" Duration="0:0:1.5" RepeatBehavior="Forever" EasingFunction="{StaticResource Sine}" />
+            <DoubleAnimation Storyboard.TargetName="Shine" Storyboard.TargetProperty="(Border.Background).(Brush.RelativeTransform).(TranslateTransform.X)"
+                             From="-1" To="1" Duration="0:0:2.2" RepeatBehavior="Forever" />
+        </Storyboard>
+
+    </Window.Resources>
+
     <!-- The margin leaves room for the shadow -->
-    <Grid x:Name="Frame" Margin="16">
-        <Border CornerRadius="10" Background="{StaticResource BgBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+    <Grid x:Name="Frame" Margin="16" Opacity="0" RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform>
+            <ScaleTransform x:Name="FrameScale" ScaleX="0.96" ScaleY="0.96" />
+        </Grid.RenderTransform>
+
+        <Border CornerRadius="12" Background="{StaticResource BgBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
             <Border.Effect>
-                <DropShadowEffect BlurRadius="16" ShadowDepth="0" Opacity="0.45" Color="Black" />
+                <DropShadowEffect BlurRadius="18" ShadowDepth="0" Opacity="0.5" Color="Black" />
             </Border.Effect>
         </Border>
 
         <Grid x:Name="Clipped" Margin="1" MouseLeftButtonDown="Window_MouseDown">
-            <controls:Snowfall x:Name="Snow" Density="1.4" />
+            <!-- Aurora -->
+            <Ellipse x:Name="BlobA" Width="380" Height="300" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-120,-150,0,0" IsHitTestVisible="False">
+                <Ellipse.RenderTransform><TranslateTransform /></Ellipse.RenderTransform>
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Offset="0" Color="#557C3AED" />
+                        <GradientStop Offset="1" Color="#007C3AED" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Ellipse x:Name="BlobB" Width="420" Height="320" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,-150,-170" IsHitTestVisible="False">
+                <Ellipse.RenderTransform><TranslateTransform /></Ellipse.RenderTransform>
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Offset="0" Color="#44C026D3" />
+                        <GradientStop Offset="1" Color="#00C026D3" />
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
 
-            <Grid Margin="30,24,30,22">
+            <controls:Snowfall x:Name="Snow" Density="1.2" />
+
+            <Grid Margin="28,22,28,18">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
                     <RowDefinition />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/SenStrap;component/Resources/logo.png" Width="30" Height="30" RenderOptions.BitmapScalingMode="HighQuality" />
-                    <TextBlock Text="SenStrap" Margin="11,0,0,0" FontSize="17" FontWeight="SemiBold" Foreground="{StaticResource TextBrush}"
-                               VerticalAlignment="Center" />
-                </StackPanel>
+                <!-- Logo with glow and spinning arcs -->
+                <Grid Width="120" Height="120" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Ellipse x:Name="Glow" Width="120" Height="120" IsHitTestVisible="False">
+                        <Ellipse.Fill>
+                            <RadialGradientBrush>
+                                <GradientStop Offset="0" Color="#998B5CF6" />
+                                <GradientStop Offset="0.55" Color="#338B5CF6" />
+                                <GradientStop Offset="1" Color="#008B5CF6" />
+                            </RadialGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Ellipse Width="92" Height="92" Stroke="#1FFFFFFF" StrokeThickness="1.5" />
+                    <Ellipse x:Name="ArcOuter" Width="92" Height="92" StrokeThickness="3" StrokeDashArray="30 70"
+                             StrokeDashCap="Round" RenderTransformOrigin="0.5,0.5">
+                        <Ellipse.RenderTransform><RotateTransform /></Ellipse.RenderTransform>
+                        <Ellipse.Stroke>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Offset="0" Color="#E879F9" />
+                                <GradientStop Offset="1" Color="#7C3AED" />
+                            </LinearGradientBrush>
+                        </Ellipse.Stroke>
+                        <Ellipse.Effect>
+                            <DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity="0.9" Color="#A855F7" />
+                        </Ellipse.Effect>
+                    </Ellipse>
+                    <Ellipse x:Name="ArcInner" Width="76" Height="76" StrokeThickness="1.5" StrokeDashArray="20 60"
+                             StrokeDashCap="Round" Stroke="#99B79BFF" RenderTransformOrigin="0.5,0.5">
+                        <Ellipse.RenderTransform><RotateTransform /></Ellipse.RenderTransform>
+                    </Ellipse>
+                    <Image x:Name="Logo" Source="/SenStrap;component/Resources/logo.png" Width="44" Height="44"
+                           RenderOptions.BitmapScalingMode="HighQuality" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform><ScaleTransform /></Image.RenderTransform>
+                    </Image>
+                </Grid>
 
-                <DockPanel Grid.Row="2" Margin="0,0,0,10">
-                    <TextBlock x:Name="PercentText" DockPanel.Dock="Right" FontSize="13" Foreground="{StaticResource MutedBrush}"
-                               VerticalAlignment="Bottom" />
-                    <TextBlock x:Name="StatusText" Text="{ui:Loc boot.starting}" FontSize="15" Foreground="{StaticResource TextBrush}"
-                               TextTrimming="CharacterEllipsis" VerticalAlignment="Bottom" />
-                </DockPanel>
+                <TextBlock Grid.Row="1" Text="SenStrap" HorizontalAlignment="Center" FontSize="19" FontWeight="SemiBold"
+                           Foreground="{StaticResource TextBrush}" Margin="0,2,0,0" />
 
-                <ProgressBar x:Name="Progress" Grid.Row="3" Style="{StaticResource SenProgress}" IsIndeterminate="True" />
+                <TextBlock x:Name="StatusText" Grid.Row="2" Text="{ui:Loc boot.starting}" HorizontalAlignment="Center" FontSize="13"
+                           Foreground="{StaticResource MutedBrush}" TextTrimming="CharacterEllipsis" Margin="0,4,0,14">
+                    <TextBlock.RenderTransform><TranslateTransform x:Name="StatusShift" /></TextBlock.RenderTransform>
+                </TextBlock>
 
-                <DockPanel Grid.Row="4" Margin="0,14,0,0">
+                <!-- Progress: track, filled part with a shine, and a moving band while there's no percentage -->
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="44" />
+                    </Grid.ColumnDefinitions>
+                    <Grid x:Name="Bar" Height="5" VerticalAlignment="Center" SizeChanged="Bar_SizeChanged">
+                        <Border CornerRadius="2.5" Background="#2B1F42" />
+                        <Border x:Name="Fill" CornerRadius="2.5" HorizontalAlignment="Left" Width="0" Background="{StaticResource AccentBrush}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity="0.85" Color="#A855F7" />
+                            </Border.Effect>
+                            <Border x:Name="Shine" CornerRadius="2.5">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <LinearGradientBrush.RelativeTransform><TranslateTransform X="-1" /></LinearGradientBrush.RelativeTransform>
+                                        <GradientStop Offset="0.3" Color="#00FFFFFF" />
+                                        <GradientStop Offset="0.5" Color="#66FFFFFF" />
+                                        <GradientStop Offset="0.7" Color="#00FFFFFF" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                            </Border>
+                        </Border>
+                        <Border x:Name="Sweep" CornerRadius="2.5">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <LinearGradientBrush.RelativeTransform><TranslateTransform X="-1" /></LinearGradientBrush.RelativeTransform>
+                                    <GradientStop Offset="0.3" Color="#007C3AED" />
+                                    <GradientStop Offset="0.44" Color="#FF8B5CF6" />
+                                    <GradientStop Offset="0.5" Color="#FFE879F9" />
+                                    <GradientStop Offset="0.56" Color="#FF8B5CF6" />
+                                    <GradientStop Offset="0.7" Color="#007C3AED" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity="0.8" Color="#A855F7" />
+                            </Border.Effect>
+                        </Border>
+                    </Grid>
+                    <TextBlock x:Name="PercentText" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
+                               FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AccentTextBrush}" />
+                </Grid>
+
+                <DockPanel Grid.Row="4" Margin="0,12,0,0">
                     <Button x:Name="CancelButton" DockPanel.Dock="Right" Style="{StaticResource GhostButton}"
                             Content="{ui:Loc boot.cancel}" Click="Cancel_Click" Margin="0,0,-10,0" />
                     <TextBlock FontSize="12" Foreground="{StaticResource SubtleBrush}" VerticalAlignment="Center"

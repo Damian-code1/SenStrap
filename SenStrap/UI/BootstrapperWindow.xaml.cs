@@ -34,28 +34,93 @@ public partial class BootstrapperWindow : Window
 
         Loaded += async (_, _) =>
         {
-            // Short fade in when the window opens
-            Frame.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(160)));
+            // Opens with a fade and a slight zoom; the ambient animations run until it closes
+            var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
+            Frame.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, Ms(260)) { EasingFunction = ease });
+            FrameScale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(0.96, 1, Ms(320)) { EasingFunction = ease });
+            FrameScale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(0.96, 1, Ms(320)) { EasingFunction = ease });
+            ((Storyboard)Resources["Ambient"]).Begin(this, true);
             if (autoStart)
                 await (_demo ? RunDemoAsync() : RunAsync());
         };
     }
 
+    private static Duration Ms(double ms) => new(TimeSpan.FromMilliseconds(ms));
+
+    private static readonly IEasingFunction EaseOut = new CubicEase { EasingMode = EasingMode.EaseOut };
+
+    private double? _progress;   // null while there's no percentage
+    private string _statusKind = "";
+
     /// <summary>Updates the text and the progress bar.</summary>
     public void ShowStatus(BootstrapStatus status)
     {
-        StatusText.Text = status.Message;
+        SetStatusText(status.Message);
+
         if (status.Progress is double value)
         {
-            Progress.IsIndeterminate = false;
-            Progress.Value = value;
+            value = Math.Clamp(value, 0, 1);
+            if (_progress is null)
+            {
+                // Waiting band out, filled bar in from zero
+                Sweep.BeginAnimation(OpacityProperty, new DoubleAnimation(0, Ms(200)));
+                Fill.BeginAnimation(WidthProperty, null);
+                Fill.Width = 0;
+                Fill.BeginAnimation(OpacityProperty, new DoubleAnimation(1, Ms(150)));
+            }
+            _progress = value;
+            Fill.BeginAnimation(WidthProperty, new DoubleAnimation(value * Bar.ActualWidth, Ms(260)) { EasingFunction = EaseOut });
             PercentText.Text = $"{value:P0}";
         }
-        else
+        else if (_progress is not null || Sweep.Opacity < 1)
         {
-            Progress.IsIndeterminate = true;
+            _progress = null;
+            Fill.BeginAnimation(OpacityProperty, new DoubleAnimation(0, Ms(200)));
+            Sweep.BeginAnimation(OpacityProperty, new DoubleAnimation(1, Ms(250)));
             PercentText.Text = "";
         }
+    }
+
+    /// <summary>
+    /// Sets the status line. When the step changes (not just the numbers in "Downloading 12 / 218 MB")
+    /// the new text slides up and fades in.
+    /// </summary>
+    private void SetStatusText(string text)
+    {
+        if (StatusText.Text == text) return;
+        StatusText.Text = text;
+
+        string kind = new(text.Where(c => !char.IsDigit(c)).ToArray());
+        if (kind == _statusKind) return;
+        _statusKind = kind;
+
+        StatusText.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, Ms(280)) { EasingFunction = EaseOut });
+        StatusShift.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(6, 0, Ms(320)) { EasingFunction = EaseOut });
+    }
+
+    private void Bar_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (_progress is not double value) return;
+        Fill.BeginAnimation(WidthProperty, null);
+        Fill.Width = value * Bar.ActualWidth;
+    }
+
+    private bool _closeAnimated;
+
+    /// <summary>Fades and shrinks a little before closing.</summary>
+    protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+    {
+        base.OnClosing(e);
+        if (e.Cancel || _closeAnimated || !IsLoaded) return;
+
+        e.Cancel = true;
+        _closeAnimated = true;
+        var ease = new CubicEase { EasingMode = EasingMode.EaseIn };
+        var fade = new DoubleAnimation(0, Ms(180)) { EasingFunction = ease };
+        fade.Completed += (_, _) => Close();
+        FrameScale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation(0.97, Ms(180)) { EasingFunction = ease });
+        FrameScale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation(0.97, Ms(180)) { EasingFunction = ease });
+        Frame.BeginAnimation(OpacityProperty, fade);
     }
 
     private Task<bool> ConfirmCloseRunningAsync() =>
