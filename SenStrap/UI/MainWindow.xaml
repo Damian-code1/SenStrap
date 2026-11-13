@@ -53,6 +53,7 @@
                             <TextBlock Text="{ui:Loc nav.groupRoblox}" Style="{StaticResource NavGroup}" />
                             <RadioButton Style="{StaticResource NavItem}" Tag="&#xE768;" Content="{ui:Loc nav.launcher}" CommandParameter="Launcher" Checked="Nav_Checked" />
                             <RadioButton Style="{StaticResource NavItem}" Tag="&#xE7C1;" Content="{ui:Loc nav.flags}" CommandParameter="Flags" Checked="Nav_Checked" />
+                            <RadioButton Style="{StaticResource NavItem}" Tag="&#xE909;" Content="{ui:Loc nav.globalSettings}" CommandParameter="GlobalSettings" Checked="Nav_Checked" />
                             <RadioButton Style="{StaticResource NavItem}" Tag="&#xE7FC;" Content="{ui:Loc nav.robloxSettings}" CommandParameter="GameSettings" Checked="Nav_Checked" />
                             <RadioButton Style="{StaticResource NavItem}" Tag="&#xE90F;" Content="{ui:Loc nav.mods}" CommandParameter="Mods" Checked="Nav_Checked" />
                             <RadioButton Style="{StaticResource NavItem}" Tag="&#xE71B;" Content="{ui:Loc nav.integrations}" CommandParameter="Integrations" Checked="Nav_Checked" />

@@ -129,6 +129,7 @@ public partial class MainWindow : Window, IShell
                 "Optimizations" => new OptimizationsPage(this),
                 "Flags" => new FlagsPage(this),
                 "GameSettings" => new GameSettingsPage(this),
+                "GlobalSettings" => new GameSettingsPage(this, global: true),
                 "Mods" => new ModsPage(this),
                 "Appearance" => new AppearancePage(this),
                 "Settings" => new SettingsPage(this),

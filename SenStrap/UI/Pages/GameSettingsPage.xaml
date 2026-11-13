@@ -13,8 +13,8 @@
                     </StackPanel>
                 </Button>
                 <StackPanel>
-                    <TextBlock Text="{ui:Loc rs.title}" Style="{StaticResource PageTitle}" />
-                    <TextBlock Text="{ui:Loc rs.subtitle}" Style="{StaticResource PageSubtitle}" />
+                    <TextBlock x:Name="TitleText" Text="{ui:Loc rs.title}" Style="{StaticResource PageTitle}" />
+                    <TextBlock x:Name="SubtitleText" Text="{ui:Loc rs.subtitle}" Style="{StaticResource PageSubtitle}" />
                 </StackPanel>
             </DockPanel>
             <Border x:Name="MissingCard" Style="{StaticResource WarnCard}" Margin="0,0,0,12" Visibility="Collapsed">

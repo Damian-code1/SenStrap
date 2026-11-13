@@ -7,12 +7,22 @@ using static SenStrap.Core.RobloxGameSettings;
 
 namespace SenStrap.UI.Pages;
 
-/// <summary>Roblox's own in-game settings, edited from SenStrap and re-applied on every launch.</summary>
+/// <summary>
+/// Roblox's own in-game settings, edited from SenStrap and re-applied on every launch.
+/// The same page also backs the short "Global Settings" tab (FPS override and a few basics); both edit the same values.
+/// </summary>
 public partial class GameSettingsPage : ShellPage
 {
     private sealed record Text(string Icon, string Name, string NameEs, string Desc, string DescEs);
 
-    private static readonly (string Section, string SectionEs, string[] Names)[] Sections =
+    /// <summary>The short "Global Settings" tab: the FPS override plus the settings people change most.</summary>
+    private static readonly (string Section, string SectionEs, string[] Names)[] GlobalSections =
+    [
+        ("Frame rate", "Frame rate", ["FramerateCap"]),
+        ("Game", "Juego", ["MouseSensitivity", "MasterVolume", "SavedQualityLevel", "Fullscreen", "PerformanceStatsVisible"]),
+    ];
+
+    private static readonly (string Section, string SectionEs, string[] Names)[] AllSections =
     [
         ("Performance", "Rendimiento", ["FramerateCap", "SavedQualityLevel", "Fullscreen", "StartMaximized"]),
         ("Audio", "Audio", ["MasterVolume", "VoiceChatVolume"]),
@@ -24,8 +34,8 @@ public partial class GameSettingsPage : ShellPage
     private static readonly Dictionary<string, Text> Texts = new()
     {
         ["FramerateCap"] = new("", "Maximum frame rate", "Frame rate máximo",
-            "Roblox's own FPS cap (the in-game Maximum Frame Rate). From 30 to 240, the highest Roblox supports.",
-            "El límite de FPS de Roblox (el Frame rate máximo del juego). De 30 a 240, lo máximo que admite Roblox."),
+            $"Overrides Roblox's FPS cap with any value from {MinFps} to {MaxFps}, even above the 240 the in-game menu stops at. Windows already open keep their cap until you reopen them.",
+            $"Cambia el límite de FPS de Roblox por el valor que quieras, de {MinFps} a {MaxFps}, incluso por encima de los 240 del menú del juego. Las ventanas ya abiertas mantienen su límite hasta que las vuelvas a abrir."),
         ["SavedQualityLevel"] = new("", "Graphics quality", "Calidad gráfica",
             "Automatic, or a fixed level from 1 (fastest) to 10 (best looking).",
             "Automática, o un nivel fijo de 1 (más rápido) a 10 (más bonito)."),
@@ -74,13 +84,22 @@ public partial class GameSettingsPage : ShellPage
     };
 
     private bool _loading;
+    private readonly (string Section, string SectionEs, string[] Names)[] Sections;
 
     private static bool Spanish => Lang.Current.StartsWith("es", StringComparison.OrdinalIgnoreCase);
 
-    public GameSettingsPage(IShell shell) : base(shell)
+    public GameSettingsPage(IShell shell, bool global = false) : base(shell)
     {
         InitializeComponent();
+        Sections = global ? GlobalSections : AllSections;
+        if (global)
+        {
+            TitleText.Text = Lang.T("gs.title");
+            SubtitleText.Text = Lang.T("gs.subtitle");
+        }
     }
+
+    private IEnumerable<string> Names => Sections.SelectMany(s => s.Names);
 
     public override void OnShown() => Build();
 
@@ -134,7 +153,7 @@ public partial class GameSettingsPage : ShellPage
         {
             case "FramerateCap":
             {
-                var box = new TextBox { Style = (Style)FindResource("Input"), Width = 90, Text = value, Tag = "30–240" };
+                var box = new TextBox { Style = (Style)FindResource("Input"), Width = 90, Text = value, Tag = $"{MinFps}–{MaxFps}" };
                 box.LostFocus += (_, _) => Commit(option, box.Text, box);
                 box.KeyDown += (_, e) => { if (e.Key == System.Windows.Input.Key.Enter) Commit(option, box.Text, box); };
                 return box;
@@ -209,8 +228,11 @@ public partial class GameSettingsPage : ShellPage
 
     private void Reset_Click(object sender, RoutedEventArgs e)
     {
-        if (Shell.Settings.RobloxSettings.Count == 0) return;
-        Shell.Settings.RobloxSettings.Clear();
+        // Only the settings shown on this tab (the Global tab must not wipe the full tab's choices)
+        bool removed = false;
+        foreach (var name in Names)
+            removed |= Shell.Settings.RobloxSettings.Remove(name);
+        if (!removed) return;
         Shell.MarkDirty();
         Build();
         Shell.ShowToast(Lang.T("rs.resetDone"));

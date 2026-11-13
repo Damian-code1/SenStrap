@@ -15,9 +15,12 @@ public static class RobloxGameSettings
     /// <summary>A setting SenStrap can change, with the range Roblox's menu allows.</summary>
     public sealed record Option(string Name, Kind Kind, double Min = 0, double Max = 1);
 
+    /// <summary>Range of the FPS override. Roblox's menu stops at 240, but it reads any number from the file at startup.</summary>
+    public const int MinFps = 1, MaxFps = 9999;
+
     public static readonly Option[] Options =
     [
-        new("FramerateCap", Kind.Int, 30, 240),
+        new("FramerateCap", Kind.Int, MinFps, MaxFps),
         new("SavedQualityLevel", Kind.Token, 0, 10),
         new("Fullscreen", Kind.Bool),
         new("StartMaximized", Kind.Bool),
@@ -40,8 +43,35 @@ public static class RobloxGameSettings
     public static Option? Find(string name) => Options.FirstOrDefault(o => o.Name == name);
 
     public static string FilePath =>
-        Environment.GetEnvironmentVariable("SENSTRAP_ROBLOX_SETTINGS")
-        ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox", "GlobalBasicSettings_13.xml");
+        Environment.GetEnvironmentVariable("SENSTRAP_ROBLOX_SETTINGS") ?? FindSettingsFile();
+
+    /// <summary>
+    /// The newest GlobalBasicSettings_N.xml (the number goes up when Roblox changes the format; today it's 13).
+    /// Falls back to _13 when Roblox hasn't created one yet.
+    /// </summary>
+    private static string FindSettingsFile()
+    {
+        string dir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Roblox");
+        string fallback = Path.Combine(dir, "GlobalBasicSettings_13.xml");
+        const string prefix = "GlobalBasicSettings_";
+        try
+        {
+            if (!Directory.Exists(dir)) return fallback;
+            string? best = null;
+            int bestNumber = -1;
+            foreach (string file in Directory.GetFiles(dir, prefix + "*.xml"))
+            {
+                // Skips the Studio file (GlobalBasicSettings_13_Studio.xml)
+                if (!int.TryParse(Path.GetFileNameWithoutExtension(file)[prefix.Length..], out int number)) continue;
+                if (number > bestNumber) { bestNumber = number; best = file; }
+            }
+            return best ?? fallback;
+        }
+        catch (Exception)
+        {
+            return fallback;
+        }
+    }
 
     public static bool Exists => File.Exists(FilePath);
 
