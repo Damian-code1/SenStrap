@@ -47,6 +47,13 @@ public partial class MainWindow : Window, IShell
         {
             Navigate("Home");
             if (Settings.IntroAnimation) PlayIntro();
+            // Playtime and history are written by the SenStrap that watches the game (another process):
+            // reload them when you come back to this window, e.g. after playing
+            Activated += (_, _) =>
+            {
+                if (PageHost.Content is HomePage or HistoryPage)
+                    ((ShellPage)PageHost.Content).OnShown();
+            };
         };
     }
 

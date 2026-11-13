@@ -53,8 +53,11 @@ public sealed partial class ActivityWatcher
                 ct.ThrowIfCancellationRequested();
                 if (Directory.Exists(dir))
                 {
+                    // The crash handler writes its own "..._Player_XXXXX_CrashHandler_last.log" a second
+                    // after the game's log; it never has the join/leave lines, so it must be skipped.
                     file = new DirectoryInfo(dir).GetFiles("*.log")
                         .Where(f => f.Name.Contains("Player", StringComparison.OrdinalIgnoreCase)
+                                    && !f.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase)
                                     && f.LastWriteTimeUtc >= _sinceUtc.AddSeconds(-10))
                         .OrderByDescending(f => f.CreationTimeUtc)
                         .FirstOrDefault()?.FullName;
