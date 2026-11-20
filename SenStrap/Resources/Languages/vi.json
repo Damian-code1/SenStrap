@@ -207,6 +207,8 @@
   "launcher.bgUpdatesDesc": "Nếu có phiên bản mới, Roblox mở ngay bằng bản hiện có và bản mới được tải trong lúc bạn chơi. Không nên dùng khi mạng chậm.",
   "integrations.autoRejoin": "Tự động vào lại",
   "integrations.autoRejoinDesc": "Nếu mất kết nối với máy chủ, SenStrap đóng Roblox bị ngắt kết nối và vào lại đúng máy chủ đó. Không bao giờ sau khi bị kick.",
+  "integrations.antiAfk": "Chống AFK",
+  "integrations.antiAfkDesc": "Ngăn Roblox kick bạn sau 20 phút không hoạt động. Sau 15 phút không thao tác, SenStrap nhấn phím Cách trong Roblox (bạn nhảy) rồi quay lại việc bạn đang làm. Không hoạt động khi Windows đang khóa.",
   "notify.rejoin": "Mất kết nối. Đang vào lại {0}…",
   "notify.rejoinGaveUp": "Mất kết nối quá nhiều lần liên tiếp. Tạm dừng tự động vào lại một lúc.",
   "nav.optimizations": "Tối ưu hóa",

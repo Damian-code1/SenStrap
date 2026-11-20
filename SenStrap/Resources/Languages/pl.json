@@ -207,6 +207,8 @@
   "launcher.bgUpdatesDesc": "Gdy jest nowa wersja, Roblox od razu uruchamia się z obecną, a nowa pobiera się podczas gry. Niezalecane przy wolnym internecie.",
   "integrations.autoRejoin": "Automatyczne ponowne dołączanie",
   "integrations.autoRejoinDesc": "Gdy połączenie z serwerem zostanie utracone, SenStrap zamyka rozłączony Roblox i wraca na ten sam serwer. Nigdy po wyrzuceniu.",
+  "integrations.antiAfk": "Anti-AFK",
+  "integrations.antiAfkDesc": "Chroni przed wyrzuceniem z Robloxa po 20 minutach bezczynności. Po 15 minutach bez aktywności SenStrap naciska Spację w Robloxie (skaczesz) i wraca do tego, co robiłeś. Nie działa, gdy Windows jest zablokowany.",
   "notify.rejoin": "Utracono połączenie. Ponowne dołączanie do {0}…",
   "notify.rejoinGaveUp": "Zbyt wiele rozłączeń z rzędu. Automatyczne dołączanie wstrzymane na jakiś czas.",
   "nav.optimizations": "Optymalizacje",

@@ -207,6 +207,8 @@
   "launcher.bgUpdatesDesc": "新しいバージョンがあっても、今のバージョンですぐに起動し、新しい方はプレイ中にダウンロードします。回線が遅い場合はおすすめしません。",
   "integrations.autoRejoin": "自動再参加",
   "integrations.autoRejoinDesc": "サーバーとの接続が切れたら、切断された Roblox を閉じて同じサーバーに再参加します。キックされた場合は再参加しません。",
+  "integrations.antiAfk": "アンチAFK",
+  "integrations.antiAfkDesc": "20分間操作しないと Roblox から切断されるのを防ぎます。15分間入力がないと、SenStrap が Roblox でスペースキーを押し（ジャンプします）、元の作業に戻します。Windows のロック中は動作しません。",
   "notify.rejoin": "接続が切れました。{0} に再参加しています…",
   "notify.rejoinGaveUp": "切断が続いたため、自動再参加をしばらく停止します。",
   "nav.optimizations": "最適化",

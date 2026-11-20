@@ -207,6 +207,8 @@
   "launcher.bgUpdatesDesc": "새 버전이 있으면 지금 버전으로 바로 열고, 새 버전은 플레이하는 동안 내려받아요. 인터넷이 느리면 권장하지 않아요.",
   "integrations.autoRejoin": "자동 재참가",
   "integrations.autoRejoinDesc": "서버 연결이 끊기면 SenStrap이 끊긴 Roblox를 닫고 같은 서버에 다시 참가해요. 추방당한 경우에는 하지 않아요.",
+  "integrations.antiAfk": "안티 AFK",
+  "integrations.antiAfkDesc": "20분 동안 가만히 있어도 Roblox에서 추방되지 않게 해요. 15분 동안 입력이 없으면 SenStrap이 Roblox에서 스페이스를 누르고(점프해요) 하던 작업으로 돌아가요. Windows가 잠겨 있으면 작동하지 않아요.",
   "notify.rejoin": "연결이 끊겼어요. {0}에 다시 참가하는 중…",
   "notify.rejoinGaveUp": "연결이 너무 자주 끊겨서 자동 재참가를 잠시 멈춰요.",
   "nav.optimizations": "최적화",

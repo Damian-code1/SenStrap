@@ -207,6 +207,8 @@
   "launcher.bgUpdatesDesc": "有新版本时，先用现有版本立即打开 Roblox，新版本在你游戏时后台下载。网速较慢时不建议开启。",
   "integrations.autoRejoin": "自动重新加入",
   "integrations.autoRejoinDesc": "与服务器断开连接时，SenStrap 会关闭已断开的 Roblox 并重新加入同一服务器。被踢出时不会重新加入。",
+  "integrations.antiAfk": "防挂机踢出",
+  "integrations.antiAfkDesc": "防止 Roblox 在你 20 分钟无操作后将你踢出。15 分钟无输入时，SenStrap 会在 Roblox 中按一下空格（跳一下），然后切回你正在用的窗口。Windows 锁屏时无效。",
   "notify.rejoin": "连接已断开。正在重新加入 {0}…",
   "notify.rejoinGaveUp": "连续断线次数过多，自动重新加入已暂停一段时间。",
   "nav.optimizations": "优化",

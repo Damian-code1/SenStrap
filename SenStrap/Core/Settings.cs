@@ -76,6 +76,9 @@ public class Settings
     /// <summary>Volver a entrar al mismo servidor si Roblox se cierra solo por un error/desconexión.</summary>
     public bool AutoRejoin { get; set; }
 
+    /// <summary>Presses Space in Roblox after 15 minutes without input so it doesn't kick you at 20.</summary>
+    public bool AntiAfk { get; set; }
+
     public static Settings Load() => JsonStore.Load<Settings>(AppInfo.SettingsFile);
 
     public void Save() => JsonStore.Save(AppInfo.SettingsFile, this);

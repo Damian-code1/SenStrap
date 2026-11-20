@@ -207,6 +207,8 @@
   "launcher.bgUpdatesDesc": "S’il y a une nouvelle version, Roblox s’ouvre tout de suite avec celle que vous avez et la nouvelle se télécharge pendant que vous jouez. Déconseillé avec une connexion lente.",
   "integrations.autoRejoin": "Reconnexion automatique",
   "integrations.autoRejoinDesc": "Si la connexion au serveur est perdue, SenStrap ferme le Roblox déconnecté et rejoint le même serveur. Jamais après une expulsion.",
+  "integrations.antiAfk": "Anti-AFK",
+  "integrations.antiAfkDesc": "Empêche Roblox de t’expulser après 20 minutes d’inactivité. Après 15 minutes sans action, SenStrap appuie sur Espace dans Roblox (tu sautes) et revient à ce que tu faisais. Ne fonctionne pas quand Windows est verrouillé.",
   "notify.rejoin": "Connexion perdue. Reconnexion à {0}…",
   "notify.rejoinGaveUp": "Trop de déconnexions d’affilée. Reconnexion automatique suspendue un moment.",
   "nav.optimizations": "Optimisations",

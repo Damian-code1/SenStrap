@@ -20,6 +20,7 @@ public partial class IntegrationsPage : ShellPage
         PlaytimeToggle.IsChecked = s.PlaytimeCounter;
         HistoryToggle.IsChecked = s.SaveGameHistory;
         AutoRejoinToggle.IsChecked = s.AutoRejoin;
+        AntiAfkToggle.IsChecked = s.AntiAfk;
         UpdateDependent();
         _loading = false;
 
@@ -41,6 +42,7 @@ public partial class IntegrationsPage : ShellPage
         s.PlaytimeCounter = PlaytimeToggle.IsChecked == true;
         s.SaveGameHistory = HistoryToggle.IsChecked == true;
         s.AutoRejoin = AutoRejoinToggle.IsChecked == true;
+        s.AntiAfk = AntiAfkToggle.IsChecked == true;
         UpdateDependent();
         Shell.MarkDirty();
     }

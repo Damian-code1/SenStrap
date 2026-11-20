@@ -25,6 +25,9 @@
                 <controls:SettingRow Icon="&#xE72C;" Title="{ui:Loc integrations.autoRejoin}" Description="{ui:Loc integrations.autoRejoinDesc}">
                     <CheckBox x:Name="AutoRejoinToggle" Style="{StaticResource Toggle}" Click="Changed" />
                 </controls:SettingRow>
+                <controls:SettingRow Icon="&#xE765;" Title="{ui:Loc integrations.antiAfk}" Description="{ui:Loc integrations.antiAfkDesc}">
+                    <CheckBox x:Name="AntiAfkToggle" Style="{StaticResource Toggle}" Click="Changed" />
+                </controls:SettingRow>
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

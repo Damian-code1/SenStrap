@@ -207,6 +207,8 @@
   "launcher.bgUpdatesDesc": "If there's a new version, Roblox opens right away with the one you have and the new one downloads while you play. Not for slow connections.",
   "integrations.autoRejoin": "Auto rejoin",
   "integrations.autoRejoinDesc": "If you lose connection to the server, SenStrap closes the disconnected Roblox and rejoins the same server. Never after a kick or ban.",
+  "integrations.antiAfk": "Anti-AFK",
+  "integrations.antiAfkDesc": "Stops Roblox from kicking you after 20 idle minutes. After 15 minutes without input, SenStrap presses Space in Roblox (you jump) and goes back to what you were doing. Doesn't work while Windows is locked.",
   "notify.rejoin": "Connection lost. Rejoining {0}…",
   "notify.rejoinGaveUp": "Too many disconnections in a row. Automatic rejoin paused for a while.",
   "nav.optimizations": "Optimizations",

@@ -207,6 +207,8 @@
   "launcher.bgUpdatesDesc": "Jika ada versi baru, Roblox langsung dibuka dengan versi yang ada dan versi baru diunduh saat kamu bermain. Tidak disarankan untuk internet lambat.",
   "integrations.autoRejoin": "Gabung ulang otomatis",
   "integrations.autoRejoinDesc": "Jika koneksi ke server terputus, SenStrap menutup Roblox yang terputus dan bergabung lagi ke server yang sama. Tidak pernah setelah di-kick.",
+  "integrations.antiAfk": "Anti-AFK",
+  "integrations.antiAfkDesc": "Mencegah Roblox mengeluarkanmu setelah 20 menit diam. Setelah 15 menit tanpa input, SenStrap menekan Spasi di Roblox (kamu melompat) lalu kembali ke yang sedang kamu lakukan. Tidak berfungsi saat Windows terkunci.",
   "notify.rejoin": "Koneksi terputus. Bergabung lagi ke {0}…",
   "notify.rejoinGaveUp": "Terlalu sering terputus berturut-turut. Gabung ulang otomatis dijeda sebentar.",
   "nav.optimizations": "Optimasi",

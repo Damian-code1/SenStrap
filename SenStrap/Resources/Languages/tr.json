@@ -207,6 +207,8 @@
   "launcher.bgUpdatesDesc": "Yeni sürüm varsa Roblox mevcut sürümle hemen açılır, yenisi sen oynarken iner. Yavaş bağlantılar için önerilmez.",
   "integrations.autoRejoin": "Otomatik yeniden katılma",
   "integrations.autoRejoinDesc": "Sunucuyla bağlantı koparsa SenStrap bağlantısı kopan Roblox'u kapatır ve aynı sunucuya yeniden katılır. Atılmadan sonra asla.",
+  "integrations.antiAfk": "Anti-AFK",
+  "integrations.antiAfkDesc": "Roblox'un 20 dakika hareketsizlikten sonra seni atmasını önler. 15 dakika boyunca giriş olmazsa SenStrap Roblox'ta Boşluk tuşuna basar (zıplarsın) ve yaptığın işe geri döner. Windows kilitliyken çalışmaz.",
   "notify.rejoin": "Bağlantı koptu. {0} oyununa yeniden katılınıyor…",
   "notify.rejoinGaveUp": "Art arda çok fazla bağlantı kopması. Otomatik yeniden katılma bir süre duraklatıldı.",
   "nav.optimizations": "Optimizasyonlar",

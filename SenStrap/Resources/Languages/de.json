@@ -207,6 +207,8 @@
   "launcher.bgUpdatesDesc": "Gibt es eine neue Version, startet Roblox sofort mit der vorhandenen und die neue wird beim Spielen geladen. Nicht für langsame Verbindungen.",
   "integrations.autoRejoin": "Automatisch wieder beitreten",
   "integrations.autoRejoinDesc": "Bricht die Verbindung zum Server ab, schließt SenStrap das getrennte Roblox und tritt demselben Server wieder bei. Nie nach einem Kick.",
+  "integrations.antiAfk": "Anti-AFK",
+  "integrations.antiAfkDesc": "Verhindert, dass Roblox dich nach 20 Minuten Inaktivität kickt. Nach 15 Minuten ohne Eingabe drückt SenStrap in Roblox die Leertaste (du springst) und kehrt zu dem zurück, was du gerade gemacht hast. Funktioniert nicht, während Windows gesperrt ist.",
   "notify.rejoin": "Verbindung verloren. Trete {0} wieder bei…",
   "notify.rejoinGaveUp": "Zu viele Verbindungsabbrüche hintereinander. Automatisches Beitreten pausiert eine Weile.",
   "nav.optimizations": "Optimierungen",

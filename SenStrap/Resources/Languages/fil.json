@@ -207,6 +207,8 @@
   "launcher.bgUpdatesDesc": "Kapag may bagong bersyon, agad bubukas ang Roblox gamit ang kasalukuyan at ida-download ang bago habang naglalaro ka. Hindi para sa mabagal na internet.",
   "integrations.autoRejoin": "Awtomatikong pagsali ulit",
   "integrations.autoRejoinDesc": "Kapag naputol ang koneksyon sa server, isasara ng SenStrap ang na-disconnect na Roblox at sasali ulit sa parehong server. Hindi kailanman pagkatapos ma-kick.",
+  "integrations.antiAfk": "Anti-AFK",
+  "integrations.antiAfkDesc": "Pinipigilan ang Roblox na i-kick ka pagkatapos ng 20 minutong walang galaw. Pagkalipas ng 15 minutong walang input, pipindutin ng SenStrap ang Space sa Roblox (tatalon ka) at babalik sa ginagawa mo. Hindi gumagana habang naka-lock ang Windows.",
   "notify.rejoin": "Naputol ang koneksyon. Sumasali ulit sa {0}…",
   "notify.rejoinGaveUp": "Masyadong maraming sunod-sunod na disconnect. Pansamantalang naka-pause ang awtomatikong pagsali ulit.",
   "nav.optimizations": "Mga optimisasyon",

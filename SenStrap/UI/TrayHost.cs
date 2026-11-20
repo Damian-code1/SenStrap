@@ -24,6 +24,7 @@ public sealed class TrayHost
     private readonly Forms.NotifyIcon _icon;
     private readonly ActivityWatcher _watcher;
     private readonly DispatcherTimer _timer;
+    private AntiAfk? _antiAfk;
     private bool _stopped;
     private bool _rejoining;
     private int _joinCount;
@@ -67,6 +68,7 @@ public sealed class TrayHost
         Logger.Info("Seguimiento de actividad activo (icono en la bandeja).");
         _watcher.Start();
         _timer.Start();
+        if (_settings.AntiAfk) _antiAfk = AntiAfk.TryStart();
     }
 
     private void Tick()
@@ -198,6 +200,8 @@ public sealed class TrayHost
         if (_stopped) return;
         _stopped = true;
         _timer.Stop();
+        _antiAfk?.Dispose();
+        _antiAfk = null;
         _watcher.FinishCurrent();
         _watcher.Stop();
         _icon.Visible = false;
