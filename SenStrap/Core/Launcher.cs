@@ -44,7 +44,7 @@ public static class Launcher
         progress.Report(new BootstrapStatus(Lang.T("status.applying")));
         FastFlags.Apply(versionDir, settings.ManageFastFlags ? settings.FastFlags : new());
         LaunchTweaks.BeforeLaunch(robloxExe);
-        RobloxGameSettings.Apply(settings.RobloxSettings);
+        RobloxGameSettings.ApplyForLaunch(settings);
 
         ct.ThrowIfCancellationRequested();
         progress.Report(new BootstrapStatus(Lang.T("status.opening")));

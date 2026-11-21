@@ -51,6 +51,9 @@ public class Settings
     public bool AutoUpdate { get; set; } = true;
 
     public bool ConfirmLaunch { get; set; } = true;
+
+    /// <summary>FPS cap for Roblox windows opened while another one is already open (extra accounts). 0 = off.</summary>
+    public int ExtraAccountsFps { get; set; }
     public bool CloseCrashHandler { get; set; }
 
     // Before 1.3 these lived here; now they're launch options in Tweaks.json (read once to move them over)
@@ -97,6 +100,12 @@ public class AppState
 
     /// <summary>Tiempo total jugado (contador de tiempo de juego).</summary>
     public double TotalPlaySeconds { get; set; }
+
+    /// <summary>
+    /// Roblox's FPS cap from before an extra account was opened with a lower one ("" if it had none).
+    /// The next first window gets it back, since a limited window saves its low cap when it closes.
+    /// </summary>
+    public string? FramerateCapBeforeLimit { get; set; }
 
     /// <summary>Cuándo se hicieron las últimas reconexiones automáticas (para no entrar en bucle).</summary>
     public List<DateTime> RecentAutoRejoins { get; set; } = new();

@@ -117,6 +117,48 @@ public static class RobloxGameSettings
         }
     }
 
+    /// <summary>
+    /// What SenStrap writes before opening Roblox. With no Roblox open: the chosen settings (and the FPS cap
+    /// an extra account replaced, if any). With Roblox already open and an FPS cap for extra accounts:
+    /// only that cap, so the new window starts limited and the ones already open keep theirs
+    /// (Roblox reads the file when a window starts).
+    /// </summary>
+    public static void ApplyForLaunch(Settings settings)
+    {
+        if (!Exists) return;
+        var state = AppState.Load();
+
+        if (RobloxInstaller.IsRobloxPlayerRunning())
+        {
+            if (settings.ExtraAccountsFps <= 0)
+            {
+                Logger.Info("Roblox is open: its settings will be written the next time SenStrap opens it.");
+                return;
+            }
+            if (state.FramerateCapBeforeLimit is null)
+            {
+                state.FramerateCapBeforeLimit = Read().GetValueOrDefault("FramerateCap") ?? "";
+                state.Save();
+            }
+            if (Write(new() { ["FramerateCap"] = settings.ExtraAccountsFps.ToString(CultureInfo.InvariantCulture) }))
+                Logger.Info($"Extra account: this Roblox window opens at {settings.ExtraAccountsFps} FPS.");
+            return;
+        }
+
+        var overrides = new Dictionary<string, string>(settings.RobloxSettings);
+        if (state.FramerateCapBeforeLimit is { } before)
+        {
+            if (!overrides.ContainsKey("FramerateCap") && before.Length > 0) overrides["FramerateCap"] = before;
+            if (overrides.Count == 0 || Write(overrides))
+            {
+                state.FramerateCapBeforeLimit = null;
+                state.Save();
+            }
+            return;
+        }
+        Apply(overrides);
+    }
+
     /// <summary>Writes the chosen values into Roblox's file. Does nothing while Roblox is open (it would overwrite them).</summary>
     public static bool Apply(Dictionary<string, string> overrides)
     {
@@ -126,6 +168,18 @@ public static class RobloxGameSettings
             Logger.Info("Roblox is open: its settings will be written the next time SenStrap opens it.");
             return false;
         }
+        return Write(overrides);
+    }
+
+    private static void ClearReadOnly(string path)
+    {
+        if (File.Exists(path) && File.GetAttributes(path).HasFlag(FileAttributes.ReadOnly))
+            File.SetAttributes(path, File.GetAttributes(path) & ~FileAttributes.ReadOnly);
+    }
+
+    /// <summary>Replaces the given values in Roblox's file, leaving the rest of it byte for byte.</summary>
+    private static bool Write(Dictionary<string, string> overrides)
+    {
         try
         {
             // Only the chosen values are replaced in the text, so the rest of Roblox's file stays byte for byte
@@ -154,9 +208,25 @@ public static class RobloxGameSettings
             if (changed == 0) return true;
 
             string tmp = FilePath + ".senstrap.tmp";
+            string bak = FilePath + ".senstrap.bak";
             File.WriteAllText(tmp, text, new System.Text.UTF8Encoding(false));
-            File.Copy(FilePath, FilePath + ".senstrap.bak", overwrite: true);
-            File.Move(tmp, FilePath, overwrite: true);
+
+            // Other tools (multi-account managers) mark the file read-only so Roblox can't overwrite it.
+            // Write anyway and leave it read-only again; the backup copies that flag, so clear it there.
+            bool readOnly = File.GetAttributes(FilePath).HasFlag(FileAttributes.ReadOnly);
+            ClearReadOnly(bak);
+            File.Copy(FilePath, bak, overwrite: true);
+            ClearReadOnly(bak);
+            ClearReadOnly(FilePath);
+            try
+            {
+                File.Move(tmp, FilePath, overwrite: true);
+            }
+            finally
+            {
+                if (readOnly && File.Exists(FilePath))
+                    File.SetAttributes(FilePath, File.GetAttributes(FilePath) | FileAttributes.ReadOnly);
+            }
             Logger.Info($"Roblox settings written ({changed} changed).");
             return true;
         }

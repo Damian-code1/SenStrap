@@ -24,6 +24,8 @@ public partial class LauncherPage : ShellPage
         CleanAppLogsToggle.IsChecked = s.CleanAppLogs;
         CleanerCombo.SelectedItem = CleanerCombo.Items.OfType<ComboBoxItem>()
             .FirstOrDefault(i => (string)i.Tag == s.CleanerDays.ToString()) ?? CleanerCombo.Items[2];
+        ExtraFpsCombo.SelectedItem = ExtraFpsCombo.Items.OfType<ComboBoxItem>()
+            .FirstOrDefault(i => (string)i.Tag == s.ExtraAccountsFps.ToString()) ?? ExtraFpsCombo.Items[0];
         UpdateCleanerRows();
         _loading = false;
     }
@@ -47,6 +49,8 @@ public partial class LauncherPage : ShellPage
         s.CleanAppLogs = CleanAppLogsToggle.IsChecked == true;
         if (CleanerCombo.SelectedItem is ComboBoxItem { Tag: string days })
             s.CleanerDays = int.Parse(days);
+        if (ExtraFpsCombo.SelectedItem is ComboBoxItem { Tag: string fps })
+            s.ExtraAccountsFps = int.Parse(fps);
         UpdateCleanerRows();
         Shell.MarkDirty();
     }
